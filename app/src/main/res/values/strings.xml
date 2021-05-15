@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Emergency Personal Medical Record App</string>
+    <string name="title_home">Home</string>
+    <string name="title_records">Records</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_other">Other</string>
+
+    <string name="item_date">Saturday, 15 May 2021</string>
+    <string name="item_place">Rumah Sakit Santa Maria Pekanbaru</string>
 </resources>
