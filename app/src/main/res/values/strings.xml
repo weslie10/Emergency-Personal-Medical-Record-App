@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Emergency Personal Medical Record App</string>
+    <string name="app_name">Emergency Personal Medical Record</string>
+    <string name="login">Log In</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="signup_text">Don’t have account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="login_txt">Already have account?</string>
+    <string name="phone_number">Phone Number</string>
 </resources>
