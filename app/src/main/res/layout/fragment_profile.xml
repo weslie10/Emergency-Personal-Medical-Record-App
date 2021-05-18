@@ -10,14 +10,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:translationZ="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -30,8 +31,8 @@
                 android:id="@+id/cv_avatar"
                 android:layout_width="200dp"
                 android:layout_height="200dp"
-                app:cardElevation="3dp"
                 app:cardCornerRadius="100dp"
+                app:cardElevation="3dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -90,9 +91,9 @@
             <TextView
                 android:id="@+id/full_name"
                 style="@style/profile_txt"
+                android:text="Heheheh"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/full_name_txt"
-                android:text="Heheheh" />
+                app:layout_constraintTop_toBottomOf="@id/full_name_txt" />
 
             <TextView
                 android:id="@+id/email_txt"
@@ -104,9 +105,9 @@
             <TextView
                 android:id="@+id/email"
                 style="@style/profile_txt"
+                android:text="lorem@gmail.com"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/email_txt"
-                android:text="lorem@gmail.com" />
+                app:layout_constraintTop_toBottomOf="@id/email_txt" />
 
             <TextView
                 android:id="@+id/phone_number_txt"
@@ -118,9 +119,9 @@
             <TextView
                 android:id="@+id/phone_number"
                 style="@style/profile_txt"
+                android:text="08123456789"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/phone_number_txt"
-                android:text="08123456789" />
+                app:layout_constraintTop_toBottomOf="@id/phone_number_txt" />
 
             <TextView
                 android:id="@+id/date_birth_txt"
@@ -132,9 +133,9 @@
             <TextView
                 android:id="@+id/date_birth"
                 style="@style/profile_txt"
+                android:text="September 10, 2000"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/date_birth_txt"
-                android:text="September 10, 2000" />
+                app:layout_constraintTop_toBottomOf="@id/date_birth_txt" />
 
             <TextView
                 android:id="@+id/address_txt"
@@ -146,9 +147,9 @@
             <TextView
                 android:id="@+id/address"
                 style="@style/profile_txt"
+                android:text="Jalan jalan"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/address_txt"
-                android:text="Jalan jalan" />
+                app:layout_constraintTop_toBottomOf="@id/address_txt" />
 
             <TextView
                 android:id="@+id/gender_txt"
@@ -160,9 +161,9 @@
             <TextView
                 android:id="@+id/gender"
                 style="@style/profile_txt"
+                android:text="Male"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/gender_txt"
-                android:text="Jalan jalan" />
+                app:layout_constraintTop_toBottomOf="@id/gender_txt" />
 
             <TextView
                 android:id="@+id/blood_type_text"
@@ -174,9 +175,9 @@
             <TextView
                 android:id="@+id/blood_type"
                 style="@style/profile_txt"
+                android:text="A"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/blood_type_text"
-                android:text="A" />
+                app:layout_constraintTop_toBottomOf="@id/blood_type_text" />
 
             <Button
                 android:id="@+id/edit_profile_btn"

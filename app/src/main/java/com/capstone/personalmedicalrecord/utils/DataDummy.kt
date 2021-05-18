@@ -1,5 +1,6 @@
 package com.capstone.personalmedicalrecord.utils
 
+import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.core.domain.model.Record
 
 object DataDummy {
@@ -20,6 +21,23 @@ object DataDummy {
                 "Monday, 17 May 2021",
                 generateDummyText(),
                 "Rumah Sakit Prima"
+            )
+        )
+    }
+
+    fun generateDummyNotes(): List<Note> {
+        return arrayListOf(
+            Note(
+                "Saturday, 15 May 2021",
+                "Aku sehat"
+            ),
+            Note(
+                "Sunday, 16 May 2021",
+                "Aku sakit"
+            ),
+            Note(
+                "Monday, 17 May 2021",
+                "Aku meninggal"
             )
         )
     }

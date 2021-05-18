@@ -8,12 +8,15 @@
     <string name="login_txt">Already have account?</string>
     <string name="phone_number">Phone Number</string>
     <string name="title_home">Home</string>
+    <string name="title_data">Data</string>
     <string name="title_records">Records</string>
+    <string name="title_notes">Notes</string>
     <string name="title_profile">Profile</string>
     <string name="title_other">Other</string>
 
     <string name="item_date">Saturday, 15 May 2021</string>
     <string name="item_place">Rumah Sakit Santa Maria Pekanbaru</string>
+
     <string name="avatar">Avatar</string>
     <string name="greeting">Hello, %s</string>
     <string name="camera">Camera</string>
@@ -27,6 +30,4 @@
     <string name="blood_type">Blood Type</string>
     <string name="back">Back</string>
     <string name="qr_code">QR Code</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.capstone.personalmedicalrecord.ui.records
+package com.capstone.personalmedicalrecord.ui.data.records
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

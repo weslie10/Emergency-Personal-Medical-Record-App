@@ -1,4 +1,4 @@
-package com.capstone.personalmedicalrecord.ui.records
+package com.capstone.personalmedicalrecord.ui.data.records
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,7 +16,7 @@ class RecordsFragment : Fragment(), RecordsCallback {
 
     private var _binding: FragmentRecordsBinding? = null
     private val binding get() = _binding as FragmentRecordsBinding
-    private val viewModel: RecordsViewModel by viewModels()
+//    private val viewModel: RecordsViewModel by viewModels()
     private lateinit var recordsAdapter: RecordsAdapter
 
     override fun onCreateView(
@@ -41,12 +41,12 @@ class RecordsFragment : Fragment(), RecordsCallback {
         }
     }
 
+    override fun onItemClick(record: Record) {
+        Toast.makeText(requireActivity(), "This item is clicked", Toast.LENGTH_SHORT).show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    override fun onItemClick(record: Record) {
-        Toast.makeText(requireActivity(), "This item is clicked", Toast.LENGTH_SHORT).show()
     }
 }

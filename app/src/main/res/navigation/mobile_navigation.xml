@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_records"
-        android:name="com.capstone.personalmedicalrecord.ui.records.RecordsFragment"
+        android:name="com.capstone.personalmedicalrecord.ui.data.records.RecordsFragment"
         android:label="@string/title_records"
         tools:layout="@layout/fragment_records" />
 
