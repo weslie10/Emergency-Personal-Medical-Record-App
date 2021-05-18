@@ -14,4 +14,19 @@
 
     <string name="item_date">Saturday, 15 May 2021</string>
     <string name="item_place">Rumah Sakit Santa Maria Pekanbaru</string>
+    <string name="avatar">Avatar</string>
+    <string name="greeting">Hello, %s</string>
+    <string name="camera">Camera</string>
+    <string name="check_id">Check ID</string>
+    <string name="logout">Log Out</string>
+    <string name="full_name">Full Name</string>
+    <string name="date_birth">Date Birth</string>
+    <string name="address">Address</string>
+    <string name="gender">Gender</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="blood_type">Blood Type</string>
+    <string name="back">Back</string>
+    <string name="qr_code">QR Code</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
