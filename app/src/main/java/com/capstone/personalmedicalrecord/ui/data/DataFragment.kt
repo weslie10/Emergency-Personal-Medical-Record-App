@@ -1,12 +1,14 @@
 package com.capstone.personalmedicalrecord.ui.data
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentDataBinding
 import com.google.android.material.tabs.TabLayoutMediator

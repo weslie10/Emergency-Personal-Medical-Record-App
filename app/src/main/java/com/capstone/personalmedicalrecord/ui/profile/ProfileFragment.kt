@@ -11,7 +11,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentProfileBinding
+import com.capstone.personalmedicalrecord.ui.data.DetailDataFragment
 import com.capstone.personalmedicalrecord.ui.login.LoginActivity
+import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
 
 
 class ProfileFragment : Fragment() {
@@ -40,18 +42,7 @@ class ProfileFragment : Fragment() {
 //        })
 
         binding.checkIdBtn.setOnClickListener {
-            val activity = activity as FragmentActivity
-            activity.supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                    R.anim.nav_default_enter_anim,
-                    R.anim.nav_default_exit_anim,
-                    R.anim.nav_default_pop_enter_anim,
-                    R.anim.nav_default_pop_exit_anim
-                )
-                .replace(R.id.frame, CheckIdFragment())
-                .addToBackStack(null)
-                .commit()
+            activity?.navigateTo(CheckIdFragment(),R.id.frame)
         }
         binding.logoutBtn.setOnClickListener {
             preference.setEmail("")
