@@ -13,6 +13,7 @@ import com.capstone.personalmedicalrecord.ui.login.LoginActivity
 import com.capstone.personalmedicalrecord.ui.other.OtherFragment
 import com.capstone.personalmedicalrecord.ui.profile.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     private lateinit var preference: MyPreference
@@ -61,5 +62,20 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         val intent = Intent(this, LoginActivity::class.java)
         startActivity(intent)
         finish()
+    }
+
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount == 0){
+            MaterialAlertDialogBuilder(this)
+                .setMessage(getString(R.string.exit_text))
+                .setNegativeButton(getString(R.string.no), null)
+                .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                    super.onBackPressed()
+                }
+                .show()
+        }
+        else {
+            supportFragmentManager.popBackStack()
+        }
     }
 }

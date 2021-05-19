@@ -33,7 +33,7 @@
             android:id="@+id/input_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white" />
+            android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -51,7 +51,7 @@
             android:id="@+id/input_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:maxLines="1"
             tools:text="asdf" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,13 +70,12 @@
             android:id="@+id/input_no_hp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:maxLines="1"
             tools:text="hello" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/login_btn"
-        style="button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"

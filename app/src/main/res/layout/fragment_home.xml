@@ -36,12 +36,11 @@
             android:textSize="24sp"
             android:textStyle="bold"
             android:lines="1"
-            android:ellipsize="end"
             app:layout_constraintBottom_toBottomOf="@id/cv_avatar"
             app:layout_constraintEnd_toStartOf="@+id/cv_avatar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/date"
-            tools:text="@string/greeting" />
+            tools:text="Hello, abcdefghijklmn" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cv_avatar"

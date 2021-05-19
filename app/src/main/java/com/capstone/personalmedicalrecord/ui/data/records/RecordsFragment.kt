@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.personalmedicalrecord.R
@@ -15,6 +14,8 @@ import com.capstone.personalmedicalrecord.databinding.FragmentRecordsBinding
 import com.capstone.personalmedicalrecord.ui.data.DataViewModel
 import com.capstone.personalmedicalrecord.ui.data.DetailDataFragment
 import com.capstone.personalmedicalrecord.utils.DataDummy
+import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class RecordsFragment : Fragment(), RecordsCallback {
 
@@ -44,23 +45,32 @@ class RecordsFragment : Fragment(), RecordsCallback {
                 setHasFixedSize(true)
                 adapter = recordsAdapter
             }
+
+            binding.plusBtn.setOnClickListener {
+                val singleItems = arrayOf("Take a Photo", "Choose a photo", "Choose a document")
+                var checkedItem = 0
+
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(getString(R.string.add_record_text))
+                    .setNeutralButton(getString(R.string.cancel), null)
+                    .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                        Toast.makeText(
+                            context,
+                            "You've selected: ${singleItems[checkedItem]}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    .setSingleChoiceItems(singleItems, 0) { _, which ->
+                        checkedItem = which
+                    }
+                    .show()
+            }
         }
     }
 
     override fun onItemClick(record: Record) {
         viewModel.setType("records")
-        val activity = activity as FragmentActivity
-        activity.supportFragmentManager
-            .beginTransaction()
-            .setCustomAnimations(
-                R.anim.nav_default_enter_anim,
-                R.anim.nav_default_exit_anim,
-                R.anim.nav_default_pop_enter_anim,
-                R.anim.nav_default_pop_exit_anim
-            )
-            .replace(R.id.frame, DetailDataFragment())
-            .addToBackStack(null)
-            .commit()
+        activity?.navigateTo(DetailDataFragment(), R.id.frame)
     }
 
     override fun onDestroyView() {

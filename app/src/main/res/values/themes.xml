@@ -14,19 +14,15 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="EditTextThemeOverlay" parent="ThemeOverlay.AppCompat">
-        <item name="colorAccent">@android:color/holo_blue_light</item>
-    </style>
-
     <style name="headline">
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">96sp</item>
         <item name="android:fontFamily">@font/oleo_script</item>
     </style>
 
-    <style name="inputText" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox">
-        <item name="android:theme">@style/EditTextThemeOverlay</item>
+    <style name="inputText" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="android:textColorHint">@color/blue</item>
+        <item name="boxStrokeColor">@color/blue</item>
     </style>
 
     <style name="profile_label">
