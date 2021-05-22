@@ -28,14 +28,17 @@ object DataDummy {
     fun generateDummyNotes(): List<Note> {
         return arrayListOf(
             Note(
+                1,
                 "Saturday, 15 May 2021",
                 "Aku sehat"
             ),
             Note(
+                2,
                 "Sunday, 16 May 2021",
                 "Aku sakit"
             ),
             Note(
+                3,
                 "Monday, 17 May 2021",
                 "Aku meninggal"
             )

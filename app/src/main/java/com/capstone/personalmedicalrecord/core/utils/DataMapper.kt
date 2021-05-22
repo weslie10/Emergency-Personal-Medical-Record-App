@@ -1,4 +1,4 @@
-package com.capstone.personalmedicalrecord.utils
+package com.capstone.personalmedicalrecord.core.utils
 
 import com.capstone.personalmedicalrecord.core.data.source.local.entity.NoteEntity
 import com.capstone.personalmedicalrecord.core.domain.model.Note
