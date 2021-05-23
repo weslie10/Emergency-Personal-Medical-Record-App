@@ -28,13 +28,13 @@ class ScannerFragment : Fragment() {
             ViewModelProvider(this).get(ScannerViewModel::class.java)
 
         _binding = FragmentStaffScannerBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textScanner
-        scannerViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
-        return root
+//        val root: View = binding.root
+//
+//        val textView: TextView = binding.textScanner
+//        scannerViewModel.text.observe(viewLifecycleOwner, {
+//            textView.text = it
+//        })
+        return binding.root
     }
 
     override fun onDestroyView() {

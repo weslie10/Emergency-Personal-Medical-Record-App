@@ -31,16 +31,14 @@ val networkModule = module {
             .readTimeout(120, TimeUnit.SECONDS)
             .build()
     }
-    /*
-    single {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(get())
-            .build()
-        retrofit.create(ApiService::class.java)
-    }
-     */
+//    single {
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl(BASE_URL)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .client(get())
+//            .build()
+//        retrofit.create(ApiService::class.java)
+//    }
 }
 
 val repositoryModule = module {

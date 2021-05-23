@@ -1,13 +1,11 @@
 package com.capstone.personalmedicalrecord
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.capstone.personalmedicalrecord.databinding.ActivityStaffBinding
-import com.capstone.personalmedicalrecord.ui.login.LoginActivity
 import com.capstone.personalmedicalrecord.ui.staff.home.HomeFragment
 import com.capstone.personalmedicalrecord.ui.staff.profile.ProfileFragment
 import com.capstone.personalmedicalrecord.ui.staff.scanner.ScannerFragment

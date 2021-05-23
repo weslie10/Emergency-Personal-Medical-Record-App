@@ -44,6 +44,7 @@ class ProfileFragment : Fragment() {
         }
         binding.logoutBtn.setOnClickListener {
             preference.setEmail("")
+            preference.setRole("")
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
             activity?.finish()

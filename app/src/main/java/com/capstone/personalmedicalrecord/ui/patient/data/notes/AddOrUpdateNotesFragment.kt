@@ -22,7 +22,7 @@ class AddOrUpdateNotesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.backBtn.setOnClickListener {
+        binding.addNotes.setOnClickListener {
             activity?.supportFragmentManager?.popBackStack()
         }
 

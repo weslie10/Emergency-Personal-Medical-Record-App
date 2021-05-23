@@ -45,7 +45,7 @@ object DataDummy {
         )
     }
 
-    fun generateDummyText(): String {
+    private fun generateDummyText(): String {
         return "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus imperdiet pharetra tortor, a iaculis purus dignissim ut. Suspendisse bibendum aliquam nulla, eu tempus dui fringilla eu."
     }
 }

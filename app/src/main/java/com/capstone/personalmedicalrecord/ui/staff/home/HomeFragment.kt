@@ -9,7 +9,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentStaffHomeBinding
-import java.util.*
+import com.capstone.personalmedicalrecord.utils.Utility.dateNow
+import com.capstone.personalmedicalrecord.utils.Utility.simpleText
 
 class HomeFragment : Fragment() {
     private lateinit var preference: MyPreference
@@ -38,23 +39,11 @@ class HomeFragment : Fragment() {
 //        })
 
         preference = MyPreference(requireActivity())
-/*
-        var arr = preference.getEmail()?.split(" ") as ArrayList<String>
-        var count = 0
-        for (i in 0 until arr.size) {
-            if (arr[i].length + count <= 10) {
-                count += arr[i].length
-                arr[i] = arr[i].capitalize(Locale.ROOT)
-            } else {
-                count += 2
-                arr[i] = "${arr[i][0].toUpperCase()}."
-            }
-            count += 1
-        }
-        val text = arr.joinToString(" ")
- */
-        val text = preference.getRole()
+
+        val arr = preference.getEmail()?.split(" ")?.toMutableList() as MutableList<String>
+        val text = arr.simpleText()
         binding.greeting.text = resources.getString(R.string.greeting, text)
+        binding.date.dateNow()
     }
 
     override fun onDestroyView() {

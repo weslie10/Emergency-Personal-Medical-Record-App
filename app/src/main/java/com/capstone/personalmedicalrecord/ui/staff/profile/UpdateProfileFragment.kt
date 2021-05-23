@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.databinding.FragmentStaffUpdateProfileBinding
+import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 
 class UpdateProfileFragment : Fragment() {
 
@@ -28,10 +29,11 @@ class UpdateProfileFragment : Fragment() {
         binding.saveChangesBtn.setOnClickListener {
             saveChanges()
         }
+        activity?.clickBack(binding.backBtn)
     }
 
     private fun saveChanges() {
-
+        activity?.supportFragmentManager?.popBackStack()
     }
 
     override fun onDestroyView() {

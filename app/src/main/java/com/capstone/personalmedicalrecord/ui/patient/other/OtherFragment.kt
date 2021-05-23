@@ -31,7 +31,7 @@ class OtherFragment : Fragment() {
         val root: View = binding.root
 
         val textView: TextView = binding.textOther
-        otherViewModel.text.observe(viewLifecycleOwner, Observer {
+        otherViewModel.text.observe(viewLifecycleOwner, {
             textView.text = it
         })
         return root
