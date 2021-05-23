@@ -6,12 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.ViewModelProvider
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentProfileBinding
-import com.capstone.personalmedicalrecord.ui.data.DetailDataFragment
 import com.capstone.personalmedicalrecord.ui.login.LoginActivity
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
 
@@ -20,7 +18,7 @@ class ProfileFragment : Fragment() {
     private lateinit var preference: MyPreference
     private lateinit var notificationsViewModel: ProfileViewModel
     private var _binding: FragmentProfileBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding as FragmentProfileBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,6 +47,9 @@ class ProfileFragment : Fragment() {
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)
             activity?.finish()
+        }
+        binding.editProfileBtn.setOnClickListener {
+            activity?.navigateTo(UpdateProfileFragment(),R.id.frame)
         }
     }
 

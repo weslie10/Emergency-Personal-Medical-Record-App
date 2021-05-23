@@ -41,4 +41,5 @@
     <string name="cancel">CANCEL</string>
     <string name="ok">OK</string>
     <string name="add_record_text">Select an Action</string>
+    <string name="save_changes">Save Changes</string>
 </resources>
