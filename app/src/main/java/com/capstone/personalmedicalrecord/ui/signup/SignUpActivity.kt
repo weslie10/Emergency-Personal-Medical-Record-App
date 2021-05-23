@@ -4,7 +4,7 @@ import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.capstone.personalmedicalrecord.MainActivity
+import com.capstone.personalmedicalrecord.PatientActivity
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.databinding.ActivitySignUpBinding
 import com.capstone.personalmedicalrecord.ui.login.LoginActivity
@@ -27,7 +27,7 @@ class SignUpActivity : AppCompatActivity() {
             if (email != "") {
                 preference.setEmail(email)
 
-                val intent = Intent(this@SignUpActivity, MainActivity::class.java)
+                val intent = Intent(this@SignUpActivity, PatientActivity::class.java)
                 startActivity(intent)
             }
         }

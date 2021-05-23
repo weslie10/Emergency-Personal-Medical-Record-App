@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.capstone.personalmedicalrecord.ui.home.HomeFragment"
+        android:name="com.capstone.personalmedicalrecord.ui.patient.home.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_patient_home" />
 
     <fragment
         android:id="@+id/navigation_records"
-        android:name="com.capstone.personalmedicalrecord.ui.data.records.RecordsFragment"
+        android:name="com.capstone.personalmedicalrecord.ui.patient.data.records.RecordsFragment"
         android:label="@string/title_records"
         tools:layout="@layout/fragment_records" />
 
     <fragment
         android:id="@+id/navigation_profile"
-        android:name="com.capstone.personalmedicalrecord.ui.profile.ProfileFragment"
+        android:name="com.capstone.personalmedicalrecord.ui.patient.profile.ProfileFragment"
         android:label="@string/title_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_patient_profile" />
 
     <fragment
         android:id="@+id/navigation_other"
-        android:name="com.capstone.personalmedicalrecord.ui.other.OtherFragment"
+        android:name="com.capstone.personalmedicalrecord.ui.patient.other.OtherFragment"
         android:label="@string/title_other"
-        tools:layout="@layout/fragment_other" />
+        tools:layout="@layout/fragment_patient_other" />
 </navigation>
