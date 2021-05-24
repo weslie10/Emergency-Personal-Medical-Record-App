@@ -50,6 +50,8 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide_version"
     implementation "androidx.preference:preference-ktx:$preference_version"
     implementation "androidmads.library.qrgenearator:QRGenearator:$qr_code_version"
+    implementation "com.google.zxing:core:$zxing_version"
+    implementation("com.journeyapps:zxing-android-embedded:$zxing_embedded_version") { transitive = false }
 
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
