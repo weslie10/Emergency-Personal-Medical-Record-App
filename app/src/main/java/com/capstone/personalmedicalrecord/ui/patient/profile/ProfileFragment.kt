@@ -12,6 +12,7 @@ import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentPatientProfileBinding
 import com.capstone.personalmedicalrecord.ui.login.LoginActivity
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
+import com.capstone.personalmedicalrecord.utils.Utility.searchPatient
 
 
 class ProfileFragment : Fragment() {
@@ -39,11 +40,22 @@ class ProfileFragment : Fragment() {
 //            textView.text = it
 //        })
 
+        val patient = preference.getId().searchPatient()
+        with(patient) {
+            binding.fullName.text = name
+            binding.email.text = email
+            binding.address.text = address
+            binding.phoneNumber.text = phoneNumber
+            binding.dateBirth.text = dateBirth
+            binding.gender.text = gender
+            binding.bloodType.text = bloodType
+        }
+
         binding.checkIdBtn.setOnClickListener {
             activity?.navigateTo(CheckIdFragment(), R.id.frame)
         }
         binding.logoutBtn.setOnClickListener {
-            preference.setEmail("")
+            preference.setId(0)
             preference.setRole("")
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)

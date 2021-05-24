@@ -10,6 +10,7 @@ import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentPatientHomeBinding
 import com.capstone.personalmedicalrecord.utils.Utility.dateNow
+import com.capstone.personalmedicalrecord.utils.Utility.searchPatient
 import com.capstone.personalmedicalrecord.utils.Utility.simpleText
 
 class HomeFragment : Fragment() {
@@ -40,7 +41,8 @@ class HomeFragment : Fragment() {
 
         preference = MyPreference(requireActivity())
 
-        val arr = preference.getEmail()?.split(" ")?.toMutableList() as MutableList<String>
+        val patient = preference.getId().searchPatient()
+        val arr = patient.name.split(" ").toMutableList()
         val text = arr.simpleText()
         binding.greeting.text = resources.getString(R.string.greeting, text)
         binding.date.dateNow()

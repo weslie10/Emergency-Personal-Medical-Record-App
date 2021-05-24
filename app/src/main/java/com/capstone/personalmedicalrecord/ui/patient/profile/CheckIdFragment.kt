@@ -9,13 +9,15 @@ import android.view.ViewGroup
 import androidmads.library.qrgenearator.QRGContents
 import androidmads.library.qrgenearator.QRGEncoder
 import androidx.fragment.app.Fragment
+import com.capstone.personalmedicalrecord.MyPreference
+import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentCheckIdBinding
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.google.zxing.WriterException
 
 
 class CheckIdFragment : Fragment() {
-
+    private lateinit var preference: MyPreference
     private var _binding: FragmentCheckIdBinding? = null
     private val binding get() = _binding as FragmentCheckIdBinding
 
@@ -33,7 +35,11 @@ class CheckIdFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        preference = MyPreference(requireActivity())
+
         activity?.clickBack(binding.backBtn)
+
+        binding.link.text = context?.resources?.getString(R.string.link_format,preference.getId().toString())
 
         qrgEncoder = QRGEncoder(binding.link.text.toString(), null, QRGContents.Type.TEXT, 300)
         try {

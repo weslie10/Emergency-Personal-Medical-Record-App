@@ -43,4 +43,6 @@
     <string name="title_scanner">Scanner</string>
     <string name="scanner_image">Scanner Image</string>
     <string name="scan">Scan</string>
+
+    <string name="link_format">https://personalmedicalrecord.app/%s</string>
 </resources>

@@ -12,11 +12,13 @@ import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentStaffProfileBinding
 import com.capstone.personalmedicalrecord.ui.login.LoginActivity
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
+import com.capstone.personalmedicalrecord.utils.Utility.searchPatient
+import com.capstone.personalmedicalrecord.utils.Utility.searchStaff
 
 
 class ProfileFragment : Fragment() {
     private lateinit var preference: MyPreference
-    private lateinit var notificationsViewModel: ProfileViewModel
+    private lateinit var profileViewModel: ProfileViewModel
     private var _binding: FragmentStaffProfileBinding? = null
     private val binding get() = _binding!!
 
@@ -33,14 +35,22 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         preference = MyPreference(requireActivity())
-        notificationsViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+        profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
 //        val textView: TextView = binding.textNotifications
 //        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
 //            textView.text = it
 //        })
 
+        val staff = preference.getId().searchStaff()
+        with(staff) {
+            binding.fullName.text = name
+            binding.email.text = email
+            binding.phoneNumber.text = phoneNumber
+            binding.hospital.text = hospital
+        }
+
         binding.logoutBtn.setOnClickListener {
-            preference.setEmail("")
+            preference.setId(0)
             preference.setRole("")
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)

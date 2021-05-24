@@ -23,13 +23,13 @@ class SignUpActivity : AppCompatActivity() {
         preference = MyPreference(this)
 
         binding.loginBtn.setOnClickListener {
-            val email = binding.inputEmail.text.toString()
-            if (email != "") {
-                preference.setEmail(email)
-
-                val intent = Intent(this@SignUpActivity, PatientActivity::class.java)
-                startActivity(intent)
-            }
+//            val email = binding.inputEmail.text.toString()
+//            if (email != "") {
+//                preference.setz(email)
+//
+//                val intent = Intent(this@SignUpActivity, PatientActivity::class.java)
+//                startActivity(intent)
+//            }
         }
 
         binding.loginTxt.apply {

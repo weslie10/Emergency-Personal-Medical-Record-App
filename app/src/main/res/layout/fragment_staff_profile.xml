@@ -67,7 +67,7 @@
             <TextView
                 android:id="@+id/full_name"
                 style="@style/profile_txt"
-                android:text="Heheheh"
+                tools:text="Heheheh"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/full_name_txt" />
 
@@ -81,7 +81,7 @@
             <TextView
                 android:id="@+id/email"
                 style="@style/profile_txt"
-                android:text="lorem@gmail.com"
+                tools:text="lorem@gmail.com"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/email_txt" />
 
@@ -95,65 +95,23 @@
             <TextView
                 android:id="@+id/phone_number"
                 style="@style/profile_txt"
-                android:text="08123456789"
+                tools:text="08123456789"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/phone_number_txt" />
 
             <TextView
-                android:id="@+id/date_birth_txt"
+                android:id="@+id/hospital_txt"
                 style="@style/profile_label"
-                android:text="@string/date_birth"
+                android:text="@string/phone_number"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/phone_number" />
 
             <TextView
-                android:id="@+id/date_birth"
+                android:id="@+id/hospital"
                 style="@style/profile_txt"
-                android:text="September 10, 2000"
+                tools:text="RS Suka Jadi"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/date_birth_txt" />
-
-            <TextView
-                android:id="@+id/address_txt"
-                style="@style/profile_label"
-                android:text="@string/address"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/date_birth" />
-
-            <TextView
-                android:id="@+id/address"
-                style="@style/profile_txt"
-                android:text="Jalan jalan"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/address_txt" />
-
-            <TextView
-                android:id="@+id/gender_txt"
-                style="@style/profile_label"
-                android:text="@string/gender"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/address" />
-
-            <TextView
-                android:id="@+id/gender"
-                style="@style/profile_txt"
-                android:text="Male"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/gender_txt" />
-
-            <TextView
-                android:id="@+id/blood_type_text"
-                style="@style/profile_label"
-                android:text="@string/blood_type"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/gender" />
-
-            <TextView
-                android:id="@+id/blood_type"
-                style="@style/profile_txt"
-                android:text="A"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/blood_type_text" />
+                app:layout_constraintTop_toBottomOf="@id/hospital_txt" />
 
             <Button
                 android:id="@+id/edit_profile_btn"
@@ -163,7 +121,7 @@
                 android:contentDescription="@string/edit_profile"
                 android:text="@string/edit_profile"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/blood_type" />
+                app:layout_constraintTop_toBottomOf="@id/hospital" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

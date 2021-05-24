@@ -5,6 +5,8 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.capstone.personalmedicalrecord.R
+import com.capstone.personalmedicalrecord.core.domain.model.Patient
+import com.capstone.personalmedicalrecord.core.domain.model.Staff
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -28,6 +30,18 @@ object Utility {
         btn.setOnClickListener {
             supportFragmentManager.popBackStack()
         }
+    }
+
+    fun Int.searchPatient(): Patient {
+        return DataDummy.getDataPatient().filter { patient ->
+            patient.id == this
+        }[0]
+    }
+
+    fun Int.searchStaff(): Staff {
+        return DataDummy.getDataStaff().filter { staff ->
+            staff.id == this
+        }[0]
     }
 
     fun MutableList<String>.simpleText(): String {
