@@ -7,10 +7,12 @@ import android.util.Patterns
 import androidx.appcompat.app.AppCompatActivity
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.PatientActivity
+import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.StaffActivity
 import com.capstone.personalmedicalrecord.databinding.ActivityLoginBinding
 import com.capstone.personalmedicalrecord.ui.signup.SignUpActivity
 import com.capstone.personalmedicalrecord.utils.DataDummy
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -46,7 +48,7 @@ class LoginActivity : AppCompatActivity() {
         if (email != "") {
             if (Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                 if (password != "") {
-                    val patient = DataDummy.getDataPatient().filter { patient ->
+                    val patient = DataDummy.listPatient.filter { patient ->
                         patient.email == email
                     }
                     if (patient.isNotEmpty()) {
@@ -59,7 +61,7 @@ class LoginActivity : AppCompatActivity() {
                             binding.inputPassword.error = "Wrong Password"
                         }
                     } else {
-                        val staff = DataDummy.getDataStaff().filter { staff ->
+                        val staff = DataDummy.listStaff.filter { staff ->
                             staff.email == email
                         }
                         if (staff.isNotEmpty()) {
@@ -72,7 +74,10 @@ class LoginActivity : AppCompatActivity() {
                                 binding.inputPassword.error = "Wrong Password"
                             }
                         } else {
-                            binding.inputEmail.error = "Email Not Found"
+                            MaterialAlertDialogBuilder(this)
+                                .setMessage(getString(R.string.email_not_found))
+                                .setPositiveButton(getString(R.string.ok), null)
+                                .show()
                         }
                     }
                 } else {
@@ -85,27 +90,4 @@ class LoginActivity : AppCompatActivity() {
             binding.inputEmail.error = "Email Can't Be Blank"
         }
     }
-
-//    private fun setSpinner() {
-//        val list = arrayOf("Patient", "Staff")
-//        val arrayAdapter =
-//            ArrayAdapter(this, R.layout.simple_spinner_dropdown_item, list)
-//        binding.spRole.apply {
-//            adapter = arrayAdapter
-//            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-//                override fun onItemSelected(
-//                    parent: AdapterView<*>?,
-//                    view: View?,
-//                    position: Int,
-//                    id: Long
-//                ) {
-//                    role = list[position]
-//                }
-//
-//                override fun onNothingSelected(parent: AdapterView<*>?) {
-//                    TODO("Not yet implemented")
-//                }
-//            }
-//        }
-//    }
 }

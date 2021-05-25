@@ -7,6 +7,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="login_txt">Already have account?</string>
     <string name="phone_number">Phone Number</string>
+
     <string name="title_home">Home</string>
     <string name="title_data">Data</string>
     <string name="title_records">Records</string>
@@ -18,7 +19,6 @@
     <string name="item_place">Rumah Sakit Santa Maria Pekanbaru</string>
 
     <string name="avatar">Avatar</string>
-    <string name="greeting">Hello, %s</string>
     <string name="camera">Camera</string>
     <string name="check_id">Check ID</string>
     <string name="logout">Log Out</string>
@@ -28,21 +28,31 @@
     <string name="gender">Gender</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="blood_type">Blood Type</string>
+    <string name="hospital">Hospital</string>
+
     <string name="back">Back</string>
-    <string name="qr_code">QR Code</string>
     <string name="edit">Edit</string>
+
     <string name="note">Note</string>
-    <string name="add_notes">Add Notes</string>
+    <string name="add_note">Add Note</string>
+    <string name="update_note">Update Note</string>
+
     <string name="exit_text">Do you want to exit right now?</string>
     <string name="no">NO</string>
     <string name="yes">YES</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
     <string name="add_record_text">Select an Action</string>
+
     <string name="save_changes">Save Changes</string>
+
+    <string name="qr_code">QR Code</string>
     <string name="title_scanner">Scanner</string>
     <string name="scanner_image">Scanner Image</string>
     <string name="scan">Scan</string>
 
+    <string name="greeting">Hello, %s</string>
     <string name="link_format">https://personalmedicalrecord.app/%s</string>
+    <string name="email_used">Email Already Used</string>
+    <string name="email_not_found">Email not Found</string>
 </resources>

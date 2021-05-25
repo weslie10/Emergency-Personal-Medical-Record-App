@@ -112,72 +112,18 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/date_birth_txt"
+            android:id="@+id/hospital_txt"
             style="@style/inputText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="@string/date_birth"
+            android:hint="@string/hospital"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/phone_number_txt">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_date_birth"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/address_txt"
-            style="@style/inputText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/date_birth"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/date_birth_txt">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_address"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/gender_txt"
-            style="@style/inputText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/gender"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/address_txt">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_gender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/blood_type_txt"
-            style="@style/inputText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:hint="@string/blood_type"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gender_txt">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/input_blood_type"
+                android:id="@+id/input_hospital"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:maxLines="1" />
@@ -191,6 +137,6 @@
             android:contentDescription="@string/save_changes"
             android:text="@string/save_changes"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/blood_type_txt" />
+            app:layout_constraintTop_toBottomOf="@id/hospital_txt" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

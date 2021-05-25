@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentPatientHomeBinding
+import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.dateNow
 import com.capstone.personalmedicalrecord.utils.Utility.searchPatient
 import com.capstone.personalmedicalrecord.utils.Utility.simpleText
@@ -34,11 +35,6 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//        val textView: TextView = binding.textHome
-//        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
-
         preference = MyPreference(requireActivity())
 
         val patient = preference.getId().searchPatient()
@@ -46,6 +42,9 @@ class HomeFragment : Fragment() {
         val text = arr.simpleText()
         binding.greeting.text = resources.getString(R.string.greeting, text)
         binding.date.dateNow()
+        binding.records.text = DataDummy.listRecords.size.toString()
+        binding.notes.text = DataDummy.listNotes.size.toString()
+        binding.graph.addView(TestChart(requireContext()))
     }
 
     override fun onDestroyView() {

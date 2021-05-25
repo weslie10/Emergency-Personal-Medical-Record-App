@@ -56,7 +56,7 @@ class RecordsFragment : Fragment(), RecordsCallback {
         viewModel = ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
         if (activity != null) {
             recordsAdapter = RecordsAdapter(this)
-            recordsAdapter.setData(DataDummy.generateDummyRecords())
+            recordsAdapter.setData(DataDummy.listRecords)
             with(binding.rvRecords) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
@@ -177,8 +177,8 @@ class RecordsFragment : Fragment(), RecordsCallback {
     private val chooseDocument =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                fileUri = result.data?.getData()
-                filePath = fileUri?.getPath()
+                fileUri = result.data?.data
+                filePath = fileUri?.path
                 Toast.makeText(context, filePath, Toast.LENGTH_SHORT).show()
             }
         }

@@ -29,9 +29,9 @@
                 android:background="@drawable/back_shape"
                 android:contentDescription="@string/back"
                 android:src="@drawable/ic_back_black_24dp"
-                android:tint="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/black" />
 
             <TextView
                 android:id="@+id/detail_notes_date"
@@ -44,16 +44,26 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/back_notes_btn" />
 
+            <View
+                android:id="@+id/separator"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_notes_date" />
+
             <TextView
                 android:id="@+id/detail_notes_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="aasdfasdf asdf asdfnasdf asd fasd fas fas dfas fasf asdf asf asf asdfasdf as dfa sdf"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/detail_notes_date" />
+                app:layout_constraintTop_toBottomOf="@id/separator"
+                tools:text="aasdfasdf asdf asdfnasdf asd fasd fas fas dfas fasf asdf asf asf asdfasdf as dfa sdf" />
 
             <ImageButton
                 android:id="@+id/edit_notes_btn"
@@ -101,9 +111,9 @@
                 android:background="@drawable/back_shape"
                 android:contentDescription="@string/back"
                 android:src="@drawable/ic_back_black_24dp"
-                android:tint="@color/black"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/black" />
 
             <TextView
                 android:id="@+id/detail_records_date"
@@ -116,6 +126,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/back_records_btn" />
 
+            <View
+                android:id="@+id/separator_records"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_records_date" />
+
             <TextView
                 android:id="@+id/detail_records_description"
                 android:layout_width="match_parent"
@@ -125,7 +145,7 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/detail_records_date" />
+                app:layout_constraintTop_toBottomOf="@id/separator_records" />
 
             <TextView
                 android:id="@+id/detail_records_description2"

@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.capstone.personalmedicalrecord.R
+import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.core.domain.model.Staff
 import java.time.LocalDate
@@ -33,14 +34,20 @@ object Utility {
     }
 
     fun Int.searchPatient(): Patient {
-        return DataDummy.getDataPatient().filter { patient ->
+        return DataDummy.listPatient.filter { patient ->
             patient.id == this
         }[0]
     }
 
     fun Int.searchStaff(): Staff {
-        return DataDummy.getDataStaff().filter { staff ->
+        return DataDummy.listStaff.filter { staff ->
             staff.id == this
+        }[0]
+    }
+
+    fun Int.searchNote(): Note {
+        return DataDummy.listNotes.filter { note ->
+            note.id == this
         }[0]
     }
 
@@ -61,8 +68,12 @@ object Utility {
     }
 
     fun TextView.dateNow() {
+        this.text = getDate()
+    }
+
+    fun getDate(): String {
         val dateTime = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM y")
-        this.text = dateTime.format(formatter)
+        return dateTime.format(formatter)
     }
 }

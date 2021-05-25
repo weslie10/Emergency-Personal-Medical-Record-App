@@ -29,7 +29,6 @@ class PatientActivity : AppCompatActivity(), BottomNavigationView.OnNavigationIt
             R.id.navigation_home -> loadFragment(HomeFragment())
             R.id.navigation_data -> loadFragment(DataFragment())
             R.id.navigation_profile -> loadFragment(ProfileFragment())
-            R.id.navigation_other -> loadFragment(OtherFragment())
         }
         return true
     }

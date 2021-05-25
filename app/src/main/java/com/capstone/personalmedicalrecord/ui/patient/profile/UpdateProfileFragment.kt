@@ -6,13 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
+import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.databinding.FragmentPatientUpdateProfileBinding
+import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
+import com.capstone.personalmedicalrecord.utils.Utility.searchPatient
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class UpdateProfileFragment : Fragment() {
-
+    private lateinit var preference: MyPreference
     private var _binding: FragmentPatientUpdateProfileBinding? = null
     private val binding get() = _binding!!
 
@@ -26,8 +30,33 @@ class UpdateProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        preference = MyPreference(requireActivity())
+
+        val patient = preference.getId().searchPatient()
+        with(patient) {
+            binding.inputFullName.setText(name)
+            binding.inputEmail.setText(email)
+            binding.inputAddress.setText(address)
+            binding.inputPhoneNumber.setText(phoneNumber)
+            binding.inputDateBirth.setText(dateBirth)
+            binding.inputGender.setText(gender)
+            binding.inputBloodType.setText(bloodType)
+        }
+
         binding.saveChangesBtn.setOnClickListener {
-            saveChanges()
+            val id = DataDummy.listPatient.indexOf(patient)
+            DataDummy.listPatient[id] = Patient(
+                preference.getId(),
+                binding.inputFullName.text.toString(),
+                binding.inputEmail.text.toString(),
+                patient.password,
+                binding.inputAddress.text.toString(),
+                binding.inputPhoneNumber.text.toString(),
+                binding.inputDateBirth.text.toString(),
+                binding.inputGender.text.toString(),
+                binding.inputBloodType.text.toString(),
+            )
+            activity?.supportFragmentManager?.popBackStack()
         }
         binding.changePhoto.setOnClickListener {
             val singleItems = arrayOf("Take a Photo", "Choose a photo")
@@ -41,7 +70,7 @@ class UpdateProfileFragment : Fragment() {
 //                        0 -> takePhoto()
 //                        1 -> choosePhoto()
 //                    }
-                    Log.d("check",singleItems[checkedItem])
+                    Log.d("check", singleItems[checkedItem])
                 }
                 .setSingleChoiceItems(singleItems, 0) { _, which ->
                     checkedItem = which
@@ -49,10 +78,6 @@ class UpdateProfileFragment : Fragment() {
                 .show()
         }
         activity?.clickBack(binding.backBtn)
-    }
-
-    private fun saveChanges() {
-        activity?.supportFragmentManager?.popBackStack()
     }
 
     override fun onDestroyView() {

@@ -19,13 +19,12 @@ class StaffActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItem
         super.onCreate(savedInstanceState)
         binding = ActivityStaffBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        loadFragment(HomeFragment())
+        loadFragment(ScannerFragment())
         binding.bottomNav.setOnNavigationItemSelectedListener(this)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.navigation_home -> loadFragment(HomeFragment())
             R.id.navigation_scanner -> loadFragment(ScannerFragment())
             R.id.navigation_profile -> loadFragment(ProfileFragment())
         }

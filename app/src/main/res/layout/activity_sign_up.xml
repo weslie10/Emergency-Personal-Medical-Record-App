@@ -55,24 +55,15 @@
             tools:text="asdf" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/no_hp_txt"
+    <Spinner
+        android:id="@+id/sp_role"
         style="@style/inputText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:hint="@string/phone_number"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/password_txt"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/password_txt">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/input_no_hp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            tools:text="hello" />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/login_btn"
@@ -82,7 +73,7 @@
         android:text="@string/sign_up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/no_hp_txt" />
+        app:layout_constraintTop_toBottomOf="@id/sp_role"/>
 
     <TextView
         android:id="@+id/login_txt"

@@ -18,7 +18,8 @@ import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
 class NotesFragment : Fragment(), NotesCallback {
     private var _binding: FragmentNotesBinding? = null
     private val binding get() = _binding as FragmentNotesBinding
-    private lateinit var viewModel: DataViewModel
+    private lateinit var dataViewModel: DataViewModel
+    private lateinit var notesViewModel: NotesViewModel
     private lateinit var notesAdapter: NotesAdapter
 
     override fun onCreateView(
@@ -32,11 +33,12 @@ class NotesFragment : Fragment(), NotesCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
+        dataViewModel = ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
+        notesViewModel = ViewModelProvider(requireActivity()).get(NotesViewModel::class.java)
 
         if (activity != null) {
             notesAdapter = NotesAdapter(this)
-            notesAdapter.setData(DataDummy.generateDummyNotes())
+            notesAdapter.setData(DataDummy.listNotes)
             with(binding.rvNotes) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
@@ -44,13 +46,15 @@ class NotesFragment : Fragment(), NotesCallback {
             }
 
             binding.plusBtn.setOnClickListener {
+                notesViewModel.setState("Add")
                 activity?.navigateTo(AddOrUpdateNotesFragment(),R.id.frame)
             }
         }
     }
 
     override fun onItemClick(note: Note) {
-        viewModel.setType("notes")
+        dataViewModel.setType("notes")
+        notesViewModel.setId(note.id)
         activity?.navigateTo(DetailDataFragment(),R.id.frame)
     }
 

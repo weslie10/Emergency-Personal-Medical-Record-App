@@ -17,7 +17,7 @@ import com.capstone.personalmedicalrecord.utils.Utility.searchPatient
 
 class ProfileFragment : Fragment() {
     private lateinit var preference: MyPreference
-    private lateinit var notificationsViewModel: ProfileViewModel
+    private lateinit var profileViewModel: ProfileViewModel
     private var _binding: FragmentPatientProfileBinding? = null
     private val binding get() = _binding!!
 
@@ -34,11 +34,7 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         preference = MyPreference(requireActivity())
-        notificationsViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
-//        val textView: TextView = binding.textNotifications
-//        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
+        profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
 
         val patient = preference.getId().searchPatient()
         with(patient) {
@@ -54,6 +50,7 @@ class ProfileFragment : Fragment() {
         binding.checkIdBtn.setOnClickListener {
             activity?.navigateTo(CheckIdFragment(), R.id.frame)
         }
+
         binding.logoutBtn.setOnClickListener {
             preference.setId(0)
             preference.setRole("")
