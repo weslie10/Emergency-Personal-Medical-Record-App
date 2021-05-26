@@ -6,29 +6,39 @@
     android:layout_height="match_parent"
     tools:context=".ui.staff.scanner.ScannerFragment">
 
-    <ImageView
-        android:id="@+id/img_scan"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:contentDescription="@string/scanner_image"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <com.budiyev.android.codescanner.CodeScannerView
+        android:id="@+id/scanner"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        app:autoFocusButtonColor="@color/white"
+        app:autoFocusButtonVisible="true"
+        app:flashButtonColor="@color/white"
+        app:flashButtonVisible="true"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.37"
-        tools:src="@tools:sample/backgrounds/scenic" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/scanner_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="23dp"
+        android:layout_marginTop="32dp"
+        android:textColor="@color/black"
+        android:textSize="24sp"
+        android:text="@string/scan"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/scanner" />
 
     <Button
-        android:id="@+id/scan_btn"
+        android:id="@+id/open_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/scan"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/open_the_link"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/img_scan"/>
-
+        app:layout_constraintTop_toBottomOf="@id/scanner_link" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

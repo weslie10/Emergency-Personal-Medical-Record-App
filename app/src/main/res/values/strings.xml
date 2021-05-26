@@ -49,10 +49,11 @@
     <string name="qr_code">QR Code</string>
     <string name="title_scanner">Scanner</string>
     <string name="scanner_image">Scanner Image</string>
-    <string name="scan">Scan</string>
+    <string name="scan">Scan&#8230;</string>
 
     <string name="greeting">Hello, %s</string>
     <string name="link_format">https://personalmedicalrecord.app/%s</string>
     <string name="email_used">Email Already Used</string>
     <string name="email_not_found">Email not Found</string>
+    <string name="open_the_link">Open The Link</string>
 </resources>

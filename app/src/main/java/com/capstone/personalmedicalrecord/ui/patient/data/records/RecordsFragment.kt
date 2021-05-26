@@ -132,22 +132,6 @@ class RecordsFragment : Fragment(), RecordsCallback {
         return File.createTempFile(FILE_NAME, ".jpg", storageDirectory)
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        when (requestCode) {
-            PERMISSION_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    chooseImageGallery()
-                } else {
-                    Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-    }
-
     private val takePhoto =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {

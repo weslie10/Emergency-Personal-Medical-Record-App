@@ -1,80 +1,115 @@
 package com.capstone.personalmedicalrecord.ui.staff.scanner
 
-import android.app.AlertDialog
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.budiyev.android.codescanner.*
 import com.capstone.personalmedicalrecord.databinding.FragmentStaffScannerBinding
-import com.google.zxing.integration.android.IntentIntegrator
-import com.google.zxing.integration.android.IntentResult
+
 
 class ScannerFragment : Fragment() {
 
     private lateinit var scannerViewModel: ScannerViewModel
     private var _binding: FragmentStaffScannerBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding as FragmentStaffScannerBinding
+    private lateinit var codeScanner: CodeScanner
+    private var link = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        scannerViewModel =
-            ViewModelProvider(this).get(ScannerViewModel::class.java)
 
         _binding = FragmentStaffScannerBinding.inflate(inflater, container, false)
-//        val root: View = binding.root
-//
-//        val textView: TextView = binding.textScanner
-//        scannerViewModel.text.observe(viewLifecycleOwner, {
-//            textView.text = it
-//        })
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.scanBtn.setOnClickListener {
-            setUpScanner()
-        }
-    }
+        scannerViewModel =
+            ViewModelProvider(this).get(ScannerViewModel::class.java)
 
-    private fun setUpScanner() {
-        IntentIntegrator(requireActivity()).apply {
-            setOrientationLocked(false)
-            setPrompt("For Flash use volume up key")
-            setBeepEnabled(true)
-            initiateScan()
-        }
-    }
+        setupPermissions()
+        codeScanner()
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        val result: IntentResult? =
-            IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-
-        if (result != null) {
-            if (result.contents != null) {
-                AlertDialog.Builder(context).apply {
-                    setTitle("Result")
-                    setMessage(result.contents)
-                    setPositiveButton("ok") { dialog, _ ->
-                        dialog.dismiss()
-                    }
-                    show()
-                }
-            } else {
-                Toast.makeText(context, "There's no qr code", Toast.LENGTH_LONG).show()
+        binding.openBtn.setOnClickListener {
+            if (link != "") {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = Uri.parse(link)
+                startActivity(intent)
             }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    private fun codeScanner() {
+        codeScanner = CodeScanner(requireContext(), binding.scanner)
+
+        codeScanner.apply {
+            camera = CodeScanner.CAMERA_BACK
+            formats = CodeScanner.ALL_FORMATS
+
+            autoFocusMode = AutoFocusMode.SAFE
+            scanMode = ScanMode.CONTINUOUS
+            isAutoFocusEnabled = true
+            isFlashEnabled = false
+
+            decodeCallback = DecodeCallback {
+                requireActivity().runOnUiThread {
+                    binding.scannerLink.text = it.text
+                    link = it.text
+                }
+            }
+
+            errorCallback = ErrorCallback {
+                requireActivity().runOnUiThread {
+                    Log.e("Main", "codeScanner: ${it.message}")
+                }
+            }
+
+            binding.scanner.setOnClickListener {
+                codeScanner.startPreview()
+            }
+
+        }
+    }
+
+    private fun setupPermissions() {
+        if (requireContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+            requestPermission.launch(Manifest.permission.CAMERA)
+        }
+    }
+
+    private val requestPermission =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (!isGranted) {
+                Toast.makeText(
+                    context,
+                    "You need the camera permission to use this app",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+
+    override fun onResume() {
+        super.onResume()
+        codeScanner.startPreview()
+    }
+
+    override fun onPause() {
+        codeScanner.releaseResources()
+        super.onPause()
     }
 
     override fun onDestroyView() {
