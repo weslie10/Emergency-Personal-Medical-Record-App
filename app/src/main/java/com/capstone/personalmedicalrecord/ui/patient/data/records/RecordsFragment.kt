@@ -20,6 +20,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.domain.model.Record
 import com.capstone.personalmedicalrecord.databinding.FragmentRecordsBinding
@@ -32,10 +33,11 @@ import java.io.File
 
 class RecordsFragment : Fragment(), RecordsCallback {
 
-    private var _binding: FragmentRecordsBinding? = null
-    private val binding get() = _binding as FragmentRecordsBinding
+    private lateinit var preference: MyPreference
     private lateinit var viewModel: DataViewModel
     private lateinit var recordsAdapter: RecordsAdapter
+    private var _binding: FragmentRecordsBinding? = null
+    private val binding get() = _binding as FragmentRecordsBinding
 
     private var photoFile: File? = null
     private var fileUri: Uri? = null
@@ -53,10 +55,13 @@ class RecordsFragment : Fragment(), RecordsCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        preference = MyPreference(requireActivity())
         viewModel = ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
+
         if (activity != null) {
             recordsAdapter = RecordsAdapter(this)
-            recordsAdapter.setData(DataDummy.listRecords)
+            val filter = DataDummy.listRecords.filter { note -> note.idPatient == preference.getId() }
+            recordsAdapter.setData(filter)
             with(binding.rvRecords) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)

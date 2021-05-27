@@ -20,7 +20,7 @@ object DataDummy {
             "Sunday, 16 May 2021 12:32",
             generateDummyText(),
             "Rumah Sakit Awal Bros",
-            1
+            2
         ),
         Record(
             3,

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.databinding.FragmentNotesBinding
@@ -17,11 +18,12 @@ import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class NotesFragment : Fragment(), NotesCallback {
+    private lateinit var dataViewModel: DataViewModel
+    private lateinit var notesAdapter: NotesAdapter
+    private lateinit var preference: MyPreference
     private var _binding: FragmentNotesBinding? = null
     private val binding get() = _binding as FragmentNotesBinding
-    private lateinit var dataViewModel: DataViewModel
     private val notesViewModel: NotesViewModel by viewModel()
-    private lateinit var notesAdapter: NotesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,11 +36,13 @@ class NotesFragment : Fragment(), NotesCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        preference = MyPreference(requireActivity())
         dataViewModel = ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
 
         if (activity != null) {
             notesAdapter = NotesAdapter(this)
-            notesAdapter.setData(DataDummy.listNotes)
+            val filter = DataDummy.listNotes.filter { note -> note.idPatient == preference.getId() }
+            notesAdapter.setData(filter)
             with(binding.rvNotes) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)

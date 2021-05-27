@@ -83,4 +83,8 @@ object Utility {
         val formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM y")
         return dateTime.format(formatter)
     }
+
+    fun String.convertEmpty(): String {
+        return if(this != "") this else "-"
+    }
 }

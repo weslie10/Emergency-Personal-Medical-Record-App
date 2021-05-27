@@ -56,4 +56,8 @@
     <string name="email_used">Email Already Used</string>
     <string name="email_not_found">Email not Found</string>
     <string name="open_the_link">Open The Link</string>
+    <string name="a">A</string>
+    <string name="b">B</string>
+    <string name="ab">AB</string>
+    <string name="o">O</string>
 </resources>

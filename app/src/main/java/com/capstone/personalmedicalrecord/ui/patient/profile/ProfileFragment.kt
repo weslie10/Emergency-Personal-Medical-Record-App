@@ -11,6 +11,7 @@ import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentPatientProfileBinding
 import com.capstone.personalmedicalrecord.ui.login.LoginActivity
+import com.capstone.personalmedicalrecord.utils.Utility.convertEmpty
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
 import com.capstone.personalmedicalrecord.utils.Utility.searchPatient
 
@@ -19,7 +20,7 @@ class ProfileFragment : Fragment() {
     private lateinit var preference: MyPreference
     private lateinit var profileViewModel: ProfileViewModel
     private var _binding: FragmentPatientProfileBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding as FragmentPatientProfileBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,13 +39,13 @@ class ProfileFragment : Fragment() {
 
         val patient = preference.getId().searchPatient()
         with(patient) {
-            binding.fullName.text = name
-            binding.email.text = email
-            binding.address.text = address
-            binding.phoneNumber.text = phoneNumber
-            binding.dateBirth.text = dateBirth
-            binding.gender.text = gender
-            binding.bloodType.text = bloodType
+            binding.fullName.text = name.convertEmpty()
+            binding.email.text = email.convertEmpty()
+            binding.address.text = address.convertEmpty()
+            binding.phoneNumber.text = phoneNumber.convertEmpty()
+            binding.dateBirth.text = dateBirth.convertEmpty()
+            binding.gender.text = gender.convertEmpty()
+            binding.bloodType.text = bloodType.convertEmpty()
         }
 
         binding.checkIdBtn.setOnClickListener {

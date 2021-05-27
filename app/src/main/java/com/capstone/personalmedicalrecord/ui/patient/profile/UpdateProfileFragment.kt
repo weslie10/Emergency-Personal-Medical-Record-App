@@ -2,10 +2,9 @@ package com.capstone.personalmedicalrecord.ui.patient.profile
 
 import android.Manifest
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
@@ -24,12 +23,15 @@ import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.databinding.FragmentPatientUpdateProfileBinding
-import com.capstone.personalmedicalrecord.ui.patient.data.records.RecordsFragment
 import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
+import com.capstone.personalmedicalrecord.utils.Utility.convertEmpty
 import com.capstone.personalmedicalrecord.utils.Utility.searchPatient
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.File
+import java.text.DateFormatSymbols
+import java.text.SimpleDateFormat
+import java.util.*
 
 class UpdateProfileFragment : Fragment() {
     private lateinit var preference: MyPreference
@@ -37,8 +39,8 @@ class UpdateProfileFragment : Fragment() {
     private val binding get() = _binding as FragmentPatientUpdateProfileBinding
 
     private var photoFile: File? = null
-    private var fileUri: Uri? = null
-    private var filePath: String? = null
+    private var calendar = Calendar.getInstance()
+    private var radio = "A"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,14 +56,16 @@ class UpdateProfileFragment : Fragment() {
 
         val patient = preference.getId().searchPatient()
         with(patient) {
-            binding.inputFullName.setText(name)
-            binding.inputEmail.setText(email)
-            binding.inputAddress.setText(address)
-            binding.inputPhoneNumber.setText(phoneNumber)
-            binding.inputDateBirth.setText(dateBirth)
-            binding.inputGender.setText(gender)
-            binding.inputBloodType.setText(bloodType)
+            binding.inputFullName.setText(name.convertEmpty())
+            binding.inputEmail.setText(email.convertEmpty())
+            binding.inputAddress.setText(address.convertEmpty())
+            binding.inputPhoneNumber.setText(phoneNumber.convertEmpty())
+            binding.inputDateBirth.setText(dateBirth.convertEmpty())
+            binding.inputGender.setText(gender.convertEmpty())
         }
+
+        setUpDatePicker()
+        setBloodType(patient)
 
         binding.saveChangesBtn.setOnClickListener {
             val id = DataDummy.listPatient.indexOf(patient)
@@ -70,11 +74,11 @@ class UpdateProfileFragment : Fragment() {
                 binding.inputFullName.text.toString(),
                 binding.inputEmail.text.toString(),
                 patient.password,
-                binding.inputAddress.text.toString(),
                 binding.inputPhoneNumber.text.toString(),
                 binding.inputDateBirth.text.toString(),
+                binding.inputAddress.text.toString(),
                 binding.inputGender.text.toString(),
-                binding.inputBloodType.text.toString(),
+                radio.convertEmpty(),
             )
             activity?.supportFragmentManager?.popBackStack()
         }
@@ -98,6 +102,58 @@ class UpdateProfileFragment : Fragment() {
                 .show()
         }
         activity?.clickBack(binding.backBtn)
+    }
+
+    private fun setBloodType(patient: Patient) {
+        when (patient.bloodType) {
+            "A" -> binding.A.isChecked = true
+            "B" -> binding.B.isChecked = true
+            "AB" -> binding.AB.isChecked = true
+            "O" -> binding.O.isChecked = true
+        }
+
+        binding.bloodTypeRadio.setOnCheckedChangeListener { _, id ->
+            when (id) {
+                R.id.A -> radio = "A"
+                R.id.B -> radio = "B"
+                R.id.AB -> radio = "AB"
+                R.id.O -> radio = "O"
+            }
+        }
+    }
+
+    private fun setUpDatePicker() {
+        val date = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, monthOfYear)
+            calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateLabel()
+        }
+        binding.inputDateBirth.setOnClickListener {
+            val months = DateFormatSymbols.getInstance().months
+            val dateNow = binding.inputDateBirth.text.toString()
+            Log.d("date", dateNow)
+            val splitDate = dateNow.split(" ")
+            if (splitDate.size == 3) {
+                DatePickerDialog(
+                    requireActivity(), date, splitDate[2].toInt(), months.indexOf(splitDate[1]),
+                    splitDate[0].toInt()
+                ).show()
+            } else {
+                DatePickerDialog(
+                    requireActivity(),
+                    date,
+                    calendar.get(Calendar.YEAR),
+                    calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH)
+                ).show()
+            }
+        }
+    }
+
+    private fun updateLabel() {
+        val formatter = SimpleDateFormat("d MMMM y", Locale.US)
+        binding.inputDateBirth.setText(formatter.format(calendar.time))
     }
 
     private fun takePhoto() {
