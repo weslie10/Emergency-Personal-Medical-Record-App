@@ -6,6 +6,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Note(
     var id: Int,
-    var date: String,
+    var datetime: String,
     var description: String,
+    var idPatient: Int
 ) : Parcelable

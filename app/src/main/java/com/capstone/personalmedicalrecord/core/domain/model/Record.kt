@@ -6,7 +6,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Record(
     val id: Int,
-    val date: String,
+    val datetime: String,
     val description: String,
-    val place: String
+    val place: String,
+    var idPatient: Int
 ) : Parcelable

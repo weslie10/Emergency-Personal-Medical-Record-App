@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-@Entity(tableName = "note")
-data class NoteEntity(
+@Entity(tableName = "record")
+data class RecordEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id: Int = 0,
@@ -18,6 +18,9 @@ data class NoteEntity(
 
     @ColumnInfo(name = "description")
     var description: String,
+
+    @ColumnInfo(name = "place")
+    var place: String,
 
     @ColumnInfo(name = "idPatient")
     var idPatient: Int

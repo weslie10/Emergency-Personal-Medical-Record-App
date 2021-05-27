@@ -10,39 +10,45 @@ object DataDummy {
     val listRecords = arrayListOf(
         Record(
             1,
-            "Saturday, 15 May 2021",
+            "Saturday, 15 May 2021 12:31",
             generateDummyText(),
-            "Rumah Sakit Santa Maria"
+            "Rumah Sakit Santa Maria",
+            1
         ),
         Record(
             2,
-            "Sunday, 16 May 2021",
+            "Sunday, 16 May 2021 12:32",
             generateDummyText(),
-            "Rumah Sakit Awal Bros"
+            "Rumah Sakit Awal Bros",
+            1
         ),
         Record(
             3,
-            "Monday, 17 May 2021",
+            "Monday, 17 May 2021 12:33",
             generateDummyText(),
-            "Rumah Sakit Prima"
+            "Rumah Sakit Prima",
+            2
         )
     )
 
     val listNotes = arrayListOf(
         Note(
             1,
-            "Saturday, 15 May 2021",
-            "Aku sehat"
+            "Saturday, 15 May 2021 21:01",
+            "Aku sehat",
+            1
         ),
         Note(
             2,
-            "Sunday, 16 May 2021",
-            "Aku sakit"
+            "Sunday, 16 May 2021 21:02",
+            "Aku sakit",
+            1
         ),
         Note(
             3,
-            "Monday, 17 May 2021",
-            "Aku meninggal"
+            "Monday, 17 May 2021 21:03",
+            "Aku sehat",
+            2
         )
     )
 
