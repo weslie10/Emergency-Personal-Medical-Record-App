@@ -1,5 +1,6 @@
 package com.capstone.personalmedicalrecord.utils
 
+import android.content.res.ColorStateList
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.core.domain.model.Staff
+import com.google.android.material.textfield.TextInputLayout
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -25,6 +27,11 @@ object Utility {
             .replace(id, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    fun TextInputLayout.setColor(color: Int) {
+        boxStrokeColor = context.getColor(color)
+        hintTextColor = ColorStateList.valueOf(context.getColor(color))
     }
 
     fun FragmentActivity.clickBack(btn: ImageButton) {

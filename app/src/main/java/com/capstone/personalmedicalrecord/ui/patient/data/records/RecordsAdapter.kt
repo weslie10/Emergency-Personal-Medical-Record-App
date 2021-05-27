@@ -30,7 +30,7 @@ class RecordsAdapter(private val callback: RecordsCallback) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(record: Record) {
             with(binding) {
-                tvItemDate.text = record.date
+                tvItemDate.text = record.datetime
                 tvItemDescription.text = record.description
                 tvItemPlace.text = record.place
 

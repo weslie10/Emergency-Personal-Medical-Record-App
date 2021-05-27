@@ -30,7 +30,7 @@ class NotesAdapter(private val callback: NotesCallback) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(note: Note) {
             with(binding) {
-                tvItemDate.text = note.date
+                tvItemDate.text = note.datetime
                 tvItemDescription.text = note.description
 
                 itemView.setOnClickListener {

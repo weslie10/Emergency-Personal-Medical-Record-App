@@ -102,6 +102,11 @@ class RecordsFragment : Fragment(), RecordsCallback {
         }
     }
 
+    private fun getPhotoFile(): File {
+        val storageDirectory = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile(FILE_NAME, ".jpg", storageDirectory)
+    }
+
     private fun choosePhoto() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (requireContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
@@ -125,11 +130,6 @@ class RecordsFragment : Fragment(), RecordsCallback {
         intent.type = "*/*"
         intent = Intent.createChooser(intent, "Choose a file")
         chooseDocument.launch(intent)
-    }
-
-    private fun getPhotoFile(): File {
-        val storageDirectory = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile(FILE_NAME, ".jpg", storageDirectory)
     }
 
     private val takePhoto =
@@ -179,6 +179,5 @@ class RecordsFragment : Fragment(), RecordsCallback {
 
     companion object {
         private const val FILE_NAME = "photo.jpg"
-        private const val PERMISSION_CODE = 1001
     }
 }

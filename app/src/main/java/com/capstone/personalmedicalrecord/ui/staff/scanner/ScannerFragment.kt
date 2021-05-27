@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.budiyev.android.codescanner.*
 import com.capstone.personalmedicalrecord.databinding.FragmentStaffScannerBinding
 
-
 class ScannerFragment : Fragment() {
 
     private lateinit var scannerViewModel: ScannerViewModel

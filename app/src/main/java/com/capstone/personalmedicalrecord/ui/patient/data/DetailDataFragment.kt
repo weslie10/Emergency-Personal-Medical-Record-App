@@ -40,7 +40,7 @@ class DetailDataFragment : Fragment() {
                 val id = notesViewModel.getId()
                 val note = DataDummy.listNotes.filter { note -> note.id == id }[0]
                 binding.notes.visibility = View.VISIBLE
-                binding.detailNotesDate.text = note.date
+                binding.detailNotesDate.text = note.datetime
                 binding.detailNotesDescription.text = note.description
                 activity?.clickBack(binding.backNotesBtn)
 
