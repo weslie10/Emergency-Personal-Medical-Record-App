@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.domain.model.Note
@@ -18,7 +17,8 @@ import com.capstone.personalmedicalrecord.utils.Utility.searchNote
 class AddOrUpdateNotesFragment : Fragment() {
     private var _binding: FragmentAddOrUpdateNotesBinding? = null
     private val binding get() = _binding as FragmentAddOrUpdateNotesBinding
-    private lateinit var notesViewModel: NotesViewModel
+
+    //    private lateinit var notesViewModel: NotesViewModel
     private lateinit var preference: MyPreference
 
     override fun onCreateView(
@@ -34,19 +34,32 @@ class AddOrUpdateNotesFragment : Fragment() {
 
         preference = MyPreference(requireContext())
 
-        notesViewModel = ViewModelProvider(requireActivity()).get(NotesViewModel::class.java)
 
-        notesViewModel.getState().observe(viewLifecycleOwner, {
-            when (it) {
+        val arg = this.arguments
+        if (arg != null) {
+            when (arg.getString("state")) {
                 "Add" -> {
                     addNote()
                 }
                 "Update" -> {
-                    updateNote()
+                    updateNote(arg.getInt("id"))
                 }
             }
-        })
+        }
         activity?.clickBack(binding.backBtn)
+
+//        notesViewModel = ViewModelProvider(requireActivity()).get(NotesViewModel::class.java)
+//
+//        notesViewModel.getState().observe(viewLifecycleOwner, {
+//            when (it) {
+//                "Add" -> {
+//                    addNote()
+//                }
+//                "Update" -> {
+//                    updateNote()
+//                }
+//            }
+//        })
     }
 
     private fun addNote() {
@@ -66,8 +79,8 @@ class AddOrUpdateNotesFragment : Fragment() {
         }
     }
 
-    private fun updateNote() {
-        val note = notesViewModel.getId().searchNote()
+    private fun updateNote(id: Int) {
+        val note = id.searchNote()
         binding.inputNote.setText(note.description)
         binding.notesBtn.apply {
             text = resources.getString(R.string.update_note)

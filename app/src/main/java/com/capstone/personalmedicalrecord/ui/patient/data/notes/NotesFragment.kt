@@ -5,25 +5,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.databinding.FragmentNotesBinding
-import com.capstone.personalmedicalrecord.ui.patient.data.DataViewModel
 import com.capstone.personalmedicalrecord.ui.patient.data.DetailDataFragment
 import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
-import org.koin.android.viewmodel.ext.android.viewModel
 
 class NotesFragment : Fragment(), NotesCallback {
-    private lateinit var dataViewModel: DataViewModel
     private lateinit var notesAdapter: NotesAdapter
     private lateinit var preference: MyPreference
     private var _binding: FragmentNotesBinding? = null
     private val binding get() = _binding as FragmentNotesBinding
-    private val notesViewModel: NotesViewModel by viewModel()
+//    private val notesViewModel: NotesViewModel by viewModel()
+//    private lateinit var dataViewModel: DataViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +34,7 @@ class NotesFragment : Fragment(), NotesCallback {
         super.onViewCreated(view, savedInstanceState)
 
         preference = MyPreference(requireActivity())
-        dataViewModel = ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
+//        dataViewModel = ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
 
         if (activity != null) {
             notesAdapter = NotesAdapter(this)
@@ -48,18 +45,28 @@ class NotesFragment : Fragment(), NotesCallback {
                 setHasFixedSize(true)
                 adapter = notesAdapter
             }
-
             binding.plusBtn.setOnClickListener {
-                notesViewModel.setState("Add")
-                activity?.navigateTo(AddOrUpdateNotesFragment(), R.id.frame)
+//                notesViewModel.setState("Add")
+                val fragment = AddOrUpdateNotesFragment()
+                val bundle = Bundle().apply {
+                    putString("state", "Add")
+                }
+                fragment.arguments = bundle
+                activity?.navigateTo(fragment, R.id.frame)
             }
         }
     }
 
     override fun onItemClick(note: Note) {
-        dataViewModel.setType("notes")
-        notesViewModel.setId(note.id)
-        activity?.navigateTo(DetailDataFragment(), R.id.frame)
+//        notesViewModel.setId(note.id)
+//        dataViewModel.setType("notes")
+        val fragment = DetailDataFragment()
+        val bundle = Bundle().apply {
+            putInt("id", note.id)
+            putString("type", "notes")
+        }
+        fragment.arguments = bundle
+        activity?.navigateTo(fragment, R.id.frame)
     }
 
     override fun onDestroy() {

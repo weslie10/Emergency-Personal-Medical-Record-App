@@ -18,13 +18,11 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.domain.model.Record
 import com.capstone.personalmedicalrecord.databinding.FragmentRecordsBinding
-import com.capstone.personalmedicalrecord.ui.patient.data.DataViewModel
 import com.capstone.personalmedicalrecord.ui.patient.data.DetailDataFragment
 import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
@@ -34,7 +32,8 @@ import java.io.File
 class RecordsFragment : Fragment(), RecordsCallback {
 
     private lateinit var preference: MyPreference
-    private lateinit var viewModel: DataViewModel
+
+    //    private lateinit var viewModel: DataViewModel
     private lateinit var recordsAdapter: RecordsAdapter
     private var _binding: FragmentRecordsBinding? = null
     private val binding get() = _binding as FragmentRecordsBinding
@@ -56,11 +55,12 @@ class RecordsFragment : Fragment(), RecordsCallback {
         super.onViewCreated(view, savedInstanceState)
 
         preference = MyPreference(requireActivity())
-        viewModel = ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
+//        viewModel = ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
 
         if (activity != null) {
             recordsAdapter = RecordsAdapter(this)
-            val filter = DataDummy.listRecords.filter { note -> note.idPatient == preference.getId() }
+            val filter =
+                DataDummy.listRecords.filter { note -> note.idPatient == preference.getId() }
             recordsAdapter.setData(filter)
             with(binding.rvRecords) {
                 layoutManager = LinearLayoutManager(context)
@@ -173,8 +173,13 @@ class RecordsFragment : Fragment(), RecordsCallback {
         }
 
     override fun onItemClick(record: Record) {
-        viewModel.setType("records")
-        activity?.navigateTo(DetailDataFragment(), R.id.frame)
+        val fragment = DetailDataFragment()
+        val bundle = Bundle().apply {
+            putInt("id", record.id)
+            putString("type", "records")
+        }
+        fragment.arguments = bundle
+        activity?.navigateTo(fragment, R.id.frame)
     }
 
     override fun onDestroyView() {
