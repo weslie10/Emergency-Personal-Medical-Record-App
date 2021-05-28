@@ -62,10 +62,11 @@ class UpdateProfileFragment : Fragment() {
             binding.inputPhoneNumber.setText(phoneNumber.convertEmpty())
             binding.inputDateBirth.setText(dateBirth.convertEmpty())
             binding.inputGender.setText(gender.convertEmpty())
+            binding.inputBloodType.setText(bloodType.convertEmpty())
         }
 
         setUpDatePicker()
-        setBloodType(patient)
+        setBloodType()
 
         binding.saveChangesBtn.setOnClickListener {
             val id = DataDummy.listPatient.indexOf(patient)
@@ -104,21 +105,24 @@ class UpdateProfileFragment : Fragment() {
         activity?.clickBack(binding.backBtn)
     }
 
-    private fun setBloodType(patient: Patient) {
-        when (patient.bloodType) {
-            "A" -> binding.A.isChecked = true
-            "B" -> binding.B.isChecked = true
-            "AB" -> binding.AB.isChecked = true
-            "O" -> binding.O.isChecked = true
-        }
+    private fun setBloodType() {
+        val singleItems = arrayOf("A", "B", "AB", "O")
+        var checkedItem = 0
+        binding.inputBloodType.setOnClickListener {
+            var idx = singleItems.indexOf(binding.inputBloodType.text.toString())
+            Log.d("index",idx.toString())
+            if (idx == -1) idx = 0
 
-        binding.bloodTypeRadio.setOnCheckedChangeListener { _, id ->
-            when (id) {
-                R.id.A -> radio = "A"
-                R.id.B -> radio = "B"
-                R.id.AB -> radio = "AB"
-                R.id.O -> radio = "O"
-            }
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(getString(R.string.add_record_text))
+                .setNeutralButton(getString(R.string.cancel), null)
+                .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                    binding.inputBloodType.setText(singleItems[checkedItem])
+                }
+                .setSingleChoiceItems(singleItems, idx) { _, which ->
+                    checkedItem = which
+                }
+                .show()
         }
     }
 

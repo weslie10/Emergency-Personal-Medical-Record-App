@@ -169,69 +169,82 @@
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!--        <com.google.android.material.textfield.TextInputLayout>-->
-
-        <!--            <com.google.android.material.textfield.TextInputEditText-->
-        <!--                android:id="@+id/input_blood_type"-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:maxLines="1" />-->
-        <!--        </com.google.android.material.textfield.TextInputLayout>-->
-
-        <TextView
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/blood_type_text"
-            style="@style/profile_label"
-            android:text="@string/blood_type"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/gender_txt" />
-
-        <RadioGroup
-            android:id="@+id/blood_type_radio"
+            style="@style/inputText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="4"
+            android:layout_marginTop="16dp"
+            android:hint="@string/blood_type"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/blood_type_text">
+            app:layout_constraintTop_toBottomOf="@id/gender_txt">
 
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/A"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/input_blood_type"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/a" />
+                android:clickable="false"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/B"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/b" />
+        <!--        <TextView-->
+        <!--            android:id="@+id/blood_type_text"-->
+        <!--            style="@style/profile_label"-->
+        <!--            android:text="@string/blood_type"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/gender_txt" />-->
 
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/AB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/ab" />
+        <!--        <RadioGroup-->
+        <!--            android:id="@+id/blood_type_radio"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            android:weightSum="4"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/blood_type_text">-->
 
-            <com.google.android.material.radiobutton.MaterialRadioButton
-                android:id="@+id/O"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/o" />
-        </RadioGroup>
+        <!--            <com.google.android.material.radiobutton.MaterialRadioButton-->
+        <!--                android:id="@+id/A"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:text="@string/a" />-->
+
+        <!--            <com.google.android.material.radiobutton.MaterialRadioButton-->
+        <!--                android:id="@+id/B"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:text="@string/b" />-->
+
+        <!--            <com.google.android.material.radiobutton.MaterialRadioButton-->
+        <!--                android:id="@+id/AB"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:text="@string/ab" />-->
+
+        <!--            <com.google.android.material.radiobutton.MaterialRadioButton-->
+        <!--                android:id="@+id/O"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:text="@string/o" />-->
+        <!--        </RadioGroup>-->
 
         <Button
             android:id="@+id/save_changes_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:contentDescription="@string/save_changes"
             android:text="@string/save_changes"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/blood_type_radio" />
+            app:layout_constraintTop_toBottomOf="@id/blood_type_text" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>
