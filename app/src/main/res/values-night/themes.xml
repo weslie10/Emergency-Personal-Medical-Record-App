@@ -12,7 +12,7 @@
 
     <style name="headline">
         <item name="android:textColor">@color/black</item>
-        <item name="android:textSize">96sp</item>
+        <item name="android:textSize">72sp</item>
         <item name="android:fontFamily">@font/oleo_script</item>
     </style>
 

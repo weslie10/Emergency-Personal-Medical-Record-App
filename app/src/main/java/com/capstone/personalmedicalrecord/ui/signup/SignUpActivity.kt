@@ -29,9 +29,10 @@ import kotlinx.coroutines.launch
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var preference: MyPreference
-    private val viewModel: LoginViewModel by viewModels()
+    private val viewModel: SignUpViewModel by viewModels()
     private var emailError = false
     private var passwordError = false
+    private var repeatError = false
     private var role = "Patient"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -95,7 +96,7 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun initListeners() {
         binding.inputEmail.addTextChangedListener {
-            viewModel.setFirstName(it.toString())
+            viewModel.setEmail(it.toString())
             if (it.toString() != "") {
                 emailError = false
                 if (!Patterns.EMAIL_ADDRESS.matcher(it.toString()).matches()) {
@@ -132,6 +133,27 @@ class SignUpActivity : AppCompatActivity() {
                 binding.passwordTxt.setColor(R.color.red)
             } else {
                 binding.passwordTxt.setColor(R.color.blue)
+            }
+        }
+
+        binding.inputRepeat.addTextChangedListener {
+            viewModel.setRepeat(it.toString())
+            if (it.toString() != "") {
+                repeatError = false
+                if (it.toString() != binding.inputPassword.text.toString()) {
+                    repeatError = true
+                    binding.inputRepeat.error =
+                        "Password is not same as repeat"
+                }
+            } else {
+                repeatError = true
+                binding.inputRepeat.error = "Password Can't Be Blank"
+            }
+
+            if (repeatError) {
+                binding.repeatTxt.setColor(R.color.red)
+            } else {
+                binding.repeatTxt.setColor(R.color.blue)
             }
         }
     }

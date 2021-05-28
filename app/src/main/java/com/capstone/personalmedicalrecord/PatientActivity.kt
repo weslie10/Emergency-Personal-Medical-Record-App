@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentTransaction
 import com.capstone.personalmedicalrecord.databinding.ActivityPatientBinding
 import com.capstone.personalmedicalrecord.ui.patient.data.DataFragment
 import com.capstone.personalmedicalrecord.ui.patient.home.HomeFragment
-import com.capstone.personalmedicalrecord.ui.patient.other.OtherFragment
 import com.capstone.personalmedicalrecord.ui.patient.profile.ProfileFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
