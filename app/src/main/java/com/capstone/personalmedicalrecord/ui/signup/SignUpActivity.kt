@@ -7,7 +7,6 @@ import android.util.Patterns
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
@@ -19,17 +18,16 @@ import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.core.domain.model.Staff
 import com.capstone.personalmedicalrecord.databinding.ActivitySignUpBinding
 import com.capstone.personalmedicalrecord.ui.login.LoginActivity
-import com.capstone.personalmedicalrecord.ui.login.LoginViewModel
-import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.setColor
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class SignUpActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySignUpBinding
     private lateinit var preference: MyPreference
-    private val viewModel: SignUpViewModel by viewModels()
+    private val viewModel: SignUpViewModel by viewModel()
     private var emailError = false
     private var passwordError = false
     private var repeatError = false
@@ -50,8 +48,7 @@ class SignUpActivity : AppCompatActivity() {
 
         binding.signupBtn.setOnClickListener {
             val email = binding.inputEmail.text.toString()
-            val password = binding.inputPassword.text.toString()
-            checkUser(email, password)
+            checkUser(email)
         }
 
         binding.loginTxt.apply {
@@ -62,35 +59,6 @@ class SignUpActivity : AppCompatActivity() {
                 val intent = Intent(this@SignUpActivity, LoginActivity::class.java)
                 startActivity(intent)
             }
-        }
-    }
-
-    private fun checkUser(email: String, password: String) {
-        var used = true
-        if(role == "Patient") {
-            val patient = DataDummy.listPatient.filter { patient ->
-                patient.email == email
-            }
-            if (patient.isEmpty()) {
-                setUser(email, password)
-                used = false
-            }
-        }
-        else {
-            val staff = DataDummy.listStaff.filter { staff ->
-                staff.email == email
-            }
-            if (staff.isEmpty()) {
-                setUser(email, password)
-                used = false
-            }
-        }
-
-        if (used){
-            MaterialAlertDialogBuilder(this)
-                .setMessage(getString(R.string.email_used))
-                .setPositiveButton(getString(R.string.ok), null)
-                .show()
         }
     }
 
@@ -158,44 +126,55 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
+    private fun checkUser(email: String) {
+        if (role == "Patient") {
+            viewModel.setEmailPatient(email)
+        } else {
+            viewModel.setEmailStaff(email)
+        }
+    }
+
     private fun initObserver() {
         lifecycleScope.launch {
             viewModel.isSubmitEnabled.collect { value ->
                 binding.signupBtn.isEnabled = value
             }
         }
+
+        viewModel.existingPatient.observe(this, { result ->
+            if (result.id != -1) {
+                MaterialAlertDialogBuilder(this)
+                    .setMessage(getString(R.string.email_used))
+                    .setPositiveButton(getString(R.string.ok), null)
+                    .show()
+            } else if (binding.signupBtn.isEnabled) {
+                setUser(binding.inputEmail.text.toString(), binding.inputPassword.text.toString())
+            }
+        })
+
+        viewModel.existingStaff.observe(this, { result ->
+            if (result.id != -1) {
+                MaterialAlertDialogBuilder(this)
+                    .setMessage(getString(R.string.email_used))
+                    .setPositiveButton(getString(R.string.ok), null)
+                    .show()
+            } else if (binding.signupBtn.isEnabled) {
+                setUser(binding.inputEmail.text.toString(), binding.inputPassword.text.toString())
+            }
+        })
     }
 
     private fun setUser(email: String, password: String) {
         preference.setRole(role)
         if (role == "Patient") {
-            preference.setId(DataDummy.listPatient.size + 1)
-            DataDummy.listPatient.add(
-                Patient(
-                    preference.getId(),
-                    email.split("@")[0],
-                    email,
-                    password,
-                    "",
-                    "",
-                    "",
-                    "",
-                    ""
-                ),
-            )
+            val patient = Patient(name = email.split("@")[0], email = email, password = password)
+            val id = viewModel.insertPatient(patient)
+            preference.setId(id)
             startActivity(Intent(this, PatientActivity::class.java))
         } else {
-            preference.setId(DataDummy.listStaff.size + 1)
-            DataDummy.listStaff.add(
-                Staff(
-                    preference.getId(),
-                    email.split("@")[0],
-                    email,
-                    password,
-                    "",
-                    "",
-                ),
-            )
+            val staff = Staff(name = email.split("@")[0], email = email, password = password)
+            val id = viewModel.insertStaff(staff)
+            preference.setId(id)
             startActivity(Intent(this, StaffActivity::class.java))
         }
         finish()
@@ -204,8 +183,8 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun setSpinner() {
         val list = arrayOf("Patient", "Staff")
-                val arrayAdapter =
-        ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, list)
+        val arrayAdapter =
+            ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, list)
         binding.spRole.apply {
             adapter = arrayAdapter
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -217,6 +196,7 @@ class SignUpActivity : AppCompatActivity() {
                 ) {
                     role = list[position]
                 }
+
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
         }

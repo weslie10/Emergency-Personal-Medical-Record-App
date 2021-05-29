@@ -13,8 +13,14 @@ interface PatientDao {
     @Query("SELECT * FROM patient WHERE id=:id")
     fun getPatient(id: Int): Flow<PatientEntity>
 
+    @Query("SELECT * FROM patient WHERE email=:email")
+    fun getPatient(email: String): Flow<PatientEntity>
+
+    @Query("SELECT * FROM patient WHERE email=:email AND password=:password")
+    fun getPatient(email: String, password: String): Flow<PatientEntity>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertPatient(patient: PatientEntity)
+    fun insertPatient(patient: PatientEntity): Flow<Long>
 
     @Update
     fun updatePatient(patient: PatientEntity)

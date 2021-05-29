@@ -9,6 +9,8 @@ class PatientInteractor(private val repository: IRepository) : PatientUseCase {
 
     override fun getPatient(id: Int): Flow<Patient> = repository.getPatient(id)
 
+    override fun getPatient(email: String): Flow<Patient> = repository.getPatient(email)
+
     override fun insertPatient(patient: Patient) = repository.insertPatient(patient)
 
     override fun updatePatient(patient: Patient) = repository.updatePatient(patient)

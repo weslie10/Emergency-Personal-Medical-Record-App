@@ -9,6 +9,8 @@ class StaffInteractor(private val repository: IRepository) : StaffUseCase {
 
     override fun getStaff(id: Int): Flow<Staff> = repository.getStaff(id)
 
+    override fun getStaff(email: String): Flow<Staff> = repository.getStaff(email)
+
     override fun insertStaff(staff: Staff) = repository.insertStaff(staff)
 
     override fun updateStaff(staff: Staff) = repository.updateStaff(staff)

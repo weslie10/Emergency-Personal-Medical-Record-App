@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Note(
-    var id: Int,
+    var id: Int = 0,
     var datetime: String,
     var description: String,
     var idPatient: Int

@@ -12,7 +12,6 @@ import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentStaffProfileBinding
 import com.capstone.personalmedicalrecord.ui.login.LoginActivity
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
-import com.capstone.personalmedicalrecord.utils.Utility.searchPatient
 import com.capstone.personalmedicalrecord.utils.Utility.searchStaff
 
 

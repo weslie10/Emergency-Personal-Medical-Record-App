@@ -1,12 +1,12 @@
 package com.capstone.personalmedicalrecord.ui.splashscreen
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import com.capstone.personalmedicalrecord.PatientActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.capstone.personalmedicalrecord.MyPreference
+import com.capstone.personalmedicalrecord.PatientActivity
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.StaffActivity
 import com.capstone.personalmedicalrecord.ui.login.LoginActivity

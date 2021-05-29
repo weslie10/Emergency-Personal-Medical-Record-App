@@ -4,7 +4,9 @@ import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
 import android.util.Patterns
-import androidx.activity.viewModels
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
@@ -14,18 +16,19 @@ import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.StaffActivity
 import com.capstone.personalmedicalrecord.databinding.ActivityLoginBinding
 import com.capstone.personalmedicalrecord.ui.signup.SignUpActivity
-import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.setColor
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var preference: MyPreference
-    private val viewModel: LoginViewModel by viewModels()
+    private val viewModel: LoginViewModel by viewModel()
     private var emailError = false
     private var passwordError = false
+    private var role = "Patient"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,11 +41,11 @@ class LoginActivity : AppCompatActivity() {
 
         initListeners()
         initObserver()
+        setSpinner()
 
         binding.loginBtn.setOnClickListener {
             val email = binding.inputEmail.text.toString()
-            val password = binding.inputPassword.text.toString()
-            checkUser(email, password)
+            checkUser(email)
         }
 
         binding.signupTxt.apply {
@@ -105,28 +108,27 @@ class LoginActivity : AppCompatActivity() {
                 binding.loginBtn.isEnabled = value
             }
         }
-    }
-
-    private fun checkUser(email: String, password: String) {
-        val patient = DataDummy.listPatient.filter { patient ->
-            patient.email == email
-        }
-        if (patient.isNotEmpty()) {
-            if (patient[0].password == password) {
-                preference.setId(patient[0].id)
-                preference.setRole("Patient")
-                startActivity(Intent(this, PatientActivity::class.java))
-                finish()
+        viewModel.existingPatient.observe(this, { result ->
+            if (result.id != -1) {
+                if (result.password == binding.inputPassword.text.toString()) {
+                    preference.setId(result.id)
+                    preference.setRole("Patient")
+                    startActivity(Intent(this, PatientActivity::class.java))
+                    finish()
+                } else {
+                    binding.inputPassword.error = "Wrong Password"
+                }
             } else {
-                binding.inputPassword.error = "Wrong Password"
+                MaterialAlertDialogBuilder(this)
+                    .setMessage(getString(R.string.email_not_found))
+                    .setPositiveButton(getString(R.string.ok), null)
+                    .show()
             }
-        } else {
-            val staff = DataDummy.listStaff.filter { staff ->
-                staff.email == email
-            }
-            if (staff.isNotEmpty()) {
-                if (staff[0].password == password) {
-                    preference.setId(staff[0].id)
+        })
+        viewModel.existingStaff.observe(this, { result ->
+            if (result.id != -1) {
+                if (result.password == binding.inputPassword.text.toString()) {
+                    preference.setId(result.id)
                     preference.setRole("Staff")
                     startActivity(Intent(this, StaffActivity::class.java))
                     finish()
@@ -138,6 +140,35 @@ class LoginActivity : AppCompatActivity() {
                     .setMessage(getString(R.string.email_not_found))
                     .setPositiveButton(getString(R.string.ok), null)
                     .show()
+            }
+        })
+    }
+
+    private fun checkUser(email: String) {
+        if (role == "Patient") {
+            viewModel.setEmailPatient(email)
+        } else {
+            viewModel.setEmailStaff(email)
+        }
+    }
+
+    private fun setSpinner() {
+        val list = arrayOf("Patient", "Staff")
+        val arrayAdapter =
+            ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, list)
+        binding.spRole.apply {
+            adapter = arrayAdapter
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    role = list[position]
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
         }
     }

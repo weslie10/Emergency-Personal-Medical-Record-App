@@ -28,6 +28,7 @@ import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.capstone.personalmedicalrecord.utils.Utility.convertEmpty
 import com.capstone.personalmedicalrecord.utils.Utility.searchPatient
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
@@ -41,6 +42,8 @@ class UpdateProfileFragment : Fragment() {
     private var photoFile: File? = null
     private var calendar = Calendar.getInstance()
     private var radio = "A"
+
+    private val viewModel: UpdatePatientViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -110,7 +113,7 @@ class UpdateProfileFragment : Fragment() {
         var checkedItem = 0
         binding.inputBloodType.setOnClickListener {
             var idx = singleItems.indexOf(binding.inputBloodType.text.toString())
-            Log.d("index",idx.toString())
+            Log.d("index", idx.toString())
             if (idx == -1) idx = 0
 
             MaterialAlertDialogBuilder(requireContext())

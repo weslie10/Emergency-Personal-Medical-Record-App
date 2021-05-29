@@ -13,8 +13,14 @@ interface StaffDao {
     @Query("SELECT * FROM staff WHERE id=:id")
     fun getStaff(id: Int): Flow<StaffEntity>
 
+    @Query("SELECT * FROM staff WHERE email=:email")
+    fun getStaff(email: String): Flow<StaffEntity>
+
+    @Query("SELECT * FROM staff WHERE email=:email AND password=:password")
+    fun getStaff(email: String, password: String): Flow<StaffEntity>
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertStaff(staff: StaffEntity)
+    fun insertStaff(staff: StaffEntity): Flow<Long>
 
     @Update
     fun updateStaff(staff: StaffEntity)

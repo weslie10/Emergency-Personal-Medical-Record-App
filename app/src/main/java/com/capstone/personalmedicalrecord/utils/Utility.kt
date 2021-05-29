@@ -80,11 +80,11 @@ object Utility {
 
     fun getDate(): String {
         val dateTime = LocalDate.now()
-        val formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM y")
+        val formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM y HH:mm:ss")
         return dateTime.format(formatter)
     }
 
     fun String.convertEmpty(): String {
-        return if(this != "") this else "-"
+        return if (this != "") this else "-"
     }
 }

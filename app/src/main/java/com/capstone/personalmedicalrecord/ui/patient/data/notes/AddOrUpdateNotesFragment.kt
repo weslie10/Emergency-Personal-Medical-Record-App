@@ -13,12 +13,14 @@ import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.capstone.personalmedicalrecord.utils.Utility.getDate
 import com.capstone.personalmedicalrecord.utils.Utility.searchNote
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class AddOrUpdateNotesFragment : Fragment() {
     private var _binding: FragmentAddOrUpdateNotesBinding? = null
     private val binding get() = _binding as FragmentAddOrUpdateNotesBinding
 
     //    private lateinit var notesViewModel: NotesViewModel
+    private val viewModel: NoteAddUpdateViewModel by viewModel()
     private lateinit var preference: MyPreference
 
     override fun onCreateView(
@@ -68,10 +70,9 @@ class AddOrUpdateNotesFragment : Fragment() {
             setOnClickListener {
                 DataDummy.listNotes.add(
                     Note(
-                        DataDummy.listNotes.size + 1,
-                        getDate(),
-                        binding.inputNote.text.toString(),
-                        preference.getId()
+                        datetime = getDate(),
+                        description = binding.inputNote.text.toString(),
+                        idPatient = preference.getId()
                     )
                 )
                 activity?.supportFragmentManager?.popBackStack()
@@ -88,9 +89,9 @@ class AddOrUpdateNotesFragment : Fragment() {
                 val idx = DataDummy.listNotes.indexOf(note)
                 DataDummy.listNotes[idx] = Note(
                     note.id,
-                    getDate(),
-                    binding.inputNote.text.toString(),
-                    preference.getId()
+                    datetime = getDate(),
+                    description = binding.inputNote.text.toString(),
+                    idPatient = preference.getId()
                 )
                 activity?.supportFragmentManager?.popBackStack()
             }

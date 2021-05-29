@@ -30,6 +30,10 @@ class LocalDataSource(
 
     fun getPatient(id: Int) = patientDao.getPatient(id)
 
+    fun getPatient(email: String) = patientDao.getPatient(email)
+
+    fun getPatient(email: String, password: String) = patientDao.getPatient(email, password)
+
     fun insertPatient(patient: PatientEntity) = patientDao.insertPatient(patient)
 
     fun updatePatient(patient: PatientEntity) = patientDao.updatePatient(patient)
@@ -49,6 +53,10 @@ class LocalDataSource(
     fun getStaffs() = staffDao.getStaffs()
 
     fun getStaff(id: Int) = staffDao.getStaff(id)
+
+    fun getStaff(email: String) = staffDao.getStaff(email)
+
+    fun getStaff(email: String, password: String) = staffDao.getStaff(email, password)
 
     fun insertStaff(staff: StaffEntity) = staffDao.insertStaff(staff)
 

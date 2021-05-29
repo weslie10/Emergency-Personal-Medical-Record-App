@@ -7,8 +7,11 @@ import com.capstone.personalmedicalrecord.core.domain.model.Record
 import com.capstone.personalmedicalrecord.core.domain.model.Staff
 import com.capstone.personalmedicalrecord.core.domain.repository.IRepository
 import com.capstone.personalmedicalrecord.core.utils.DataMapper
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 class Repository(
     private val localDataSource: LocalDataSource
@@ -25,17 +28,23 @@ class Repository(
 
     override fun insertNote(note: Note) {
         val noteEntity = DataMapper.mapNoteToEntity(note)
-        localDataSource.insertNote(noteEntity)
+        CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            localDataSource.insertNote(noteEntity)
+        }
     }
 
     override fun updateNote(note: Note) {
         val noteEntity = DataMapper.mapNoteToEntity(note)
-        localDataSource.updateNote(noteEntity)
+        CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            localDataSource.updateNote(noteEntity)
+        }
     }
 
     override fun deleteNote(note: Note) {
         val noteEntity = DataMapper.mapNoteToEntity(note)
-        localDataSource.deleteNote(noteEntity)
+        CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            localDataSource.deleteNote(noteEntity)
+        }
     }
 
     override fun getPatients(): Flow<List<Patient>> =
@@ -48,19 +57,34 @@ class Repository(
             DataMapper.mapPatientEntityToDomain(it)
         }
 
-    override fun insertPatient(patient: Patient) {
+    override fun getPatient(email: String): Flow<Patient> =
+        localDataSource.getPatient(email).map {
+            if (it != null) {
+                DataMapper.mapPatientEntityToDomain(it)
+            } else {
+                Patient()
+            }
+        }
+
+    override fun insertPatient(patient: Patient): Flow<Int> {
         val patientEntity = DataMapper.mapPatientToEntity(patient)
-        localDataSource.insertPatient(patientEntity)
+        return localDataSource.insertPatient(patientEntity).map {
+            it.toInt()
+        }
     }
 
     override fun updatePatient(patient: Patient) {
         val patientEntity = DataMapper.mapPatientToEntity(patient)
-        localDataSource.updatePatient(patientEntity)
+        CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            localDataSource.updatePatient(patientEntity)
+        }
     }
 
     override fun deletePatient(patient: Patient) {
         val patientEntity = DataMapper.mapPatientToEntity(patient)
-        localDataSource.deletePatient(patientEntity)
+        CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            localDataSource.deletePatient(patientEntity)
+        }
     }
 
     override fun getRecords(): Flow<List<Record>> =
@@ -75,17 +99,23 @@ class Repository(
 
     override fun insertRecord(record: Record) {
         val recordEntity = DataMapper.mapRecordToEntity(record)
-        localDataSource.insertRecord(recordEntity)
+        CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            localDataSource.insertRecord(recordEntity)
+        }
     }
 
     override fun updateRecord(record: Record) {
         val recordEntity = DataMapper.mapRecordToEntity(record)
-        localDataSource.updateRecord(recordEntity)
+        CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            localDataSource.updateRecord(recordEntity)
+        }
     }
 
     override fun deleteRecord(record: Record) {
         val recordEntity = DataMapper.mapRecordToEntity(record)
-        localDataSource.deleteRecord(recordEntity)
+        CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            localDataSource.deleteRecord(recordEntity)
+        }
     }
 
     override fun getStaffs(): Flow<List<Staff>> =
@@ -98,18 +128,33 @@ class Repository(
             DataMapper.mapStaffEntityToDomain(it)
         }
 
-    override fun insertStaff(staff: Staff) {
+    override fun getStaff(email: String): Flow<Staff> =
+        localDataSource.getStaff(email).map {
+            if (it != null) {
+                DataMapper.mapStaffEntityToDomain(it)
+            } else {
+                Staff()
+            }
+        }
+
+    override fun insertStaff(staff: Staff): Flow<Int> {
         val staffEntity = DataMapper.mapStaffToEntity(staff)
-        localDataSource.insertStaff(staffEntity)
+        return localDataSource.insertStaff(staffEntity).map {
+            it.toInt()
+        }
     }
 
     override fun updateStaff(staff: Staff) {
         val staffEntity = DataMapper.mapStaffToEntity(staff)
-        localDataSource.updateStaff(staffEntity)
+        CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            localDataSource.updateStaff(staffEntity)
+        }
     }
 
     override fun deleteStaff(staff: Staff) {
         val staffEntity = DataMapper.mapStaffToEntity(staff)
-        localDataSource.deleteStaff(staffEntity)
+        CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            localDataSource.deleteStaff(staffEntity)
+        }
     }
 }

@@ -11,11 +11,12 @@ import com.capstone.personalmedicalrecord.databinding.FragmentStaffUpdateProfile
 import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.capstone.personalmedicalrecord.utils.Utility.searchStaff
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class UpdateProfileFragment : Fragment() {
 
     private lateinit var preference: MyPreference
-    private lateinit var profileViewModel: ProfileViewModel
+    private val viewModel: UpdateStaffViewModel by viewModel()
     private var _binding: FragmentStaffUpdateProfileBinding? = null
     private val binding get() = _binding!!
 
