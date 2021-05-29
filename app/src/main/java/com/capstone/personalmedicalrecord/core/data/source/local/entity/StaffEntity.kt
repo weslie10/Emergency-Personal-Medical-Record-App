@@ -27,4 +27,7 @@ data class StaffEntity(
 
     @ColumnInfo(name = "hospital")
     val hospital: String,
+
+    @ColumnInfo(name = "picture")
+    var picture: String
 ) : Parcelable

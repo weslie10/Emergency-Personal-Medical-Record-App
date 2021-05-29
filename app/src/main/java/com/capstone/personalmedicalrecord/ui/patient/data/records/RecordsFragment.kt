@@ -2,6 +2,7 @@ package com.capstone.personalmedicalrecord.ui.patient.data.records
 
 import android.Manifest
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
@@ -10,6 +11,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +30,9 @@ import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class RecordsFragment : Fragment(), RecordsCallback {
 
@@ -38,7 +43,8 @@ class RecordsFragment : Fragment(), RecordsCallback {
     private var _binding: FragmentRecordsBinding? = null
     private val binding get() = _binding as FragmentRecordsBinding
 
-    private var photoFile: File? = null
+    private lateinit var currentPhotoPath: String
+
     private var fileUri: Uri? = null
     private var filePath: String? = null
 
@@ -91,25 +97,43 @@ class RecordsFragment : Fragment(), RecordsCallback {
     }
 
     private fun takePhoto() {
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        photoFile = getPhotoFile()
-        val providerFile = FileProvider.getUriForFile(
-            requireContext(),
-            "com.capstone.personalmedicalrecord.fileprovider",
-            photoFile as File
-        )
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, providerFile)
-
-        if (intent.resolveActivity(requireContext().packageManager) != null) {
-            takePhoto.launch(intent)
-        } else {
-            Toast.makeText(context, "Camera could not open", Toast.LENGTH_SHORT).show()
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            // Ensure that there's a camera activity to handle the intent
+            takePictureIntent.resolveActivity(requireContext().packageManager)?.also {
+                // Create the File where the photo should go
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    Toast.makeText(context, "Camera could not open", Toast.LENGTH_SHORT).show()
+                    null
+                }
+                // Continue only if the File was successfully created
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        requireContext(),
+                        "com.capstone.personalmedicalrecord.fileprovider",
+                        it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    takePhoto.launch(takePictureIntent)
+                }
+            }
         }
     }
 
-    private fun getPhotoFile(): File {
-        val storageDirectory = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        return File.createTempFile(FILE_NAME, ".jpg", storageDirectory)
+    @Throws(IOException::class)
+    private fun createImageFile(): File {
+        // Create an image file name
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val storageDir: File = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES) as File
+        return File.createTempFile(
+            "JPEG_${timeStamp}_", /* prefix */
+            ".jpg", /* suffix */
+            storageDir /* directory */
+        ).apply {
+            // Save a file: path for use with ACTION_VIEW intents
+            currentPhotoPath = absolutePath
+        }
     }
 
     private fun choosePhoto() {
@@ -140,9 +164,10 @@ class RecordsFragment : Fragment(), RecordsCallback {
     private val takePhoto =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val takenImage = BitmapFactory.decodeFile(photoFile?.absolutePath)
+                Log.d("data",result.data?.extras?.get("data").toString())
+//                val takenImage = BitmapFactory.decodeFile(photoFile?.absolutePath)
 //            binding.imageView.setImageBitmap(takenImage)
-                Toast.makeText(context, photoFile?.absolutePath, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, currentPhotoPath, Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -185,9 +210,5 @@ class RecordsFragment : Fragment(), RecordsCallback {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    companion object {
-        private const val FILE_NAME = "photo.jpg"
     }
 }

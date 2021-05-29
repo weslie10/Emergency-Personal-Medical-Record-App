@@ -18,6 +18,7 @@ interface IRepository {
     fun getPatient(email: String): Flow<Patient>
     fun insertPatient(patient: Patient): Int
     fun updatePatient(patient: Patient)
+    fun updatePicturePatient(id: Int, url: String)
     fun deletePatient(patient: Patient)
 
     fun getRecords(): Flow<List<Record>>
@@ -31,5 +32,6 @@ interface IRepository {
     fun getStaff(email: String): Flow<Staff>
     fun insertStaff(staff: Staff): Int
     fun updateStaff(staff: Staff)
+    fun updatePictureStaff(id: Int, url: String)
     fun deleteStaff(staff: Staff)
 }

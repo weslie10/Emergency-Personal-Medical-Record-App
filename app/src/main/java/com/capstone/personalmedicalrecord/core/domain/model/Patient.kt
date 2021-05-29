@@ -9,5 +9,6 @@ data class Patient(
     val dateBirth: String = "",
     val address: String = "",
     val gender: String = "",
-    val bloodType: String = ""
+    val bloodType: String = "",
+    val picture: String = ""
 )

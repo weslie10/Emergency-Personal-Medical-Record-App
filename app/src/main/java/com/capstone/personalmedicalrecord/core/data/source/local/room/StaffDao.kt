@@ -25,6 +25,9 @@ interface StaffDao {
     @Update
     fun updateStaff(staff: StaffEntity)
 
+    @Query("UPDATE staff SET picture=:url WHERE id=:id")
+    fun updatePictureStaff(id: Int, url: String)
+
     @Delete
     fun deleteStaff(staff: StaffEntity)
 }

@@ -9,5 +9,6 @@ interface PatientUseCase {
     fun getPatient(email: String): Flow<Patient>
     fun insertPatient(patient: Patient): Int
     fun updatePatient(patient: Patient)
+    fun updatePicturePatient(id: Int, url: String)
     fun deletePatient(patient: Patient)
 }

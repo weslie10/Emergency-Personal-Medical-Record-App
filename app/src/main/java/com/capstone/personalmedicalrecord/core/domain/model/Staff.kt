@@ -6,5 +6,6 @@ data class Staff(
     val email: String = "",
     val password: String = "",
     val phoneNumber: String = "",
-    val hospital: String = ""
+    val hospital: String = "",
+    val picture: String = ""
 )

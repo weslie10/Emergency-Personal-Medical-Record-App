@@ -15,5 +15,7 @@ class PatientInteractor(private val repository: IRepository) : PatientUseCase {
 
     override fun updatePatient(patient: Patient) = repository.updatePatient(patient)
 
+    override fun updatePicturePatient(id: Int, url: String) = repository.updatePicturePatient(id, url)
+
     override fun deletePatient(patient: Patient) = repository.deletePatient(patient)
 }

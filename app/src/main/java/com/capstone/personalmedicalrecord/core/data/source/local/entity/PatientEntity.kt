@@ -35,5 +35,8 @@ data class PatientEntity(
     var gender: String,
 
     @ColumnInfo(name = "bloodType")
-    var bloodType: String
+    var bloodType: String,
+
+    @ColumnInfo(name = "picture")
+    var picture: String
 ) : Parcelable

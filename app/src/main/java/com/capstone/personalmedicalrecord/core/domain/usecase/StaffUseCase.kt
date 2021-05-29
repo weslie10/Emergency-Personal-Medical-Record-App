@@ -9,5 +9,6 @@ interface StaffUseCase {
     fun getStaff(email: String): Flow<Staff>
     fun insertStaff(staff: Staff): Int
     fun updateStaff(staff: Staff)
+    fun updatePictureStaff(id: Int, url: String)
     fun deleteStaff(staff: Staff)
 }

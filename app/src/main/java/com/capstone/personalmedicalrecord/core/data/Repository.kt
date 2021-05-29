@@ -78,6 +78,12 @@ class Repository(
         }
     }
 
+    override fun updatePicturePatient(id: Int, url: String) {
+        CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            localDataSource.updatePicturePatient(id, url)
+        }
+    }
+
     override fun deletePatient(patient: Patient) {
         val patientEntity = DataMapper.mapPatientToEntity(patient)
         CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
@@ -144,6 +150,12 @@ class Repository(
         val staffEntity = DataMapper.mapStaffToEntity(staff)
         CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
             localDataSource.updateStaff(staffEntity)
+        }
+    }
+
+    override fun updatePictureStaff(id: Int, url: String) {
+        CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            localDataSource.updatePictureStaff(id, url)
         }
     }
 
