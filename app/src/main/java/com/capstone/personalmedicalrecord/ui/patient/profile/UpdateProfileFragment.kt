@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,14 +39,12 @@ class UpdateProfileFragment : Fragment() {
 
     private var _binding: FragmentPatientUpdateProfileBinding? = null
     private val binding get() = _binding as FragmentPatientUpdateProfileBinding
-
-    private var currentPhotoPath = ""
-    private var passwd= ""
-
-    //    private var photoFile: File? = null
+    private val viewModel: UpdatePatientViewModel by viewModel()
     private var calendar = Calendar.getInstance()
 
-    private val viewModel: UpdatePatientViewModel by viewModel()
+    private var currentPhotoPath = ""
+    private var passwd = ""
+    private var access = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,18 +71,12 @@ class UpdateProfileFragment : Fragment() {
                     passwd = password
                     currentPhotoPath = picture
 
-                    if (picture.length > 2) {
-                        Glide.with(requireContext())
-                            .load(File(picture))
-                            .apply(RequestOptions().override(200))
-                            .centerCrop()
-                            .into(binding.avatar)
-                    } else {
-                        Glide.with(requireContext())
-                            .load(R.drawable.user)
-                            .centerCrop()
-                            .into(binding.avatar)
-                    }
+                    Glide.with(requireContext())
+                        .load(File(picture))
+                        .apply(RequestOptions().override(200))
+                        .placeholder(R.drawable.user)
+                        .centerCrop()
+                        .into(binding.avatar)
                 }
             }
         })
@@ -119,10 +110,9 @@ class UpdateProfileFragment : Fragment() {
                 .setNeutralButton(getString(R.string.cancel), null)
                 .setPositiveButton(getString(R.string.ok)) { _, _ ->
                     when (checkedItem) {
-                        0 -> takePhoto()
+                        0 -> requestPhoto()
                         1 -> choosePhoto()
                     }
-                    Log.d("check", singleItems[checkedItem])
                 }
                 .setSingleChoiceItems(singleItems, 0) { _, which ->
                     checkedItem = which
@@ -137,7 +127,6 @@ class UpdateProfileFragment : Fragment() {
         var checkedItem = 0
         binding.inputBloodType.setOnClickListener {
             var idx = singleItems.indexOf(binding.inputBloodType.text.toString())
-            Log.d("index", idx.toString())
             if (idx == -1) idx = 0
 
             MaterialAlertDialogBuilder(requireContext())
@@ -158,7 +147,6 @@ class UpdateProfileFragment : Fragment() {
         var checkedItem = 0
         binding.inputGender.setOnClickListener {
             var idx = singleItems.indexOf(binding.inputGender.text.toString())
-            Log.d("index", idx.toString())
             if (idx == -1) idx = 0
 
             MaterialAlertDialogBuilder(requireContext())
@@ -184,7 +172,6 @@ class UpdateProfileFragment : Fragment() {
         binding.inputDateBirth.setOnClickListener {
             val months = DateFormatSymbols.getInstance().months
             val dateNow = binding.inputDateBirth.text.toString()
-            Log.d("date", dateNow)
             val splitDate = dateNow.split(" ")
             if (splitDate.size == 3) {
                 DatePickerDialog(
@@ -208,30 +195,35 @@ class UpdateProfileFragment : Fragment() {
         binding.inputDateBirth.setText(formatter.format(calendar.time))
     }
 
-    private fun takePhoto() {
+    private fun requestPhoto() {
         if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            access = "camera"
             requestPermission.launch(Manifest.permission.CAMERA)
         } else {
-            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                // Ensure that there's a camera activity to handle the intent
-                takePictureIntent.resolveActivity(requireContext().packageManager)?.also {
-                    // Create the File where the photo should go
-                    val photoFile: File? = try {
-                        createImageFile()
-                    } catch (ex: IOException) {
-                        Toast.makeText(context, "Camera could not open", Toast.LENGTH_SHORT).show()
-                        null
-                    }
-                    // Continue only if the File was successfully created
-                    photoFile?.also {
-                        val photoURI: Uri = FileProvider.getUriForFile(
-                            requireContext(),
-                            "com.capstone.personalmedicalrecord.fileprovider",
-                            it
-                        )
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-                        takePhoto.launch(takePictureIntent)
-                    }
+            takePhoto()
+        }
+    }
+
+    private fun takePhoto() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+            // Ensure that there's a camera activity to handle the intent
+            takePictureIntent.resolveActivity(requireContext().packageManager)?.also {
+                // Create the File where the photo should go
+                val photoFile: File? = try {
+                    createImageFile()
+                } catch (ex: IOException) {
+                    Toast.makeText(context, "Camera could not open", Toast.LENGTH_SHORT).show()
+                    null
+                }
+                // Continue only if the File was successfully created
+                photoFile?.also {
+                    val photoURI: Uri = FileProvider.getUriForFile(
+                        requireContext(),
+                        "com.capstone.personalmedicalrecord.fileprovider",
+                        it
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+                    takePhoto.launch(takePictureIntent)
                 }
             }
         }
@@ -256,6 +248,7 @@ class UpdateProfileFragment : Fragment() {
     private fun choosePhoto() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (requireContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                access = "storage"
                 requestPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             } else {
                 chooseImageGallery()
@@ -277,13 +270,10 @@ class UpdateProfileFragment : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
 //                val takenImage = BitmapFactory.decodeFile(photoFile?.absolutePath)
 //            binding.imageView.setImageBitmap(takenImage)
-                Toast.makeText(context, currentPhotoPath, Toast.LENGTH_SHORT).show()
                 viewModel.updatePicture(preference.getId(), currentPhotoPath)
 
-                Log.d("picture",currentPhotoPath)
                 Glide.with(requireContext())
                     .load(File(currentPhotoPath))
-                    .apply(RequestOptions().override(200))
                     .centerCrop()
                     .into(binding.avatar)
             }
@@ -293,7 +283,11 @@ class UpdateProfileFragment : Fragment() {
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                chooseImageGallery()
+                if (access == "camera") {
+                    takePhoto()
+                } else {
+                    chooseImageGallery()
+                }
             } else {
                 Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
             }

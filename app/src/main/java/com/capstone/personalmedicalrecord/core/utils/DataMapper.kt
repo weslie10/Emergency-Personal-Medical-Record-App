@@ -57,7 +57,8 @@ object DataMapper {
         dateBirth = input.dateBirth,
         address = input.address,
         gender = input.gender,
-        bloodType = input.bloodType
+        bloodType = input.bloodType,
+        picture = input.picture
     )
 
     fun mapRecordToEntity(input: Record) = RecordEntity(
@@ -102,6 +103,7 @@ object DataMapper {
         email = input.email,
         password = input.password,
         phoneNumber = input.phoneNumber,
-        hospital = input.hospital
+        hospital = input.hospital,
+        picture = input.picture
     )
 }

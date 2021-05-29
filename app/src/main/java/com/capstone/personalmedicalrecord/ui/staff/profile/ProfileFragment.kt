@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentStaffProfileBinding
@@ -13,6 +14,7 @@ import com.capstone.personalmedicalrecord.ui.login.LoginActivity
 import com.capstone.personalmedicalrecord.utils.Utility.convertEmpty
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
 import org.koin.android.viewmodel.ext.android.viewModel
+import java.io.File
 
 
 class ProfileFragment : Fragment() {
@@ -46,6 +48,13 @@ class ProfileFragment : Fragment() {
                     binding.email.text = email.convertEmpty()
                     binding.phoneNumber.text = phoneNumber.convertEmpty()
                     binding.hospital.text = hospital.convertEmpty()
+
+                    Glide.with(requireContext())
+                        .load(File(picture))
+                        .centerCrop()
+                        .placeholder(R.drawable.user)
+                        .error(R.drawable.user)
+                        .into(binding.avatar)
                 }
             }
         })

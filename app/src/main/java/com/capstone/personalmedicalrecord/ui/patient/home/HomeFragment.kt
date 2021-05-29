@@ -39,30 +39,19 @@ class HomeFragment : Fragment() {
 
         preference = MyPreference(requireActivity())
 
-        Log.d("test","hello")
         homeViewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, { patient ->
-            Log.d("test","hello1")
             if (patient != null) {
-                Log.d("test","hello2")
                 val arr = patient.name.split(" ").toMutableList()
                 val text = arr.simpleText()
                 binding.greeting.text = resources.getString(R.string.greeting, text)
                 binding.date.dateNow()
 
                 Glide.with(requireContext())
-                    .load(File("/storage/emulated/0/Android/data/com.capstone.personalmedicalrecord/files/Pictures/JPEG_20210529_213333_2805315822923683355.jpg"))
+                    .load(File(patient.picture))
                     .placeholder(R.drawable.user)
                     .error(R.drawable.user)
                     .centerCrop()
                     .into(binding.avatar)
-//                "/storage/emulated/0/Android/data/com.capstone.personalmedicalrecord/files/Pictures/JPEG_20210529_213333_2805315822923683355.jpg"
-//                if (patient.picture.length > 2) {
-//                } else {
-//                    Glide.with(requireContext())
-//                        .load(R.drawable.user)
-//                        .centerCrop()
-//                        .into(binding.avatar)
-//                }
             }
         })
         binding.records.text = DataDummy.listRecords.size.toString()

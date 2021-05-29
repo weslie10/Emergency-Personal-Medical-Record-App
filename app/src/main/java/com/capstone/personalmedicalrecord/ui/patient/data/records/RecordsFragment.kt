@@ -47,6 +47,7 @@ class RecordsFragment : Fragment(), RecordsCallback {
 
     private var fileUri: Uri? = null
     private var filePath: String? = null
+    private var access = ""
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -83,7 +84,7 @@ class RecordsFragment : Fragment(), RecordsCallback {
                     .setNeutralButton(getString(R.string.cancel), null)
                     .setPositiveButton(getString(R.string.ok)) { _, _ ->
                         when (checkedItem) {
-                            0 -> takePhoto()
+                            0 -> requestPhoto()
                             1 -> choosePhoto()
                             2 -> chooseDocument()
                         }
@@ -93,6 +94,15 @@ class RecordsFragment : Fragment(), RecordsCallback {
                     }
                     .show()
             }
+        }
+    }
+
+    private fun requestPhoto() {
+        if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            access = "camera"
+            requestPermission.launch(Manifest.permission.CAMERA)
+        } else {
+            takePhoto()
         }
     }
 
@@ -139,6 +149,7 @@ class RecordsFragment : Fragment(), RecordsCallback {
     private fun choosePhoto() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (requireContext().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                access = "storage"
                 requestPermission.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
             } else {
                 chooseImageGallery()
@@ -174,7 +185,10 @@ class RecordsFragment : Fragment(), RecordsCallback {
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
-                chooseImageGallery()
+                if (access == "camera") {
+                    takePhoto()
+                } else
+                    chooseImageGallery()
             } else {
                 Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
             }
