@@ -7,7 +7,7 @@ interface StaffUseCase {
     fun getStaffs(): Flow<List<Staff>>
     fun getStaff(id: Int): Flow<Staff>
     fun getStaff(email: String): Flow<Staff>
-    fun insertStaff(staff: Staff): Flow<Int>
+    fun insertStaff(staff: Staff): Int
     fun updateStaff(staff: Staff)
     fun deleteStaff(staff: Staff)
 }

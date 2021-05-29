@@ -20,7 +20,7 @@ interface StaffDao {
     fun getStaff(email: String, password: String): Flow<StaffEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertStaff(staff: StaffEntity): Flow<Long>
+    fun insertStaff(staff: StaffEntity): Long
 
     @Update
     fun updateStaff(staff: StaffEntity)

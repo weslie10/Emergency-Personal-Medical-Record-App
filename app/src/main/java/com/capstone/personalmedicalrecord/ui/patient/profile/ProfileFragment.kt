@@ -6,19 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentPatientProfileBinding
 import com.capstone.personalmedicalrecord.ui.login.LoginActivity
 import com.capstone.personalmedicalrecord.utils.Utility.convertEmpty
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
-import com.capstone.personalmedicalrecord.utils.Utility.searchPatient
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class ProfileFragment : Fragment() {
     private lateinit var preference: MyPreference
-    private lateinit var profileViewModel: ProfileViewModel
+    private val profileViewModel: ProfileViewModel by viewModel()
+
     private var _binding: FragmentPatientProfileBinding? = null
     private val binding get() = _binding as FragmentPatientProfileBinding
 
@@ -35,18 +35,20 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         preference = MyPreference(requireActivity())
-        profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
 
-        val patient = preference.getId().searchPatient()
-        with(patient) {
-            binding.fullName.text = name.convertEmpty()
-            binding.email.text = email.convertEmpty()
-            binding.address.text = address.convertEmpty()
-            binding.phoneNumber.text = phoneNumber.convertEmpty()
-            binding.dateBirth.text = dateBirth.convertEmpty()
-            binding.gender.text = gender.convertEmpty()
-            binding.bloodType.text = bloodType.convertEmpty()
-        }
+        profileViewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, {
+            if (it != null) {
+                with(it) {
+                    binding.fullName.text = name.convertEmpty()
+                    binding.email.text = email.convertEmpty()
+                    binding.address.text = address.convertEmpty()
+                    binding.phoneNumber.text = phoneNumber.convertEmpty()
+                    binding.dateBirth.text = dateBirth.convertEmpty()
+                    binding.gender.text = gender.convertEmpty()
+                    binding.bloodType.text = bloodType.convertEmpty()
+                }
+            }
+        })
 
         binding.checkIdBtn.setOnClickListener {
             activity?.navigateTo(CheckIdFragment(), R.id.frame)

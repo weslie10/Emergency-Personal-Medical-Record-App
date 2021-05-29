@@ -6,18 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentStaffProfileBinding
 import com.capstone.personalmedicalrecord.ui.login.LoginActivity
+import com.capstone.personalmedicalrecord.utils.Utility.convertEmpty
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
-import com.capstone.personalmedicalrecord.utils.Utility.searchStaff
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class ProfileFragment : Fragment() {
     private lateinit var preference: MyPreference
-    private lateinit var profileViewModel: ProfileViewModel
+    private val profileViewModel: ProfileViewModel by viewModel()
     private var _binding: FragmentStaffProfileBinding? = null
     private val binding get() = _binding!!
 
@@ -34,19 +34,21 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         preference = MyPreference(requireActivity())
-        profileViewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
 //        val textView: TextView = binding.textNotifications
 //        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
 //            textView.text = it
 //        })
 
-        val staff = preference.getId().searchStaff()
-        with(staff) {
-            binding.fullName.text = name
-            binding.email.text = email
-            binding.phoneNumber.text = phoneNumber
-            binding.hospital.text = hospital
-        }
+        profileViewModel.getStaff(preference.getId()).observe(viewLifecycleOwner, {
+            if (it != null) {
+                with(it) {
+                    binding.fullName.text = name.convertEmpty()
+                    binding.email.text = email.convertEmpty()
+                    binding.phoneNumber.text = phoneNumber.convertEmpty()
+                    binding.hospital.text = hospital.convertEmpty()
+                }
+            }
+        })
 
         binding.logoutBtn.setOnClickListener {
             preference.setId(0)

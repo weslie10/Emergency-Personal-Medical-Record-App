@@ -1,13 +1,9 @@
 package com.capstone.personalmedicalrecord.ui.staff.profile
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import com.capstone.personalmedicalrecord.core.domain.usecase.StaffUseCase
 
-class ProfileViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is profile Fragment"
-    }
-    val text: LiveData<String> = _text
+class ProfileViewModel(private val staffUseCase: StaffUseCase) : ViewModel() {
+    fun getStaff(id: Int) = staffUseCase.getStaff(id).asLiveData()
 }

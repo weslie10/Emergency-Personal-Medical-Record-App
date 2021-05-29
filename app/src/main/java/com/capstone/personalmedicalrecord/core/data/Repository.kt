@@ -66,11 +66,9 @@ class Repository(
             }
         }
 
-    override fun insertPatient(patient: Patient): Flow<Int> {
+    override fun insertPatient(patient: Patient): Int {
         val patientEntity = DataMapper.mapPatientToEntity(patient)
-        return localDataSource.insertPatient(patientEntity).map {
-            it.toInt()
-        }
+        return localDataSource.insertPatient(patientEntity).toInt()
     }
 
     override fun updatePatient(patient: Patient) {
@@ -137,11 +135,9 @@ class Repository(
             }
         }
 
-    override fun insertStaff(staff: Staff): Flow<Int> {
+    override fun insertStaff(staff: Staff): Int {
         val staffEntity = DataMapper.mapStaffToEntity(staff)
-        return localDataSource.insertStaff(staffEntity).map {
-            it.toInt()
-        }
+        return localDataSource.insertStaff(staffEntity).toInt()
     }
 
     override fun updateStaff(staff: Staff) {

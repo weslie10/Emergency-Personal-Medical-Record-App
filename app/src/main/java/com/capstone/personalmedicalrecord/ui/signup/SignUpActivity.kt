@@ -3,6 +3,7 @@ package com.capstone.personalmedicalrecord.ui.signup
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.AdapterView
@@ -20,6 +21,7 @@ import com.capstone.personalmedicalrecord.databinding.ActivitySignUpBinding
 import com.capstone.personalmedicalrecord.ui.login.LoginActivity
 import com.capstone.personalmedicalrecord.utils.Utility.setColor
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -141,23 +143,18 @@ class SignUpActivity : AppCompatActivity() {
             }
         }
 
-        viewModel.existingPatient.observe(this, { result ->
-            if (result.id != -1) {
-                MaterialAlertDialogBuilder(this)
-                    .setMessage(getString(R.string.email_used))
-                    .setPositiveButton(getString(R.string.ok), null)
-                    .show()
-            } else if (binding.signupBtn.isEnabled) {
-                setUser(binding.inputEmail.text.toString(), binding.inputPassword.text.toString())
-            }
-        })
-
-        viewModel.existingStaff.observe(this, { result ->
-            if (result.id != -1) {
-                MaterialAlertDialogBuilder(this)
-                    .setMessage(getString(R.string.email_used))
-                    .setPositiveButton(getString(R.string.ok), null)
-                    .show()
+        viewModel.existingPatient.observe(this, { patient ->
+            if (patient.id != 0) {
+                viewModel.existingStaff.observe(this, { staff ->
+                    if (staff.id != 0) {
+                        MaterialAlertDialogBuilder(this)
+                            .setMessage(getString(R.string.email_used))
+                            .setPositiveButton(getString(R.string.ok), null)
+                            .show()
+                    } else if (binding.signupBtn.isEnabled) {
+                        setUser(binding.inputEmail.text.toString(), binding.inputPassword.text.toString())
+                    }
+                })
             } else if (binding.signupBtn.isEnabled) {
                 setUser(binding.inputEmail.text.toString(), binding.inputPassword.text.toString())
             }
@@ -168,18 +165,23 @@ class SignUpActivity : AppCompatActivity() {
         preference.setRole(role)
         if (role == "Patient") {
             val patient = Patient(name = email.split("@")[0], email = email, password = password)
-            val id = viewModel.insertPatient(patient)
-            preference.setId(id)
+            lifecycleScope.launch(Dispatchers.IO) {
+                val id = viewModel.insertPatient(patient)
+                preference.setId(id)
+                Log.d("patient",id.toString())
+            }
             startActivity(Intent(this, PatientActivity::class.java))
         } else {
             val staff = Staff(name = email.split("@")[0], email = email, password = password)
-            val id = viewModel.insertStaff(staff)
-            preference.setId(id)
+            lifecycleScope.launch(Dispatchers.IO) {
+                val id = viewModel.insertStaff(staff)
+                preference.setId(id)
+                Log.d("staff",id.toString())
+            }
             startActivity(Intent(this, StaffActivity::class.java))
         }
         finish()
     }
-
 
     private fun setSpinner() {
         val list = arrayOf("Patient", "Staff")

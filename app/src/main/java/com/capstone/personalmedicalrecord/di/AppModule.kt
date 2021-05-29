@@ -6,6 +6,8 @@ import com.capstone.personalmedicalrecord.ui.patient.data.notes.NoteAddUpdateVie
 import com.capstone.personalmedicalrecord.ui.patient.data.notes.NotesViewModel
 import com.capstone.personalmedicalrecord.ui.patient.data.records.RecordAddUpdateViewModel
 import com.capstone.personalmedicalrecord.ui.patient.data.records.RecordsViewModel
+import com.capstone.personalmedicalrecord.ui.patient.home.HomeViewModel
+import com.capstone.personalmedicalrecord.ui.patient.profile.ProfileViewModel
 import com.capstone.personalmedicalrecord.ui.patient.profile.UpdatePatientViewModel
 import com.capstone.personalmedicalrecord.ui.signup.SignUpViewModel
 import com.capstone.personalmedicalrecord.ui.staff.profile.UpdateStaffViewModel
@@ -26,6 +28,14 @@ val viewModelModule = module {
     viewModel { RecordAddUpdateViewModel(get()) }
     viewModel { UpdatePatientViewModel(get()) }
     viewModel { UpdateStaffViewModel(get()) }
+
+    //patient
+    viewModel { HomeViewModel(get()) }
+    viewModel { ProfileViewModel(get()) }
+
+    //staff
+    viewModel { com.capstone.personalmedicalrecord.ui.staff.profile.ProfileViewModel(get()) }
+
     viewModel { SignUpViewModel(get(), get()) }
     viewModel { LoginViewModel(get(), get()) }
 }

@@ -80,7 +80,7 @@ object Utility {
 
     fun getDate(): String {
         val dateTime = LocalDate.now()
-        val formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM y HH:mm:ss")
+        val formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM y")
         return dateTime.format(formatter)
     }
 

@@ -20,7 +20,7 @@ interface PatientDao {
     fun getPatient(email: String, password: String): Flow<PatientEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertPatient(patient: PatientEntity): Flow<Long>
+    fun insertPatient(patient: PatientEntity): Long
 
     @Update
     fun updatePatient(patient: PatientEntity)
