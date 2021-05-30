@@ -50,30 +50,19 @@ class AddOrUpdateNotesFragment : Fragment() {
             }
         }
         activity?.clickBack(binding.backBtn)
-
-//        notesViewModel = ViewModelProvider(requireActivity()).get(NotesViewModel::class.java)
-//
-//        notesViewModel.getState().observe(viewLifecycleOwner, {
-//            when (it) {
-//                "Add" -> {
-//                    addNote()
-//                }
-//                "Update" -> {
-//                    updateNote()
-//                }
-//            }
-//        })
     }
 
     private fun addNote() {
         binding.notesBtn.apply {
             text = resources.getString(R.string.add_note)
             setOnClickListener {
-                viewModel.insert(Note(
-                    datetime = getDatetime(),
-                    description = binding.inputNote.text.toString(),
-                    idPatient = preference.getId()
-                ))
+                viewModel.insert(
+                    Note(
+                        datetime = getDatetime(),
+                        description = binding.inputNote.text.toString(),
+                        idPatient = preference.getId()
+                    )
+                )
                 activity?.supportFragmentManager?.popBackStack()
             }
         }
@@ -83,12 +72,14 @@ class AddOrUpdateNotesFragment : Fragment() {
         binding.notesBtn.apply {
             text = resources.getString(R.string.update_note)
             setOnClickListener {
-                viewModel.update(Note(
-                    id = id,
-                    datetime = getDatetime(),
-                    description = binding.inputNote.text.toString(),
-                    idPatient = preference.getId()
-                ))
+                viewModel.update(
+                    Note(
+                        id = id,
+                        datetime = getDatetime(),
+                        description = binding.inputNote.text.toString(),
+                        idPatient = preference.getId()
+                    )
+                )
                 activity?.supportFragmentManager?.popBackStack()
             }
         }

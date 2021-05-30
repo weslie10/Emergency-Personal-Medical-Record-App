@@ -2,7 +2,6 @@ package com.capstone.personalmedicalrecord.ui.patient.profile
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +15,7 @@ import com.capstone.personalmedicalrecord.utils.Utility.convertEmpty
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
+
 class ProfileFragment : Fragment() {
     private lateinit var preference: MyPreference
     private val profileViewModel: ProfileViewModel by viewModel()

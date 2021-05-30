@@ -11,7 +11,6 @@ import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.databinding.FragmentNotesBinding
 import com.capstone.personalmedicalrecord.ui.patient.data.DetailDataFragment
-import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -21,8 +20,6 @@ class NotesFragment : Fragment(), NotesCallback {
     private var _binding: FragmentNotesBinding? = null
     private val binding get() = _binding as FragmentNotesBinding
     private val viewModel: NotesViewModel by viewModel()
-//    private val notesViewModel: NotesViewModel by viewModel()
-//    private lateinit var dataViewModel: DataViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +33,6 @@ class NotesFragment : Fragment(), NotesCallback {
         super.onViewCreated(view, savedInstanceState)
 
         preference = MyPreference(requireActivity())
-//        dataViewModel = ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
 
         if (activity != null) {
             notesAdapter = NotesAdapter(this)
@@ -50,7 +46,6 @@ class NotesFragment : Fragment(), NotesCallback {
                 adapter = notesAdapter
             }
             binding.plusBtn.setOnClickListener {
-//                notesViewModel.setState("Add")
                 val fragment = AddOrUpdateNotesFragment()
                 val bundle = Bundle().apply {
                     putString("state", "Add")
@@ -62,8 +57,6 @@ class NotesFragment : Fragment(), NotesCallback {
     }
 
     override fun onItemClick(note: Note) {
-//        notesViewModel.setId(note.id)
-//        dataViewModel.setType("notes")
         val fragment = DetailDataFragment()
         val bundle = Bundle().apply {
             putInt("id", note.id)
