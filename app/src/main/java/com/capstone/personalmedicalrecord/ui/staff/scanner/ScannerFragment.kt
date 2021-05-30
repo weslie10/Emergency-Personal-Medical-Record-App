@@ -65,22 +65,25 @@ class ScannerFragment : Fragment() {
             isFlashEnabled = false
 
             decodeCallback = DecodeCallback {
-                requireActivity().runOnUiThread {
-                    binding.scannerLink.text = it.text
-                    link = it.text
+                if (activity != null) {
+                    requireActivity().runOnUiThread {
+                        binding.scannerLink.text = it.text
+                        link = it.text
+                    }
                 }
             }
 
             errorCallback = ErrorCallback {
-                requireActivity().runOnUiThread {
-                    Log.e("Main", "codeScanner: ${it.message}")
+                if (activity != null) {
+                    requireActivity().runOnUiThread {
+                        Log.e("Main", "codeScanner: ${it.message}")
+                    }
                 }
             }
 
             binding.scanner.setOnClickListener {
                 codeScanner.startPreview()
             }
-
         }
     }
 
@@ -113,6 +116,7 @@ class ScannerFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        codeScanner.releaseResources()
         _binding = null
     }
 }
