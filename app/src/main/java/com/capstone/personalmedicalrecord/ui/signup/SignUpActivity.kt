@@ -131,29 +131,8 @@ class SignUpActivity : AppCompatActivity() {
     private fun checkUser(email: String) {
         if (role == "Patient") {
             viewModel.setEmailPatient(email)
-            viewModel.existingPatient.observe(this, { patient ->
-                if (patient.id != 0) {
-                    MaterialAlertDialogBuilder(this)
-                        .setMessage(getString(R.string.email_used))
-                        .setPositiveButton(getString(R.string.ok), null)
-                        .show()
-                } else if (binding.signupBtn.isEnabled) {
-                    setUser(binding.inputEmail.text.toString(), binding.inputPassword.text.toString())
-                }
-            })
         } else {
             viewModel.setEmailStaff(email)
-            viewModel.existingStaff.observe(this, { staff ->
-                if (staff.id != 0) {
-                    MaterialAlertDialogBuilder(this)
-                        .setMessage(getString(R.string.email_used))
-                        .setPositiveButton(getString(R.string.ok), null)
-                        .show()
-                } else if (binding.signupBtn.isEnabled) {
-                    Log.d("staff", "ya")
-                    setUser(binding.inputEmail.text.toString(), binding.inputPassword.text.toString())
-                }
-            })
         }
     }
 
@@ -163,6 +142,26 @@ class SignUpActivity : AppCompatActivity() {
                 binding.signupBtn.isEnabled = value
             }
         }
+        viewModel.existingPatient.observe(this, { patient ->
+            if (patient.id != 0) {
+                MaterialAlertDialogBuilder(this)
+                    .setMessage(getString(R.string.email_used))
+                    .setPositiveButton(getString(R.string.ok), null)
+                    .show()
+            } else if (patient.id == 0 && binding.signupBtn.isEnabled) {
+                setUser(binding.inputEmail.text.toString(), binding.inputPassword.text.toString())
+            }
+        })
+        viewModel.existingStaff.observe(this, { staff ->
+            if (staff.id != 0) {
+                MaterialAlertDialogBuilder(this)
+                    .setMessage(getString(R.string.email_used))
+                    .setPositiveButton(getString(R.string.ok), null)
+                    .show()
+            } else if (staff.id == 0 && binding.signupBtn.isEnabled) {
+                setUser(binding.inputEmail.text.toString(), binding.inputPassword.text.toString())
+            }
+        })
     }
 
     private fun setUser(email: String, password: String) {
