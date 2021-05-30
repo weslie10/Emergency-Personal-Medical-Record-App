@@ -5,7 +5,7 @@ import com.capstone.personalmedicalrecord.core.domain.repository.IRepository
 import kotlinx.coroutines.flow.Flow
 
 class NoteInteractor(private val repository: IRepository) : NoteUseCase {
-    override fun getNotes() = repository.getNotes()
+    override fun getNotes(idPatient: Int) = repository.getNotes(idPatient)
 
     override fun getNote(id: Int): Flow<Note> = repository.getNote(id)
 
@@ -13,5 +13,5 @@ class NoteInteractor(private val repository: IRepository) : NoteUseCase {
 
     override fun updateNote(note: Note) = repository.updateNote(note)
 
-    override fun deleteNote(note: Note) = repository.deleteNote(note)
+    override fun deleteNote(id: Int) = repository.deleteNote(id)
 }

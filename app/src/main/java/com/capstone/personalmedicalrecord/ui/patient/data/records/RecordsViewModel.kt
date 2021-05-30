@@ -6,5 +6,5 @@ import com.capstone.personalmedicalrecord.core.domain.usecase.RecordUseCase
 
 class RecordsViewModel(private val recordUseCase: RecordUseCase) : ViewModel() {
 
-    val records = recordUseCase.getRecords().asLiveData()
+    fun getRecords(idPatient: Int) = recordUseCase.getRecords(idPatient).asLiveData()
 }

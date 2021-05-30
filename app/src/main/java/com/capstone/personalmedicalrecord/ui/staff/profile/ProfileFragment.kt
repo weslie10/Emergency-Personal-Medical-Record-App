@@ -36,10 +36,6 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         preference = MyPreference(requireActivity())
-//        val textView: TextView = binding.textNotifications
-//        notificationsViewModel.text.observe(viewLifecycleOwner, Observer {
-//            textView.text = it
-//        })
 
         profileViewModel.getStaff(preference.getId()).observe(viewLifecycleOwner, {
             if (it != null) {

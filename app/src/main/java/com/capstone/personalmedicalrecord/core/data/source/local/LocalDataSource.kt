@@ -16,7 +16,7 @@ class LocalDataSource(
     private val staffDao: StaffDao
 ) {
 
-    fun getNotes() = noteDao.getNotes()
+    fun getNotes(idPatient: Int) = noteDao.getNotes(idPatient)
 
     fun getNote(id: Int) = noteDao.getNote(id)
 
@@ -24,7 +24,7 @@ class LocalDataSource(
 
     fun updateNote(note: NoteEntity) = noteDao.updateNote(note)
 
-    fun deleteNote(note: NoteEntity) = noteDao.deleteNote(note)
+    fun deleteNote(id: Int) = noteDao.deleteNote(id)
 
     fun getPatients() = patientDao.getPatients()
 
@@ -42,7 +42,7 @@ class LocalDataSource(
 
     fun deletePatient(patient: PatientEntity) = patientDao.deletePatient(patient)
 
-    fun getRecords() = recordDao.getRecords()
+    fun getRecords(idPatient: Int) = recordDao.getRecords(idPatient)
 
     fun getRecord(id: Int) = recordDao.getRecord(id)
 
@@ -50,7 +50,7 @@ class LocalDataSource(
 
     fun updateRecord(record: RecordEntity) = recordDao.updateRecord(record)
 
-    fun deleteRecord(record: RecordEntity) = recordDao.deleteRecord(record)
+    fun deleteRecord(id: Int) = recordDao.deleteRecord(id)
 
     fun getStaffs() = staffDao.getStaffs()
 

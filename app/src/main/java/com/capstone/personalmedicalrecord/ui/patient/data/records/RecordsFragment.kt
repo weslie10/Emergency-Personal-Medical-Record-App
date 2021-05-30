@@ -2,10 +2,8 @@ package com.capstone.personalmedicalrecord.ui.patient.data.records
 
 import android.Manifest
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -38,7 +36,6 @@ class RecordsFragment : Fragment(), RecordsCallback {
 
     private lateinit var preference: MyPreference
 
-    //    private lateinit var viewModel: DataViewModel
     private lateinit var recordsAdapter: RecordsAdapter
     private var _binding: FragmentRecordsBinding? = null
     private val binding get() = _binding as FragmentRecordsBinding
@@ -62,7 +59,6 @@ class RecordsFragment : Fragment(), RecordsCallback {
         super.onViewCreated(view, savedInstanceState)
 
         preference = MyPreference(requireActivity())
-//        viewModel = ViewModelProvider(requireActivity()).get(DataViewModel::class.java)
 
         if (activity != null) {
             recordsAdapter = RecordsAdapter(this)
@@ -135,7 +131,8 @@ class RecordsFragment : Fragment(), RecordsCallback {
     private fun createImageFile(): File {
         // Create an image file name
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val storageDir: File = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES) as File
+        val storageDir: File =
+            requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES) as File
         return File.createTempFile(
             "JPEG_${timeStamp}_", /* prefix */
             ".jpg", /* suffix */
@@ -175,7 +172,7 @@ class RecordsFragment : Fragment(), RecordsCallback {
     private val takePhoto =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                Log.d("data",result.data?.extras?.get("data").toString())
+                Log.d("data", result.data?.extras?.get("data").toString())
 //                val takenImage = BitmapFactory.decodeFile(photoFile?.absolutePath)
 //            binding.imageView.setImageBitmap(takenImage)
                 Toast.makeText(context, currentPhotoPath, Toast.LENGTH_SHORT).show()

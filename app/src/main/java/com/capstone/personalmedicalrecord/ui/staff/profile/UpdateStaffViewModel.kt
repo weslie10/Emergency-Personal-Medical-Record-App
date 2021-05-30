@@ -2,7 +2,6 @@ package com.capstone.personalmedicalrecord.ui.staff.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
-import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.core.domain.model.Staff
 import com.capstone.personalmedicalrecord.core.domain.usecase.StaffUseCase
 
