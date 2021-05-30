@@ -138,28 +138,32 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun checkUser(email: String) {
-
-        if (role == "Patient") {
-            val patient = viewModel.checkPatient(email).value
-            Log.d("patient",patient.toString())
-            if (patient == null) {
-                setUser(binding.inputEmail.text.toString(), binding.inputPassword.text.toString())
-            } else {
-                MaterialAlertDialogBuilder(this)
-                    .setMessage(getString(R.string.email_used))
-                    .setPositiveButton(getString(R.string.ok), null)
-                    .show()
+        lifecycleScope.launch(Dispatchers.Main) {
+            if (role == "Patient") {
+                viewModel.checkPatient(email).observe(this@SignUpActivity, { patient ->
+                    Log.d("paitent",patient.toString())
+                    if (patient.id == 0) {
+                        setUser(binding.inputEmail.text.toString(), binding.inputPassword.text.toString())
+                    } else {
+                        MaterialAlertDialogBuilder(this@SignUpActivity)
+                            .setMessage(getString(R.string.email_used))
+                            .setPositiveButton(getString(R.string.ok), null)
+                            .show()
+                    }
+                })
             }
-        }
-        else {
-            val staff = viewModel.checkPatient(email).value
-            if (staff == null) {
-                setUser(binding.inputEmail.text.toString(), binding.inputPassword.text.toString())
-            } else if (staff.id == 0 && binding.signupBtn.isEnabled) {
-                MaterialAlertDialogBuilder(this)
-                    .setMessage(getString(R.string.email_used))
-                    .setPositiveButton(getString(R.string.ok), null)
-                    .show()
+            else {
+                viewModel.checkPatient(email).observe(this@SignUpActivity, { staff ->
+                    Log.d("staff",staff.toString())
+                    if (staff.id == 0) {
+                        setUser(binding.inputEmail.text.toString(), binding.inputPassword.text.toString())
+                    } else {
+                        MaterialAlertDialogBuilder(this@SignUpActivity)
+                            .setMessage(getString(R.string.email_used))
+                            .setPositiveButton(getString(R.string.ok), null)
+                            .show()
+                    }
+                })
             }
         }
     }
@@ -173,6 +177,7 @@ class SignUpActivity : AppCompatActivity() {
                 preference.setId(id)
             }
             startActivity(Intent(this, PatientActivity::class.java))
+            this.finish()
         } else {
             val staff = Staff(name = email.split("@")[0], email = email, password = password)
             lifecycleScope.launch(Dispatchers.IO) {
@@ -180,6 +185,7 @@ class SignUpActivity : AppCompatActivity() {
                 preference.setId(id)
             }
             startActivity(Intent(this, StaffActivity::class.java))
+            this.finish()
         }
         finish()
     }

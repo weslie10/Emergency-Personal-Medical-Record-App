@@ -1,9 +1,11 @@
 package com.capstone.personalmedicalrecord.ui.patient.data.notes
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
@@ -63,6 +65,8 @@ class AddOrUpdateNotesFragment : Fragment() {
                         idPatient = preference.getId()
                     )
                 )
+                val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(windowToken, 0)
                 activity?.supportFragmentManager?.popBackStack()
             }
         }
@@ -80,6 +84,8 @@ class AddOrUpdateNotesFragment : Fragment() {
                         idPatient = preference.getId()
                     )
                 )
+                val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(windowToken, 0)
                 activity?.supportFragmentManager?.popBackStack()
             }
         }

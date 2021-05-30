@@ -23,7 +23,8 @@ class Repository(
 
     override fun getNote(id: Int): Flow<Note> =
         localDataSource.getNote(id).map {
-            DataMapper.mapNoteEntityToDomain(it)
+            if (it != null)  DataMapper.mapNoteEntityToDomain(it)
+            else            it
         }
 
     override fun insertNote(note: Note) {

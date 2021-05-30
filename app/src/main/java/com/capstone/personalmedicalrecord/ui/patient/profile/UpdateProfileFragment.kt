@@ -71,12 +71,19 @@ class UpdateProfileFragment : Fragment() {
                     passwd = password
                     currentPhotoPath = picture
 
-                    Glide.with(requireContext())
-                        .load(File(picture))
-                        .apply(RequestOptions().override(200))
-                        .placeholder(R.drawable.user)
-                        .centerCrop()
-                        .into(binding.avatar)
+                    if (picture.length > 2) {
+                        Glide.with(requireContext())
+                            .load(File(picture))
+                            .placeholder(R.drawable.user)
+                            .error(R.drawable.user)
+                            .centerCrop()
+                            .into(binding.avatar)
+                    } else {
+                        Glide.with(requireContext())
+                            .load(R.drawable.user)
+                            .centerCrop()
+                            .into(binding.avatar)
+                    }
                 }
             }
         })

@@ -38,7 +38,9 @@ class NotesFragment : Fragment(), NotesCallback {
             notesAdapter = NotesAdapter(this)
             val id = preference.getId()
             viewModel.getNotes(id).observe(viewLifecycleOwner, { notes ->
-                notesAdapter.setData(notes)
+                if (notes!=null) {
+                    notesAdapter.setData(notes)
+                }
             })
             with(binding.rvNotes) {
                 layoutManager = LinearLayoutManager(context)
