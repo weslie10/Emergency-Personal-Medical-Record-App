@@ -19,7 +19,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.domain.model.Patient
@@ -44,6 +43,7 @@ class UpdateProfileFragment : Fragment() {
     private var calendar = Calendar.getInstance()
 
     private var currentPhotoPath = ""
+    private var condition = false
     private var passwd = ""
     private var access = ""
 
@@ -71,6 +71,7 @@ class UpdateProfileFragment : Fragment() {
                     binding.inputBloodType.setText(bloodType.convertEmpty())
                     passwd = password
                     currentPhotoPath = picture
+                    condition = term
 
                     if (picture.length > 2) {
                         Glide.with(requireContext())
@@ -104,7 +105,8 @@ class UpdateProfileFragment : Fragment() {
                 address = binding.inputAddress.text.toString(),
                 gender = binding.inputGender.text.toString(),
                 bloodType = binding.inputBloodType.text.toString(),
-                picture = currentPhotoPath
+                picture = currentPhotoPath,
+                term = condition
             )
             viewModel.update(patient)
             it.hideKeyboard()

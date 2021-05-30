@@ -40,7 +40,8 @@ object DataMapper {
         address = input.address,
         gender = input.gender,
         bloodType = input.bloodType,
-        picture = input.picture
+        picture = input.picture,
+        term = input.term
     )
 
     fun mapPatientEntitiesToDomain(input: List<PatientEntity>): List<Patient> =
@@ -58,7 +59,8 @@ object DataMapper {
         address = input.address,
         gender = input.gender,
         bloodType = input.bloodType,
-        picture = input.picture
+        picture = input.picture,
+        term = input.term
     )
 
     fun mapRecordToEntity(input: Record) = RecordEntity(

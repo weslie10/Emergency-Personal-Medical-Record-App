@@ -22,20 +22,24 @@ val useCaseModule = module {
 }
 
 val viewModelModule = module {
+    //notes
     viewModel { NotesViewModel(get()) }
     viewModel { NoteAddUpdateViewModel(get()) }
-    viewModel { RecordsViewModel(get()) }
+
+    //records
+    viewModel { RecordsViewModel(get(), get()) }
     viewModel { RecordAddUpdateViewModel(get()) }
-    viewModel { UpdatePatientViewModel(get()) }
-    viewModel { UpdateStaffViewModel(get()) }
 
     //patient
     viewModel { HomeViewModel(get(), get(), get()) }
     viewModel { ProfileViewModel(get()) }
+    viewModel { UpdatePatientViewModel(get()) }
 
     //staff
     viewModel { com.capstone.personalmedicalrecord.ui.staff.profile.ProfileViewModel(get()) }
+    viewModel { UpdateStaffViewModel(get()) }
 
+    //auth
     viewModel { SignUpViewModel(get(), get()) }
     viewModel { LoginViewModel(get(), get()) }
 }

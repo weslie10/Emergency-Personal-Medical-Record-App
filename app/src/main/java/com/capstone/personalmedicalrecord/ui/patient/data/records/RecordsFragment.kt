@@ -27,6 +27,7 @@ import com.capstone.personalmedicalrecord.ui.patient.data.DetailDataFragment
 import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -39,9 +40,9 @@ class RecordsFragment : Fragment(), RecordsCallback {
     private lateinit var recordsAdapter: RecordsAdapter
     private var _binding: FragmentRecordsBinding? = null
     private val binding get() = _binding as FragmentRecordsBinding
+    private val viewModel: RecordsViewModel by viewModel()
 
     private lateinit var currentPhotoPath: String
-
     private var fileUri: Uri? = null
     private var filePath: String? = null
     private var access = ""
@@ -72,23 +73,37 @@ class RecordsFragment : Fragment(), RecordsCallback {
             }
 
             binding.plusBtn.setOnClickListener {
-                val singleItems = arrayOf("Take a Photo", "Choose a photo", "Choose a document")
-                var checkedItem = 0
+                viewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, {
+                    if (it.term) {
+                        val singleItems = arrayOf("Take a Photo", "Choose a photo", "Choose a document")
+                        var checkedItem = 0
 
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle(getString(R.string.add_record_text))
-                    .setNeutralButton(getString(R.string.cancel), null)
-                    .setPositiveButton(getString(R.string.ok)) { _, _ ->
-                        when (checkedItem) {
-                            0 -> requestPhoto()
-                            1 -> choosePhoto()
-                            2 -> chooseDocument()
-                        }
+                        MaterialAlertDialogBuilder(requireContext())
+                            .setTitle(getString(R.string.add_record_text))
+                            .setNeutralButton(getString(R.string.cancel), null)
+                            .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                                when (checkedItem) {
+                                    0 -> requestPhoto()
+                                    1 -> choosePhoto()
+                                    2 -> chooseDocument()
+                                }
+                            }
+                            .setSingleChoiceItems(singleItems, 0) { _, which ->
+                                checkedItem = which
+                            }
+                            .show()
+                    } else {
+                        MaterialAlertDialogBuilder(requireContext())
+                            .setMessage("With this term, you're willing to share your medical record to our app...")
+                            .setPositiveButton("I agree") { _, _ ->
+                                val patient = it
+                                it.term = true
+                                viewModel.update(patient)
+                            }
+                            .setCancelable(false)
+                            .show()
                     }
-                    .setSingleChoiceItems(singleItems, 0) { _, which ->
-                        checkedItem = which
-                    }
-                    .show()
+                })
             }
         }
     }
