@@ -16,8 +16,8 @@ import kotlinx.coroutines.launch
 class Repository(
     private val localDataSource: LocalDataSource
 ) : IRepository {
-    override fun getNotes(): Flow<List<Note>> =
-        localDataSource.getNotes().map {
+    override fun getNotes(idPatient: Int): Flow<List<Note>> =
+        localDataSource.getNotes(idPatient).map {
             DataMapper.mapNoteEntitiesToDomain(it)
         }
 
@@ -40,10 +40,9 @@ class Repository(
         }
     }
 
-    override fun deleteNote(note: Note) {
-        val noteEntity = DataMapper.mapNoteToEntity(note)
+    override fun deleteNote(id: Int) {
         CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
-            localDataSource.deleteNote(noteEntity)
+            localDataSource.deleteNote(id)
         }
     }
 
@@ -91,8 +90,8 @@ class Repository(
         }
     }
 
-    override fun getRecords(): Flow<List<Record>> =
-        localDataSource.getRecords().map {
+    override fun getRecords(idPatient: Int): Flow<List<Record>> =
+        localDataSource.getRecords(idPatient).map {
             DataMapper.mapRecordEntitiesToDomain(it)
         }
 
@@ -115,10 +114,9 @@ class Repository(
         }
     }
 
-    override fun deleteRecord(record: Record) {
-        val recordEntity = DataMapper.mapRecordToEntity(record)
+    override fun deleteRecord(id: Int) {
         CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
-            localDataSource.deleteRecord(recordEntity)
+            localDataSource.deleteRecord(id)
         }
     }
 

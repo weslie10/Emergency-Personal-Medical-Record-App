@@ -8,15 +8,17 @@ import androidx.fragment.app.Fragment
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentPatientDetailDataBinding
 import com.capstone.personalmedicalrecord.ui.patient.data.notes.AddOrUpdateNotesFragment
+import com.capstone.personalmedicalrecord.ui.patient.data.notes.NotesViewModel
 import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class DetailDataFragment : Fragment() {
     private var _binding: FragmentPatientDetailDataBinding? = null
     private val binding get() = _binding as FragmentPatientDetailDataBinding
 //    private lateinit var dataViewModel: DataViewModel
-//    private val notesViewModel: NotesViewModel by viewModels()
+    private val notesViewModel: NotesViewModel by viewModel()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,10 +39,11 @@ class DetailDataFragment : Fragment() {
             binding.records.visibility = View.GONE
             if (type == "notes") {
                 val id = arg.getInt("id")
-                val note = DataDummy.listNotes.filter { note -> note.id == id }[0]
-                binding.notes.visibility = View.VISIBLE
-                binding.detailNotesDate.text = note.datetime
-                binding.detailNotesDescription.text = note.description
+                notesViewModel.getNote(id).observe(viewLifecycleOwner, { note ->
+                    binding.notes.visibility = View.VISIBLE
+                    binding.detailNotesDate.text = note.datetime
+                    binding.detailNotesDescription.text = note.description
+                })
                 activity?.clickBack(binding.backNotesBtn)
 
                 binding.editNotesBtn.setOnClickListener {
@@ -58,7 +61,7 @@ class DetailDataFragment : Fragment() {
                 }
 
                 binding.deleteNotesBtn.setOnClickListener {
-                    DataDummy.listNotes.removeAt(id - 1)
+                    notesViewModel.deleteNote(id)
                     activity?.supportFragmentManager?.popBackStack()
                 }
             } else {

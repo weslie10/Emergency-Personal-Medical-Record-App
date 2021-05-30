@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface NoteDao {
 
-    @Query("SELECT * FROM note ORDER BY datetime DESC")
-    fun getNotes(): Flow<List<NoteEntity>>
+    @Query("SELECT * FROM note WHERE idPatient=:idPatient ORDER BY datetime DESC")
+    fun getNotes(idPatient: Int): Flow<List<NoteEntity>>
 
     @Query("SELECT * FROM note WHERE id=:id")
     fun getNote(id: Int): Flow<NoteEntity>
@@ -19,6 +19,6 @@ interface NoteDao {
     @Update
     fun updateNote(note: NoteEntity)
 
-    @Delete
-    fun deleteNote(note: NoteEntity)
+    @Query("DELETE FROM note WHERE id=:id")
+    fun deleteNote(id: Int)
 }

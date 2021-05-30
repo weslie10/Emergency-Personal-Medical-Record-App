@@ -75,10 +75,10 @@ object Utility {
     }
 
     fun TextView.dateNow() {
-        this.text = getDate()
+        this.text = getDatetime()
     }
 
-    fun getDate(): String {
+    fun getDatetime(): String {
         val dateTime = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM y")
         return dateTime.format(formatter)

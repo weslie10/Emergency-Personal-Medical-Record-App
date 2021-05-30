@@ -13,12 +13,14 @@ import com.capstone.personalmedicalrecord.databinding.FragmentNotesBinding
 import com.capstone.personalmedicalrecord.ui.patient.data.DetailDataFragment
 import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
+import org.koin.android.viewmodel.ext.android.viewModel
 
 class NotesFragment : Fragment(), NotesCallback {
     private lateinit var notesAdapter: NotesAdapter
     private lateinit var preference: MyPreference
     private var _binding: FragmentNotesBinding? = null
     private val binding get() = _binding as FragmentNotesBinding
+    private val viewModel: NotesViewModel by viewModel()
 //    private val notesViewModel: NotesViewModel by viewModel()
 //    private lateinit var dataViewModel: DataViewModel
 
@@ -38,8 +40,10 @@ class NotesFragment : Fragment(), NotesCallback {
 
         if (activity != null) {
             notesAdapter = NotesAdapter(this)
-            val filter = DataDummy.listNotes.filter { note -> note.idPatient == preference.getId() }
-            notesAdapter.setData(filter)
+            val id = preference.getId()
+            viewModel.getNotes(id).observe(viewLifecycleOwner, { notes ->
+                notesAdapter.setData(notes)
+            })
             with(binding.rvNotes) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)

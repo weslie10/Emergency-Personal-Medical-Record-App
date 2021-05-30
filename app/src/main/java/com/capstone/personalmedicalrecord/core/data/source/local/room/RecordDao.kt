@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface RecordDao {
 
-    @Query("SELECT * FROM record ORDER BY datetime DESC")
-    fun getRecords(): Flow<List<RecordEntity>>
+    @Query("SELECT * FROM record WHERE idPatient=:idPatient ORDER BY datetime DESC")
+    fun getRecords(idPatient: Int): Flow<List<RecordEntity>>
 
     @Query("SELECT * FROM record WHERE id=:id")
     fun getRecord(id: Int): Flow<RecordEntity>
@@ -19,6 +19,6 @@ interface RecordDao {
     @Update
     fun updateRecord(record: RecordEntity)
 
-    @Delete
-    fun deleteRecord(record: RecordEntity)
+    @Query("DELETE FROM record WHERE id=:id")
+    fun deleteRecord(id: Int)
 }

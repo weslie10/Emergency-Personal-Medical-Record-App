@@ -4,7 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.capstone.personalmedicalrecord.core.domain.usecase.NoteUseCase
 
-class NotesViewModel(noteUseCase: NoteUseCase) : ViewModel() {
+class NotesViewModel(private val noteUseCase: NoteUseCase) : ViewModel() {
 
-    val notes = noteUseCase.getNotes().asLiveData()
+    fun getNotes(idPatient: Int)  = noteUseCase.getNotes(idPatient).asLiveData()
+
+    fun getNote(id: Int) = noteUseCase.getNote(id).asLiveData()
+
+    fun deleteNote(id: Int) = noteUseCase.deleteNote(id)
 }

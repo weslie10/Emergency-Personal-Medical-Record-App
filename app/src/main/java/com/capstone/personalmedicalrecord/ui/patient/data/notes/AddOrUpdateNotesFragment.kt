@@ -9,17 +9,14 @@ import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.databinding.FragmentAddOrUpdateNotesBinding
-import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
-import com.capstone.personalmedicalrecord.utils.Utility.getDate
-import com.capstone.personalmedicalrecord.utils.Utility.searchNote
+import com.capstone.personalmedicalrecord.utils.Utility.getDatetime
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class AddOrUpdateNotesFragment : Fragment() {
     private var _binding: FragmentAddOrUpdateNotesBinding? = null
     private val binding get() = _binding as FragmentAddOrUpdateNotesBinding
 
-    //    private lateinit var notesViewModel: NotesViewModel
     private val viewModel: NoteAddUpdateViewModel by viewModel()
     private lateinit var preference: MyPreference
 
@@ -44,7 +41,11 @@ class AddOrUpdateNotesFragment : Fragment() {
                     addNote()
                 }
                 "Update" -> {
-                    updateNote(arg.getInt("id"))
+                    val id = arg.getInt("id")
+                    viewModel.getNote(id).observe(viewLifecycleOwner, { note ->
+                        binding.inputNote.setText(note.description)
+                    })
+                    updateNote(id)
                 }
             }
         }
@@ -68,31 +69,26 @@ class AddOrUpdateNotesFragment : Fragment() {
         binding.notesBtn.apply {
             text = resources.getString(R.string.add_note)
             setOnClickListener {
-                DataDummy.listNotes.add(
-                    Note(
-                        datetime = getDate(),
-                        description = binding.inputNote.text.toString(),
-                        idPatient = preference.getId()
-                    )
-                )
+                viewModel.insert(Note(
+                    datetime = getDatetime(),
+                    description = binding.inputNote.text.toString(),
+                    idPatient = preference.getId()
+                ))
                 activity?.supportFragmentManager?.popBackStack()
             }
         }
     }
 
     private fun updateNote(id: Int) {
-        val note = id.searchNote()
-        binding.inputNote.setText(note.description)
         binding.notesBtn.apply {
             text = resources.getString(R.string.update_note)
             setOnClickListener {
-                val idx = DataDummy.listNotes.indexOf(note)
-                DataDummy.listNotes[idx] = Note(
-                    note.id,
-                    datetime = getDate(),
+                viewModel.update(Note(
+                    id = id,
+                    datetime = getDatetime(),
                     description = binding.inputNote.text.toString(),
                     idPatient = preference.getId()
-                )
+                ))
                 activity?.supportFragmentManager?.popBackStack()
             }
         }
