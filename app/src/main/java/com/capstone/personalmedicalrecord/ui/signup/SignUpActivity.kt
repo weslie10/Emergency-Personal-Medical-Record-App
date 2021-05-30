@@ -33,6 +33,7 @@ class SignUpActivity : AppCompatActivity() {
     private var emailError = false
     private var passwordError = false
     private var repeatError = false
+    private var check = false
     private var role = "Patient"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -138,32 +139,77 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun checkUser(email: String) {
+        var p: Boolean? = null
+        var s: Boolean? = null
+        check = false
         lifecycleScope.launch(Dispatchers.Main) {
-            if (role == "Patient") {
-                viewModel.checkPatient(email).observe(this@SignUpActivity, { patient ->
-                    Log.d("paitent",patient.toString())
-                    if (patient.id == 0) {
-                        setUser(binding.inputEmail.text.toString(), binding.inputPassword.text.toString())
-                    } else {
-                        MaterialAlertDialogBuilder(this@SignUpActivity)
-                            .setMessage(getString(R.string.email_used))
-                            .setPositiveButton(getString(R.string.ok), null)
-                            .show()
-                    }
-                })
-            }
-            else {
-                viewModel.checkPatient(email).observe(this@SignUpActivity, { staff ->
-                    Log.d("staff",staff.toString())
-                    if (staff.id == 0) {
-                        setUser(binding.inputEmail.text.toString(), binding.inputPassword.text.toString())
-                    } else {
-                        MaterialAlertDialogBuilder(this@SignUpActivity)
-                            .setMessage(getString(R.string.email_used))
-                            .setPositiveButton(getString(R.string.ok), null)
-                            .show()
-                    }
-                })
+            viewModel.checkPatient(email).observe(this@SignUpActivity, { patient ->
+                if (!check) {
+                    p = patient.id == 0
+                    Log.d("p", p.toString())
+                    check(p, s)
+                }
+
+            })
+            viewModel.checkStaff(email).observe(this@SignUpActivity, { staff ->
+                if (!check) {
+                    s = staff.id == 0
+                    Log.d("s", s.toString())
+                    check(p, s)
+                }
+            })
+
+//            if (role == "Patient") {
+//                viewModel.checkPatient(email).observe(this@SignUpActivity, { patient ->
+//                    Log.d("paitent", patient.toString())
+//                    if (patient.id == 0) {
+//                        setUser(
+//                            binding.inputEmail.text.toString(),
+//                            binding.inputPassword.text.toString()
+//                        )
+//                    } else {
+//                        MaterialAlertDialogBuilder(this@SignUpActivity)
+//                            .setMessage(getString(R.string.email_used))
+//                            .setPositiveButton(getString(R.string.ok), null)
+//                            .show()
+//                    }
+//                })
+//            } else {
+//                viewModel.checkPatient(email).observe(this@SignUpActivity, { staff ->
+//                    Log.d("staff", staff.toString())
+//                    if (staff.id == 0) {
+//                        setUser(
+//                            binding.inputEmail.text.toString(),
+//                            binding.inputPassword.text.toString()
+//                        )
+//                    } else {
+//                        MaterialAlertDialogBuilder(this@SignUpActivity)
+//                            .setMessage(getString(R.string.email_used))
+//                            .setPositiveButton(getString(R.string.ok), null)
+//                            .show()
+//                    }
+//                })
+//            }
+        }
+    }
+
+    private fun check(p: Boolean?, s: Boolean?) {
+        if (p != null && s != null) {
+            Log.d("check", "hello")
+            if (p == true && s == true) {
+                check = true
+                Log.d("check", "hello2")
+                setUser(
+                    binding.inputEmail.text.toString(),
+                    binding.inputPassword.text.toString()
+                )
+            } else {
+                check = true
+                Log.d("check", "hello1")
+                MaterialAlertDialogBuilder(this@SignUpActivity)
+                    .setMessage(getString(R.string.email_used))
+                    .setPositiveButton(getString(R.string.ok), null)
+                    .show()
             }
         }
     }
