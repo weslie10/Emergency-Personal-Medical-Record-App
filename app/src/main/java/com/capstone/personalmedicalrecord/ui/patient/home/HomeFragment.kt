@@ -46,12 +46,19 @@ class HomeFragment : Fragment() {
                 binding.greeting.text = resources.getString(R.string.greeting, text)
                 binding.date.dateNow()
 
-                Glide.with(requireContext())
-                    .load(File(patient.picture))
-                    .placeholder(R.drawable.user)
-                    .error(R.drawable.user)
-                    .centerCrop()
-                    .into(binding.avatar)
+                if (patient.picture.length > 2) {
+                    Glide.with(requireContext())
+                        .load(File(patient.picture))
+                        .placeholder(R.drawable.user)
+                        .error(R.drawable.user)
+                        .centerCrop()
+                        .into(binding.avatar)
+                } else {
+                    Glide.with(requireContext())
+                        .load(R.drawable.user)
+                        .centerCrop()
+                        .into(binding.avatar)
+                }
             }
         })
         binding.records.text = DataDummy.listRecords.size.toString()

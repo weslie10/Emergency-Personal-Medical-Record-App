@@ -48,12 +48,19 @@ class ProfileFragment : Fragment() {
                     binding.gender.text = gender.convertEmpty()
                     binding.bloodType.text = bloodType.convertEmpty()
 
-                    Glide.with(requireContext())
-                        .load(File(picture))
-                        .centerCrop()
-                        .placeholder(R.drawable.user)
-                        .error(R.drawable.user)
-                        .into(binding.avatar)
+                    if (picture.length > 2) {
+                        Glide.with(requireContext())
+                            .load(File(picture))
+                            .placeholder(R.drawable.user)
+                            .error(R.drawable.user)
+                            .centerCrop()
+                            .into(binding.avatar)
+                    } else {
+                        Glide.with(requireContext())
+                            .load(R.drawable.user)
+                            .centerCrop()
+                            .into(binding.avatar)
+                    }
                 }
             }
         })

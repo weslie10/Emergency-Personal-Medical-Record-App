@@ -56,6 +56,9 @@ class SignUpViewModel(
 
     fun insertStaff(staff: Staff) = staffUseCase.insertStaff(staff)
 
+    fun checkPatient(email: String) = patientUseCase.getPatient(email).asLiveData()
+    fun checkStaff(email: String) = staffUseCase.getStaff(email).asLiveData()
+
     val existingPatient = Transformations.switchMap(_emailPatient) {
         patientUseCase.getPatient(it).asLiveData()
     }
