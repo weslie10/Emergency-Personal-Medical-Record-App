@@ -26,6 +26,7 @@ import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.databinding.FragmentPatientUpdateProfileBinding
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.capstone.personalmedicalrecord.utils.Utility.convertEmpty
+import com.capstone.personalmedicalrecord.utils.Utility.hideKeyboard
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
@@ -106,6 +107,7 @@ class UpdateProfileFragment : Fragment() {
                 picture = currentPhotoPath
             )
             viewModel.update(patient)
+            it.hideKeyboard()
             activity?.supportFragmentManager?.popBackStack()
         }
         binding.changePhoto.setOnClickListener {

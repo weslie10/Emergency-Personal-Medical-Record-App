@@ -9,7 +9,6 @@ import com.bumptech.glide.Glide
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentPatientHomeBinding
-import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.dateNow
 import com.capstone.personalmedicalrecord.utils.Utility.simpleText
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -27,7 +26,6 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentPatientHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -59,8 +57,12 @@ class HomeFragment : Fragment() {
                 }
             }
         })
-        binding.records.text = DataDummy.listRecords.size.toString()
-        binding.notes.text = DataDummy.listNotes.size.toString()
+        homeViewModel.getRecords(preference.getId()).observe(viewLifecycleOwner, {
+            binding.records.text = it.size.toString()
+        })
+        homeViewModel.getNotes(preference.getId()).observe(viewLifecycleOwner, {
+            binding.notes.text = it.size.toString()
+        })
         binding.graph.addView(TestChart(requireContext()))
     }
 

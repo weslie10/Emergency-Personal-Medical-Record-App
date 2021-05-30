@@ -2,6 +2,7 @@ package com.capstone.personalmedicalrecord.ui.staff.profile
 
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -12,6 +13,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -23,6 +25,7 @@ import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.domain.model.Staff
 import com.capstone.personalmedicalrecord.databinding.FragmentStaffUpdateProfileBinding
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
+import com.capstone.personalmedicalrecord.utils.Utility.hideKeyboard
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
@@ -86,6 +89,7 @@ class UpdateProfileFragment : Fragment() {
                 picture = currentPhotoPath
             )
             viewModel.update(staff)
+            it.hideKeyboard()
             activity?.supportFragmentManager?.popBackStack()
         }
 

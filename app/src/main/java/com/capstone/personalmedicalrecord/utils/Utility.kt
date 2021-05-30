@@ -1,6 +1,9 @@
 package com.capstone.personalmedicalrecord.utils
 
+import android.content.Context
 import android.content.res.ColorStateList
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -11,6 +14,7 @@ import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.core.domain.model.Staff
 import com.google.android.material.textfield.TextInputLayout
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
@@ -75,16 +79,28 @@ object Utility {
     }
 
     fun TextView.dateNow() {
-        this.text = getDatetime()
+        this.text = getDate()
     }
 
-    fun getDatetime(): String {
+    private fun getDate(): String {
         val dateTime = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM y")
         return dateTime.format(formatter)
     }
 
+    fun getDatetime(): String {
+        val dateTime = LocalDateTime.now()
+        val formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM y HH:mm:ss")
+        return dateTime.format(formatter)
+    }
+
     fun String.convertEmpty(): String {
         return if (this != "") this else "-"
+    }
+
+    fun View.hideKeyboard() {
+        val imm =
+            context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(windowToken, 0)
     }
 }

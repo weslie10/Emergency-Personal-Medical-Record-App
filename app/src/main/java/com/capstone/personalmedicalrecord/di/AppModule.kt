@@ -30,7 +30,7 @@ val viewModelModule = module {
     viewModel { UpdateStaffViewModel(get()) }
 
     //patient
-    viewModel { HomeViewModel(get()) }
+    viewModel { HomeViewModel(get(), get(), get()) }
     viewModel { ProfileViewModel(get()) }
 
     //staff

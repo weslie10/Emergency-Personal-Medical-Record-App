@@ -1,11 +1,9 @@
 package com.capstone.personalmedicalrecord.ui.patient.data.notes
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
@@ -13,6 +11,7 @@ import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.databinding.FragmentAddOrUpdateNotesBinding
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.capstone.personalmedicalrecord.utils.Utility.getDatetime
+import com.capstone.personalmedicalrecord.utils.Utility.hideKeyboard
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class AddOrUpdateNotesFragment : Fragment() {
@@ -65,8 +64,7 @@ class AddOrUpdateNotesFragment : Fragment() {
                         idPatient = preference.getId()
                     )
                 )
-                val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(windowToken, 0)
+                it.hideKeyboard()
                 activity?.supportFragmentManager?.popBackStack()
             }
         }
@@ -84,8 +82,7 @@ class AddOrUpdateNotesFragment : Fragment() {
                         idPatient = preference.getId()
                     )
                 )
-                val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(windowToken, 0)
+                it.hideKeyboard()
                 activity?.supportFragmentManager?.popBackStack()
             }
         }
