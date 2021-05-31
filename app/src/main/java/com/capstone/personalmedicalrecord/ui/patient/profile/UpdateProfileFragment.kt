@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -275,7 +276,6 @@ class UpdateProfileFragment : Fragment() {
         choosePhoto.launch(intent)
     }
 
-
     private val takePhoto =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -307,15 +307,34 @@ class UpdateProfileFragment : Fragment() {
     private val choosePhoto =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                viewModel.updatePicture(preference.getId(), result.data?.data.toString())
+                val selectedImage = result.data?.data as Uri
+                val path = getPathFromURI(selectedImage)
+                if (path != null) {
+                    val file = File(path)
+                    val uri = Uri.fromFile(file)
+                    Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show()
+                    viewModel.updatePicture(preference.getId(), result.data?.data.toString())
 
-                Glide.with(requireContext())
-                    .load(result.data?.data)
-                    .centerCrop()
-                    .into(binding.avatar)
-                Toast.makeText(context, result.data?.data.toString(), Toast.LENGTH_SHORT).show()
+                    Glide.with(requireContext())
+                        .load(File(uri.toString()))
+                        .centerCrop()
+                        .into(binding.avatar)
+
+                }
             }
         }
+
+    private fun getPathFromURI(contentUri: Uri): String? {
+        var res: String? = null
+        val proj = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = requireContext().contentResolver.query(contentUri, proj, null, null, null) as Cursor
+        if (cursor.moveToFirst()) {
+            val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            res = cursor.getString(columnIndex)
+        }
+        cursor.close()
+        return res
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

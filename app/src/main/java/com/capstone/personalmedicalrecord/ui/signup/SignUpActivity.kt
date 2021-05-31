@@ -146,7 +146,6 @@ class SignUpActivity : AppCompatActivity() {
             viewModel.checkPatient(email).observe(this@SignUpActivity, { patient ->
                 if (!check) {
                     p = patient.id == 0
-                    Log.d("p", p.toString())
                     check(p, s)
                 }
 
@@ -154,7 +153,6 @@ class SignUpActivity : AppCompatActivity() {
             viewModel.checkStaff(email).observe(this@SignUpActivity, { staff ->
                 if (!check) {
                     s = staff.id == 0
-                    Log.d("s", s.toString())
                     check(p, s)
                 }
             })
