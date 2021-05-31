@@ -63,9 +63,12 @@ class RecordsFragment : Fragment(), RecordsCallback {
 
         if (activity != null) {
             recordsAdapter = RecordsAdapter(this)
-            val filter =
-                DataDummy.listRecords.filter { note -> note.idPatient == preference.getId() }
-            recordsAdapter.setData(filter)
+            val id = preference.getId()
+            viewModel.getRecords(id).observe(viewLifecycleOwner, { records ->
+                if (records != null) {
+                    recordsAdapter.setData(records)
+                }
+            })
             with(binding.rvRecords) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
@@ -75,7 +78,7 @@ class RecordsFragment : Fragment(), RecordsCallback {
             binding.plusBtn.setOnClickListener {
                 viewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, {
                     if (it.term) {
-                        val singleItems = arrayOf("Take a Photo", "Choose a photo", "Choose a document")
+                        val singleItems = arrayOf("Take a Photo", "Choose a photo", "Choose a document", "Manual Input")
                         var checkedItem = 0
 
                         MaterialAlertDialogBuilder(requireContext())
@@ -86,6 +89,7 @@ class RecordsFragment : Fragment(), RecordsCallback {
                                     0 -> requestPhoto()
                                     1 -> choosePhoto()
                                     2 -> chooseDocument()
+                                    3 -> manualInput()
                                 }
                             }
                             .setSingleChoiceItems(singleItems, 0) { _, which ->
@@ -106,6 +110,15 @@ class RecordsFragment : Fragment(), RecordsCallback {
                 })
             }
         }
+    }
+
+    private fun manualInput() {
+        val fragment = AddOrUpdateRecordFragment()
+        val bundle = Bundle().apply {
+            putString("state", "Add")
+        }
+        fragment.arguments = bundle
+        activity?.navigateTo(fragment, R.id.frame)
     }
 
     private fun requestPhoto() {

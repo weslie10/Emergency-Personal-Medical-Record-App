@@ -63,4 +63,16 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="repeat">Confirm Password</string>
+
+    <string name="add_record">Add Record</string>
+    <string name="update_record">Update Record</string>
+    <string name="record">Record</string>
+    <string name="haematocrit">Haematocrit</string>
+    <string name="haemoglobin">Haemoglobin</string>
+    <string name="erythrocyte">Erythrocyte</string>
+    <string name="leucocyte">Leucocyte</string>
+    <string name="thrombocyte">Thrombocyte</string>
+    <string name="mch">MCH</string>
+    <string name="mchc">MCHC</string>
+    <string name="mcv">MCV</string>
 </resources>

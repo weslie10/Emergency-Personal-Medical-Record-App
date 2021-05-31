@@ -65,9 +65,15 @@ object DataMapper {
 
     fun mapRecordToEntity(input: Record) = RecordEntity(
         id = input.id,
-        datetime = input.datetime,
-        description = input.description,
-        place = input.place,
+        date = input.date,
+        haematocrit = input.haematocrit,
+        haemoglobin = input.haemoglobin,
+        erythrocyte = input.erythrocyte,
+        leucocyte = input.leucocyte,
+        thrombocyte = input.thrombocyte,
+        mch = input.mch,
+        mchc = input.mchc,
+        mcv = input.mcv,
         idPatient = input.idPatient
     )
 
@@ -78,9 +84,15 @@ object DataMapper {
 
     fun mapRecordEntityToDomain(input: RecordEntity) = Record(
         id = input.id,
-        datetime = input.datetime,
-        description = input.description,
-        place = input.place,
+        date = input.date,
+        haematocrit = input.haematocrit,
+        haemoglobin = input.haemoglobin,
+        erythrocyte = input.erythrocyte,
+        leucocyte = input.leucocyte,
+        thrombocyte = input.thrombocyte,
+        mch = input.mch,
+        mchc = input.mchc,
+        mcv = input.mcv,
         idPatient = input.idPatient
     )
 

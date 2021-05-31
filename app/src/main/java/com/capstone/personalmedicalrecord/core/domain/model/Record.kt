@@ -5,9 +5,15 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Record(
-    val id: Int = 0,
-    val datetime: String,
-    val description: String,
-    val place: String,
+    var id: Int = 0,
+    var date: String,
+    var haematocrit: Double,
+    var haemoglobin: Double,
+    var erythrocyte: Double,
+    var leucocyte: Double,
+    var thrombocyte: Int,
+    var mch: Double,
+    var mchc: Double,
+    var mcv: Double,
     var idPatient: Int
 ) : Parcelable

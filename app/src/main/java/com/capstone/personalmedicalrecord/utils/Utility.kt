@@ -82,7 +82,7 @@ object Utility {
         this.text = getDate()
     }
 
-    private fun getDate(): String {
+    fun getDate(): String {
         val dateTime = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("EEEE, d MMMM y")
         return dateTime.format(formatter)

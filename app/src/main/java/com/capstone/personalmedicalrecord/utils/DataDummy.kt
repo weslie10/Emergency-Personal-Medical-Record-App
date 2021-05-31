@@ -7,29 +7,7 @@ import com.capstone.personalmedicalrecord.core.domain.model.Staff
 
 object DataDummy {
 
-    val listRecords = arrayListOf(
-        Record(
-            1,
-            "Saturday, 15 May 2021 12:31",
-            generateDummyText(),
-            "Rumah Sakit Santa Maria",
-            1
-        ),
-        Record(
-            2,
-            "Sunday, 16 May 2021 12:32",
-            generateDummyText(),
-            "Rumah Sakit Awal Bros",
-            2
-        ),
-        Record(
-            3,
-            "Monday, 17 May 2021 12:33",
-            generateDummyText(),
-            "Rumah Sakit Prima",
-            2
-        )
-    )
+    val listRecords = arrayListOf<Record>()
 
     val listNotes = arrayListOf(
         Note(

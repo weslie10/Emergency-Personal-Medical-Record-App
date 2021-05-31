@@ -137,26 +137,195 @@
                 app:layout_constraintTop_toBottomOf="@id/detail_records_date" />
 
             <TextView
-                android:id="@+id/detail_records_description"
-                android:layout_width="match_parent"
+                android:id="@+id/detail_records_haematocrit_txt"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="aasdfasdf asdf asdfnasdf asd fasd fas fas dfas fasf asdf asf asf asdfasdf as dfa sdf"
                 android:textColor="@color/black"
                 android:textSize="16sp"
+                android:text="@string/haematocrit"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/separator_records" />
 
             <TextView
-                android:id="@+id/detail_records_description2"
-                android:layout_width="match_parent"
+                android:id="@+id/detail_records_haematocrit"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="aasdfasdf asdf asdfnasdf asd fasd fas fas dfas fasf asdf asf asf asdfasdf as dfa sdf"
                 android:textColor="@color/black"
                 android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/separator_records" />
+
+            <TextView
+                android:id="@+id/detail_records_haemoglobin_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="@string/haemoglobin"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/detail_records_description" />
+                app:layout_constraintTop_toBottomOf="@id/detail_records_haematocrit_txt" />
+
+            <TextView
+                android:id="@+id/detail_records_haemoglobin"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_records_haematocrit_txt" />
+
+            <TextView
+                android:id="@+id/detail_records_erythrocyte_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="@string/erythrocyte"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_records_haemoglobin_txt" />
+
+            <TextView
+                android:id="@+id/detail_records_erythrocyte"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_records_haemoglobin_txt" />
+
+            <TextView
+                android:id="@+id/detail_records_leucocyte_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="@string/leucocyte"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_records_erythrocyte_txt" />
+
+            <TextView
+                android:id="@+id/detail_records_leucocyte"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_records_erythrocyte_txt" />
+
+            <TextView
+                android:id="@+id/detail_records_thrombocyte_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="@string/thrombocyte"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_records_leucocyte_txt" />
+
+            <TextView
+                android:id="@+id/detail_records_thrombocyte"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_records_leucocyte_txt" />
+
+            <TextView
+                android:id="@+id/detail_records_mch_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="@string/mch"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_records_thrombocyte_txt" />
+
+            <TextView
+                android:id="@+id/detail_records_mch"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_records_thrombocyte_txt" />
+
+            <TextView
+                android:id="@+id/detail_records_mchc_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="@string/mchc"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_records_mch_txt" />
+
+            <TextView
+                android:id="@+id/detail_records_mchc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_records_mch_txt" />
+
+            <TextView
+                android:id="@+id/detail_records_mcv_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="@string/mcv"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_records_mchc_txt" />
+
+            <TextView
+                android:id="@+id/detail_records_mcv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_records_mchc_txt" />
+
+            <ImageButton
+                android:id="@+id/edit_records_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/blue"
+                android:contentDescription="@string/edit"
+                android:src="@drawable/ic__edit_white_24dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_records_mcv_txt" />
+
+            <ImageButton
+                android:id="@+id/delete_records_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:contentDescription="@string/edit"
+                android:src="@drawable/ic_delete_white_24dp"
+                app:layout_constraintBottom_toBottomOf="@id/edit_records_btn"
+                app:layout_constraintStart_toEndOf="@id/edit_records_btn"
+                app:layout_constraintTop_toTopOf="@id/edit_records_btn" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

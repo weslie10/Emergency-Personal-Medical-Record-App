@@ -13,15 +13,34 @@ data class RecordEntity(
     @ColumnInfo(name = "id")
     var id: Int = 0,
 
-    @ColumnInfo(name = "datetime")
-    var datetime: String,
+    @ColumnInfo(name = "date")
+    var date: String,
 
-    @ColumnInfo(name = "description")
-    var description: String,
+    @ColumnInfo(name = "haematocrit")
+    var haematocrit: Double,
 
-    @ColumnInfo(name = "place")
-    var place: String,
+    @ColumnInfo(name = "haemoglobin")
+    var haemoglobin: Double,
+
+    @ColumnInfo(name = "erythrocyte")
+    var erythrocyte: Double,
+
+    @ColumnInfo(name = "leucocyte")
+    var leucocyte: Double,
+
+    @ColumnInfo(name = "thrombocyte")
+    var thrombocyte: Int,
+
+    @ColumnInfo(name = "mch")
+    var mch: Double,
+
+    @ColumnInfo(name = "mchc")
+    var mchc: Double,
+
+    @ColumnInfo(name = "mcv")
+    var mcv: Double,
 
     @ColumnInfo(name = "idPatient")
     var idPatient: Int
 ) : Parcelable
+

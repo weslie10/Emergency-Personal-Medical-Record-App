@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface RecordDao {
 
-    @Query("SELECT * FROM record WHERE idPatient=:idPatient ORDER BY datetime DESC")
+    @Query("SELECT * FROM record WHERE idPatient=:idPatient ORDER BY date DESC")
     fun getRecords(idPatient: Int): Flow<List<RecordEntity>>
 
     @Query("SELECT * FROM record WHERE id=:id")

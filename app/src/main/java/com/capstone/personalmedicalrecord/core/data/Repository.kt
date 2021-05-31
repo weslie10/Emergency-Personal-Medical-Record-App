@@ -98,7 +98,8 @@ class Repository(
 
     override fun getRecord(id: Int): Flow<Record> =
         localDataSource.getRecord(id).map {
-            DataMapper.mapRecordEntityToDomain(it)
+            if (it != null)  DataMapper.mapRecordEntityToDomain(it)
+            else            it
         }
 
     override fun insertRecord(record: Record) {

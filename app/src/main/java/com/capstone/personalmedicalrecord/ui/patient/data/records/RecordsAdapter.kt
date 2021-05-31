@@ -1,8 +1,10 @@
 package com.capstone.personalmedicalrecord.ui.patient.data.records
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.domain.model.Record
 import com.capstone.personalmedicalrecord.databinding.ItemRecordBinding
 
@@ -30,9 +32,9 @@ class RecordsAdapter(private val callback: RecordsCallback) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(record: Record) {
             with(binding) {
-                tvItemDate.text = record.datetime
-                tvItemDescription.text = record.description
-                tvItemPlace.text = record.place
+                tvItemDate.text = record.date
+                tvItemDescription.text = "Blood Check Result"
+                tvItemPlace.visibility = View.GONE
 
                 itemView.setOnClickListener {
                     callback.onItemClick(record)
