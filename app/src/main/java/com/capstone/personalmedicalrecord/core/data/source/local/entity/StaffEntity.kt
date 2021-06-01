@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 data class StaffEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    val id: Int = 0,
+    val id:  String,
 
     @ColumnInfo(name = "name")
     val name: String,

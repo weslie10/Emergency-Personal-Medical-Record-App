@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 data class NoteEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    var id: Int = 0,
+    var id: String,
 
     @ColumnInfo(name = "datetime")
     var datetime: String,

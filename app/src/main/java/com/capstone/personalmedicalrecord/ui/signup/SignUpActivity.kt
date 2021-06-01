@@ -3,7 +3,6 @@ package com.capstone.personalmedicalrecord.ui.signup
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.AdapterView
@@ -138,21 +137,43 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
+    private fun setSpinner() {
+        val list = arrayOf("Patient", "Staff")
+        val arrayAdapter =
+            ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, list)
+        binding.spRole.apply {
+            adapter = arrayAdapter
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    role = list[position]
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+        }
+    }
+
     private fun checkUser(email: String) {
         var p: Boolean? = null
         var s: Boolean? = null
         check = false
+
         lifecycleScope.launch(Dispatchers.Main) {
             viewModel.checkPatient(email).observe(this@SignUpActivity, { patient ->
                 if (!check) {
-                    p = patient.id == 0
+                    p = patient.data?.id == ""
                     check(p, s)
                 }
 
             })
             viewModel.checkStaff(email).observe(this@SignUpActivity, { staff ->
                 if (!check) {
-                    s = staff.id == 0
+                    s = staff.data?.id == ""
                     check(p, s)
                 }
             })
@@ -160,8 +181,8 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun check(p: Boolean?, s: Boolean?) {
-        if (p != null && s != null) {
-            if (p == true && s == true) {
+        if (p != null && s != null && !check) {
+            if (p && s) {
                 check = true
                 setUser(
                     binding.inputEmail.text.toString(),
@@ -215,27 +236,6 @@ class SignUpActivity : AppCompatActivity() {
             }
             startActivity(Intent(this, StaffActivity::class.java))
             this.finish()
-        }
-    }
-
-    private fun setSpinner() {
-        val list = arrayOf("Patient", "Staff")
-        val arrayAdapter =
-            ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, list)
-        binding.spRole.apply {
-            adapter = arrayAdapter
-            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    role = list[position]
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
-            }
         }
     }
 }

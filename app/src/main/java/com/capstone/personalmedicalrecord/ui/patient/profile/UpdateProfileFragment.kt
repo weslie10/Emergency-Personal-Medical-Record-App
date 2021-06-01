@@ -49,7 +49,6 @@ class UpdateProfileFragment : Fragment() {
     private val viewModel: UpdatePatientViewModel by viewModel()
     private var calendar = Calendar.getInstance()
 
-    private var firebaseStore: FirebaseStorage? = null
     private var storageReference: StorageReference? = null
     private var filePath: Uri? = null
 
@@ -70,7 +69,6 @@ class UpdateProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         preference = MyPreference(requireActivity())
 
-        firebaseStore = FirebaseStorage.getInstance()
         storageReference = FirebaseStorage.getInstance().reference
 
         viewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, {
@@ -355,9 +353,7 @@ class UpdateProfileFragment : Fragment() {
 
             uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
                 if (!task.isSuccessful) {
-                    task.exception?.let {
-                        throw it
-                    }
+                    task.exception?.let { throw it }
                 }
                 return@Continuation ref.downloadUrl
             })?.addOnCompleteListener { task ->

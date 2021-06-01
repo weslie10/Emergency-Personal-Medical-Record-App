@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 data class PatientEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    var id: Int = 0,
+    var id: String = 0,
 
     @ColumnInfo(name = "name")
     var name: String,

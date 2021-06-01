@@ -1,6 +1,6 @@
-package com.capstone.personalmedicalrecord.core.domain.model
+package com.capstone.personalmedicalrecord.core.data.source.remote.response
 
-data class Patient(
+data class PatientResponse(
     val id: String = "",
     val name: String = "",
     val email: String = "",

@@ -36,13 +36,13 @@ class SignUpViewModel(
         _repeat.value = repeat
     }
 
-    fun setEmailPatient(email: String) {
-        _emailPatient.value = email
-    }
-
-    fun setEmailStaff(email: String) {
-        _emailStaff.value = email
-    }
+//    fun setEmailPatient(email: String) {
+//        _emailPatient.value = email
+//    }
+//
+//    fun setEmailStaff(email: String) {
+//        _emailStaff.value = email
+//    }
 
     val isSubmitEnabled: Flow<Boolean> =
         combine(_email, _password, _repeat) { email, password, repeat ->
@@ -57,13 +57,14 @@ class SignUpViewModel(
     fun insertStaff(staff: Staff) = staffUseCase.insertStaff(staff)
 
     fun checkPatient(email: String) = patientUseCase.getPatient(email).asLiveData()
+
     fun checkStaff(email: String) = staffUseCase.getStaff(email).asLiveData()
 
-    val existingPatient = Transformations.switchMap(_emailPatient) {
-        patientUseCase.getPatient(it).asLiveData()
-    }
-
-    val existingStaff = Transformations.switchMap(_emailStaff) {
-        staffUseCase.getStaff(it).asLiveData()
-    }
+//    val existingPatient = Transformations.switchMap(_emailPatient) {
+//        patientUseCase.getPatient(it).asLiveData()
+//    }
+//
+//    val existingStaff = Transformations.switchMap(_emailStaff) {
+//        staffUseCase.getStaff(it).asLiveData()
+//    }
 }
