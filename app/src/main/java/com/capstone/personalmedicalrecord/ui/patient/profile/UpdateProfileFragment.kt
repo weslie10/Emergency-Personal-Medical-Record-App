@@ -379,7 +379,7 @@ class UpdateProfileFragment : Fragment() {
 //        val data = HashMap<String, Any>()
 //        data["picture"] = uri
 
-        db.collection("patient").document("1")
+        db.collection("patient").document(preference.getId().toString())
             .update(
                 mapOf(
                     "picture" to uri
