@@ -5,12 +5,12 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.database.Cursor
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +27,13 @@ import com.capstone.personalmedicalrecord.databinding.FragmentPatientUpdateProfi
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.capstone.personalmedicalrecord.utils.Utility.convertEmpty
 import com.capstone.personalmedicalrecord.utils.Utility.hideKeyboard
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.IOException
@@ -42,6 +48,10 @@ class UpdateProfileFragment : Fragment() {
     private val binding get() = _binding as FragmentPatientUpdateProfileBinding
     private val viewModel: UpdatePatientViewModel by viewModel()
     private var calendar = Calendar.getInstance()
+
+    private var firebaseStore: FirebaseStorage? = null
+    private var storageReference: StorageReference? = null
+    private var filePath: Uri? = null
 
     private var currentPhotoPath = ""
     private var condition = false
@@ -59,6 +69,9 @@ class UpdateProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         preference = MyPreference(requireActivity())
+
+        firebaseStore = FirebaseStorage.getInstance()
+        storageReference = FirebaseStorage.getInstance().reference
 
         viewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, {
             if (it != null) {
@@ -271,9 +284,9 @@ class UpdateProfileFragment : Fragment() {
     }
 
     private fun chooseImageGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
-        choosePhoto.launch(intent)
+        choosePhoto.launch(Intent.createChooser(intent, "Select Picture"))
     }
 
     private val takePhoto =
@@ -307,34 +320,92 @@ class UpdateProfileFragment : Fragment() {
     private val choosePhoto =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val selectedImage = result.data?.data as Uri
-                val path = getPathFromURI(selectedImage)
-                if (path != null) {
-                    val file = File(path)
-                    val uri = Uri.fromFile(file)
-                    Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show()
-                    viewModel.updatePicture(preference.getId(), result.data?.data.toString())
+//                val selectedImage = result.data?.data as Uri
+//                val path = getPathFromURI(selectedImage)
+//                if (path != null) {
+//                    val file = File(path)
+//                    val uri = Uri.fromFile(file)
+//                Toast.makeText(context, uri.toString(), Toast.LENGTH_SHORT).show()
 
+//                }
+
+                filePath = result.data?.data
+                try {
+                    val bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        filePath
+                    )
                     Glide.with(requireContext())
-                        .load(File(uri.toString()))
+                        .asBitmap()
+                        .load(bitmap)
                         .centerCrop()
                         .into(binding.avatar)
 
+                    uploadImage()
+                } catch (e: IOException) {
+                    e.printStackTrace()
                 }
             }
         }
 
-    private fun getPathFromURI(contentUri: Uri): String? {
-        var res: String? = null
-        val proj = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = requireContext().contentResolver.query(contentUri, proj, null, null, null) as Cursor
-        if (cursor.moveToFirst()) {
-            val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            res = cursor.getString(columnIndex)
+    private fun uploadImage() {
+        if (filePath != null) {
+            val ref = storageReference?.child("images/" + UUID.randomUUID().toString())
+            val uploadTask = ref?.putFile(filePath!!)
+
+            uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let {
+                        throw it
+                    }
+                }
+                return@Continuation ref.downloadUrl
+            })?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri = task.result
+                    addUploadRecordToDb(downloadUri.toString())
+                }
+            }?.addOnFailureListener {
+                Log.e("error on upload image", it.message.toString())
+            }
+        } else {
+            Toast.makeText(context, "Please Upload an Image", Toast.LENGTH_SHORT).show()
         }
-        cursor.close()
-        return res
     }
+
+    private fun addUploadRecordToDb(uri: String) {
+        val db = FirebaseFirestore.getInstance()
+
+//        val data = HashMap<String, Any>()
+//        data["picture"] = uri
+
+        db.collection("patient").document("1")
+            .update(
+                mapOf(
+                    "picture" to uri
+                )
+            )
+            .addOnSuccessListener {
+                Toast.makeText(context, "Success to Change Picture", Toast.LENGTH_LONG).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(context, "Error saving to DB", Toast.LENGTH_LONG).show()
+            }
+        viewModel.updatePicture(preference.getId(), uri)
+    }
+
+//    private fun getPathFromURI(contentUri: Uri): String? {
+//        var res: String? = null
+//        val proj = arrayOf(MediaStore.Images.Media.DATA)
+//        val cursor =
+//            requireContext().contentResolver.query(contentUri, proj, null, null, null) as Cursor
+//        if (cursor.moveToFirst()) {
+//            val columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+//            res = cursor.getString(columnIndex)
+//        }
+//        cursor.close()
+//        return res
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
