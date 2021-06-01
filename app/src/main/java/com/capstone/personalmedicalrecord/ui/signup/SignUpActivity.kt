@@ -35,7 +35,6 @@ class SignUpActivity : AppCompatActivity() {
     private var repeatError = false
     private var check = false
     private var role = "Patient"
-    private var patientAgree = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,11 +73,11 @@ class SignUpActivity : AppCompatActivity() {
                 emailError = false
                 if (!Patterns.EMAIL_ADDRESS.matcher(it.toString()).matches()) {
                     emailError = true
-                    binding.inputEmail.error = "Incorrect format for Email"
+                    binding.inputEmail.error = "Incorrect format for email"
                 }
             } else {
                 emailError = true
-                binding.inputEmail.error = "Email Can't Be Blank"
+                binding.inputEmail.error = "Email can't be blank"
             }
 
             if (emailError) {
@@ -95,11 +94,11 @@ class SignUpActivity : AppCompatActivity() {
                 if (it.toString().length < 5) {
                     passwordError = true
                     binding.inputPassword.error =
-                        "Password Length should be greater than 5 characters"
+                        "Password length should be greater than 5 characters"
                 }
             } else {
                 passwordError = true
-                binding.inputPassword.error = "Password Can't Be Blank"
+                binding.inputPassword.error = "Password can't be blank"
             }
 
             if (passwordError) {
@@ -116,11 +115,11 @@ class SignUpActivity : AppCompatActivity() {
                 if (it.toString() != binding.inputPassword.text.toString()) {
                     repeatError = true
                     binding.inputRepeat.error =
-                        "Password is not same as repeat"
+                        "Password and confirmation do not match"
                 }
             } else {
                 repeatError = true
-                binding.inputRepeat.error = "Password Can't Be Blank"
+                binding.inputRepeat.error = "Password can't be blank"
             }
 
             if (repeatError) {
@@ -157,38 +156,6 @@ class SignUpActivity : AppCompatActivity() {
                     check(p, s)
                 }
             })
-
-//            if (role == "Patient") {
-//                viewModel.checkPatient(email).observe(this@SignUpActivity, { patient ->
-//                    Log.d("paitent", patient.toString())
-//                    if (patient.id == 0) {
-//                        setUser(
-//                            binding.inputEmail.text.toString(),
-//                            binding.inputPassword.text.toString()
-//                        )
-//                    } else {
-//                        MaterialAlertDialogBuilder(this@SignUpActivity)
-//                            .setMessage(getString(R.string.email_used))
-//                            .setPositiveButton(getString(R.string.ok), null)
-//                            .show()
-//                    }
-//                })
-//            } else {
-//                viewModel.checkPatient(email).observe(this@SignUpActivity, { staff ->
-//                    Log.d("staff", staff.toString())
-//                    if (staff.id == 0) {
-//                        setUser(
-//                            binding.inputEmail.text.toString(),
-//                            binding.inputPassword.text.toString()
-//                        )
-//                    } else {
-//                        MaterialAlertDialogBuilder(this@SignUpActivity)
-//                            .setMessage(getString(R.string.email_used))
-//                            .setPositiveButton(getString(R.string.ok), null)
-//                            .show()
-//                    }
-//                })
-//            }
         }
     }
 
@@ -214,7 +181,17 @@ class SignUpActivity : AppCompatActivity() {
         if (role == "Patient") {
             MaterialAlertDialogBuilder(this@SignUpActivity)
                 .setTitle("Informed Consent")
-                .setMessage("With this term, you're willing to share your medical record to our app...")
+                .setMessage("""
+                    This application will collect and use your data to perform our services. 
+
+                    Some example of data this application collects and uses are:
+
+                    1. Personal data
+                    This may include your name, phone number, birth date, address, gender, and blood type.
+
+                    2. Personal medical record data
+                    This may include your medical laboratory results.
+                """.trimIndent())
                 .setPositiveButton("I agree") { _, _ ->
                     preference.setRole(role)
                     val patient = Patient(name = email.split("@")[0], email = email, password = password)

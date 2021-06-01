@@ -99,7 +99,9 @@ class RecordsFragment : Fragment(), RecordsCallback {
                     } else {
                         MaterialAlertDialogBuilder(requireContext())
                             .setTitle("Informed Consent")
-                            .setMessage("With this term, you're willing to share your medical record to our app...")
+                            .setMessage("""
+                                I hereby agree to share my personal medical record to this application.
+                            """.trimIndent())
                             .setPositiveButton("I agree") { _, _ ->
                                 val patient = it
                                 it.term = true
