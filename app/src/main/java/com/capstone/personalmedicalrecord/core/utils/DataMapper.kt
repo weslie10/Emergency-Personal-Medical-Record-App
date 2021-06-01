@@ -4,6 +4,8 @@ import com.capstone.personalmedicalrecord.core.data.source.local.entity.NoteEnti
 import com.capstone.personalmedicalrecord.core.data.source.local.entity.PatientEntity
 import com.capstone.personalmedicalrecord.core.data.source.local.entity.RecordEntity
 import com.capstone.personalmedicalrecord.core.data.source.local.entity.StaffEntity
+import com.capstone.personalmedicalrecord.core.data.source.remote.response.PatientResponse
+import com.capstone.personalmedicalrecord.core.data.source.remote.response.StaffResponse
 import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.core.domain.model.Record
@@ -50,6 +52,20 @@ object DataMapper {
         }
 
     fun mapPatientEntityToDomain(input: PatientEntity) = Patient(
+        id = input.id,
+        name = input.name,
+        email = input.email,
+        password = input.password,
+        phoneNumber = input.phoneNumber,
+        dateBirth = input.dateBirth,
+        address = input.address,
+        gender = input.gender,
+        bloodType = input.bloodType,
+        picture = input.picture,
+        term = input.term
+    )
+
+    fun mapPatientResponseToEntity(input: PatientResponse) = PatientEntity(
         id = input.id,
         name = input.name,
         email = input.email,
@@ -112,6 +128,16 @@ object DataMapper {
         }
 
     fun mapStaffEntityToDomain(input: StaffEntity) = Staff(
+        id = input.id,
+        name = input.name,
+        email = input.email,
+        password = input.password,
+        phoneNumber = input.phoneNumber,
+        hospital = input.hospital,
+        picture = input.picture
+    )
+
+    fun mapStaffResponseToEntity(input: StaffResponse) = StaffEntity(
         id = input.id,
         name = input.name,
         email = input.email,

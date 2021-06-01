@@ -1,11 +1,11 @@
-package com.capstone.personalmedicalrecord.core.domain.model
+package com.capstone.personalmedicalrecord.core.data.source.remote.response
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class Note(
-    var id:  String = "",
+data class NoteResponse(
+    var id:  String,
     var datetime: String,
     var description: String,
     var idPatient: Int

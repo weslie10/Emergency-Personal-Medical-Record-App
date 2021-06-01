@@ -1,5 +1,6 @@
 package com.capstone.personalmedicalrecord.core.domain.usecase
 
+import com.capstone.personalmedicalrecord.core.data.Resource
 import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.core.domain.repository.IRepository
 import kotlinx.coroutines.flow.Flow
@@ -7,9 +8,9 @@ import kotlinx.coroutines.flow.Flow
 class PatientInteractor(private val repository: IRepository) : PatientUseCase {
     override fun getPatients() = repository.getPatients()
 
-    override fun getPatient(id: Int): Flow<Patient> = repository.getPatient(id)
+    override fun getPatient(id: Int): Flow<Resource<Patient>> = repository.getPatient(id)
 
-    override fun getPatient(email: String): Flow<Patient> = repository.getPatient(email)
+    override fun getPatient(email: String): Flow<Resource<Patient>> = repository.getPatient(email)
 
     override fun insertPatient(patient: Patient) = repository.insertPatient(patient)
 

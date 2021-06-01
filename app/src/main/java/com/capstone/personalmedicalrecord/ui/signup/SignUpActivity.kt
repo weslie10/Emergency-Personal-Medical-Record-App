@@ -3,7 +3,6 @@ package com.capstone.personalmedicalrecord.ui.signup
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.AdapterView
@@ -138,72 +137,59 @@ class SignUpActivity : AppCompatActivity() {
         }
     }
 
+    private fun setSpinner() {
+        val list = arrayOf("Patient", "Staff")
+        val arrayAdapter =
+            ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, list)
+        binding.spRole.apply {
+            adapter = arrayAdapter
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    role = list[position]
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+        }
+    }
+
     private fun checkUser(email: String) {
         var p: Boolean? = null
         var s: Boolean? = null
         check = false
+
         lifecycleScope.launch(Dispatchers.Main) {
             viewModel.checkPatient(email).observe(this@SignUpActivity, { patient ->
                 if (!check) {
-                    p = patient.id == 0
+                    p = patient.data?.id == ""
                     check(p, s)
                 }
 
             })
             viewModel.checkStaff(email).observe(this@SignUpActivity, { staff ->
                 if (!check) {
-                    s = staff.id == 0
+                    s = staff.data?.id == ""
                     check(p, s)
                 }
             })
-
-//            if (role == "Patient") {
-//                viewModel.checkPatient(email).observe(this@SignUpActivity, { patient ->
-//                    Log.d("paitent", patient.toString())
-//                    if (patient.id == 0) {
-//                        setUser(
-//                            binding.inputEmail.text.toString(),
-//                            binding.inputPassword.text.toString()
-//                        )
-//                    } else {
-//                        MaterialAlertDialogBuilder(this@SignUpActivity)
-//                            .setMessage(getString(R.string.email_used))
-//                            .setPositiveButton(getString(R.string.ok), null)
-//                            .show()
-//                    }
-//                })
-//            } else {
-//                viewModel.checkPatient(email).observe(this@SignUpActivity, { staff ->
-//                    Log.d("staff", staff.toString())
-//                    if (staff.id == 0) {
-//                        setUser(
-//                            binding.inputEmail.text.toString(),
-//                            binding.inputPassword.text.toString()
-//                        )
-//                    } else {
-//                        MaterialAlertDialogBuilder(this@SignUpActivity)
-//                            .setMessage(getString(R.string.email_used))
-//                            .setPositiveButton(getString(R.string.ok), null)
-//                            .show()
-//                    }
-//                })
-//            }
         }
     }
 
     private fun check(p: Boolean?, s: Boolean?) {
-        if (p != null && s != null) {
-            Log.d("check", "hello")
-            if (p == true && s == true) {
+        if (p != null && s != null && !check) {
+            if (p && s) {
                 check = true
-                Log.d("check", "hello2")
                 setUser(
                     binding.inputEmail.text.toString(),
                     binding.inputPassword.text.toString()
                 )
             } else {
                 check = true
-                Log.d("check", "hello1")
                 MaterialAlertDialogBuilder(this@SignUpActivity)
                     .setMessage(getString(R.string.email_used))
                     .setPositiveButton(getString(R.string.ok), null)
@@ -232,26 +218,5 @@ class SignUpActivity : AppCompatActivity() {
             this.finish()
         }
         finish()
-    }
-
-    private fun setSpinner() {
-        val list = arrayOf("Patient", "Staff")
-        val arrayAdapter =
-            ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, list)
-        binding.spRole.apply {
-            adapter = arrayAdapter
-            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    role = list[position]
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
-            }
-        }
     }
 }

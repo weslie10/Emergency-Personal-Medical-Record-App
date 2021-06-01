@@ -5,11 +5,8 @@ import com.capstone.personalmedicalrecord.core.data.Repository
 import com.capstone.personalmedicalrecord.core.data.source.local.LocalDataSource
 import com.capstone.personalmedicalrecord.core.data.source.local.room.Database
 import com.capstone.personalmedicalrecord.core.domain.repository.IRepository
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
-import java.util.concurrent.TimeUnit
 
 val databaseModule = module {
     factory { get<Database>().noteDao() }
@@ -24,14 +21,14 @@ val databaseModule = module {
     }
 }
 
-val networkModule = module {
-    single {
-        OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .connectTimeout(120, TimeUnit.SECONDS)
-            .readTimeout(120, TimeUnit.SECONDS)
-            .build()
-    }
+//val networkModule = module {
+//    single {
+//        OkHttpClient.Builder()
+//            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+//            .connectTimeout(120, TimeUnit.SECONDS)
+//            .readTimeout(120, TimeUnit.SECONDS)
+//            .build()
+//    }
 //    single {
 //        val retrofit = Retrofit.Builder()
 //            .baseUrl(BASE_URL)
@@ -40,10 +37,10 @@ val networkModule = module {
 //            .build()
 //        retrofit.create(ApiService::class.java)
 //    }
-}
+//}
 
 val repositoryModule = module {
     single { LocalDataSource(get(), get(), get(), get()) }
 //    single { RemoteDataSource(get()) }
-    single<IRepository> { Repository(get()) }
+    single<IRepository> { Repository(get(), get()) }
 }

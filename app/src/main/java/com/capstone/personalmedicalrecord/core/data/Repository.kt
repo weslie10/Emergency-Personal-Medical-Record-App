@@ -1,6 +1,10 @@
 package com.capstone.personalmedicalrecord.core.data
 
 import com.capstone.personalmedicalrecord.core.data.source.local.LocalDataSource
+import com.capstone.personalmedicalrecord.core.data.source.remote.RemoteDataSource
+import com.capstone.personalmedicalrecord.core.data.source.remote.network.ApiResponse
+import com.capstone.personalmedicalrecord.core.data.source.remote.response.PatientResponse
+import com.capstone.personalmedicalrecord.core.data.source.remote.response.StaffResponse
 import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.core.domain.model.Record
@@ -14,8 +18,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 class Repository(
-    private val localDataSource: LocalDataSource
+    private val localDataSource: LocalDataSource,
+    private val remoteDataSource: RemoteDataSource
 ) : IRepository {
+
     override fun getNotes(idPatient: Int): Flow<List<Note>> =
         localDataSource.getNotes(idPatient).map {
             DataMapper.mapNoteEntitiesToDomain(it)
@@ -23,8 +29,8 @@ class Repository(
 
     override fun getNote(id: Int): Flow<Note> =
         localDataSource.getNote(id).map {
-            if (it != null)  DataMapper.mapNoteEntityToDomain(it)
-            else            it
+            if (it != null) DataMapper.mapNoteEntityToDomain(it)
+            else it
         }
 
     override fun insertNote(note: Note) {
@@ -52,19 +58,58 @@ class Repository(
             DataMapper.mapPatientEntitiesToDomain(it)
         }
 
-    override fun getPatient(id: Int): Flow<Patient> =
-        localDataSource.getPatient(id).map {
-            DataMapper.mapPatientEntityToDomain(it)
-        }
-
-    override fun getPatient(email: String): Flow<Patient> =
-        localDataSource.getPatient(email).map {
-            if (it != null) {
-                DataMapper.mapPatientEntityToDomain(it)
-            } else {
-                Patient()
+    override fun getPatient(id: Int): Flow<Resource<Patient>> =
+        object :
+            NetworkBoundResource<Patient, PatientResponse>() {
+            override fun loadFromDB(): Flow<Patient> {
+                return localDataSource.getPatient(id).map {
+                    if (it != null) {
+                        DataMapper.mapPatientEntityToDomain(it)
+                    } else it
+                }
             }
-        }
+
+            override fun shouldFetch(data: Patient?): Boolean {
+                return data?.id == null
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<PatientResponse>> =
+                remoteDataSource.getPatient(id)
+
+            override suspend fun saveCallResult(data: PatientResponse) {
+                val patientList = DataMapper.mapPatientResponseToEntity(data)
+                localDataSource.insertPatient(patientList)
+            }
+        }.asFlow()
+//        localDataSource.getPatient(id).map {
+//            DataMapper.mapPatientEntityToDomain(it)
+//        }
+
+    override fun getPatient(email: String): Flow<Resource<Patient>> =
+        object :
+            NetworkBoundResource<Patient, PatientResponse>() {
+            override fun loadFromDB(): Flow<Patient> {
+                return localDataSource.getPatient(email).map {
+                    if (it != null) {
+                        DataMapper.mapPatientEntityToDomain(it)
+                    } else {
+                        Patient()
+                    }
+                }
+            }
+
+            override fun shouldFetch(data: Patient?): Boolean {
+                return data?.id == null
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<PatientResponse>> =
+                remoteDataSource.getPatient(email)
+
+            override suspend fun saveCallResult(data: PatientResponse) {
+                val patientList = DataMapper.mapPatientResponseToEntity(data)
+                localDataSource.insertPatient(patientList)
+            }
+        }.asFlow()
 
     override fun insertPatient(patient: Patient): Int {
         val patientEntity = DataMapper.mapPatientToEntity(patient)
@@ -98,8 +143,8 @@ class Repository(
 
     override fun getRecord(id: Int): Flow<Record> =
         localDataSource.getRecord(id).map {
-            if (it != null)  DataMapper.mapRecordEntityToDomain(it)
-            else            it
+            if (it != null) DataMapper.mapRecordEntityToDomain(it)
+            else it
         }
 
     override fun insertRecord(record: Record) {
@@ -127,19 +172,57 @@ class Repository(
             DataMapper.mapStaffEntitiesToDomain(it)
         }
 
-    override fun getStaff(id: Int): Flow<Staff> =
-        localDataSource.getStaff(id).map {
-            DataMapper.mapStaffEntityToDomain(it)
-        }
-
-    override fun getStaff(email: String): Flow<Staff> =
-        localDataSource.getStaff(email).map {
-            if (it != null) {
-                DataMapper.mapStaffEntityToDomain(it)
-            } else {
-                Staff()
+    override fun getStaff(id: Int): Flow<Resource<Staff>> =
+        object :
+            NetworkBoundResource<Staff, StaffResponse>() {
+            override fun loadFromDB(): Flow<Staff> {
+                return localDataSource.getStaff(id).map {
+                    if (it != null) {
+                        DataMapper.mapStaffEntityToDomain(it)
+                    } else {
+                        Staff()
+                    }
+                }
             }
-        }
+
+            override fun shouldFetch(data: Staff?): Boolean {
+                return data?.id == null
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<StaffResponse>> =
+                remoteDataSource.getStaff(id)
+
+            override suspend fun saveCallResult(data: StaffResponse) {
+                val staff = DataMapper.mapStaffResponseToEntity(data)
+                localDataSource.insertStaff(staff)
+            }
+        }.asFlow()
+
+    override fun getStaff(email: String): Flow<Resource<Staff>> =
+        object :
+            NetworkBoundResource<Staff, StaffResponse>() {
+            override fun loadFromDB(): Flow<Staff> {
+                return localDataSource.getStaff(email).map {
+                    if (it != null) {
+                        DataMapper.mapStaffEntityToDomain(it)
+                    } else {
+                        Staff()
+                    }
+                }
+            }
+
+            override fun shouldFetch(data: Staff?): Boolean {
+                return data?.id == null
+            }
+
+            override suspend fun createCall(): Flow<ApiResponse<StaffResponse>> =
+                remoteDataSource.getStaff(email)
+
+            override suspend fun saveCallResult(data: StaffResponse) {
+                val staff = DataMapper.mapStaffResponseToEntity(data)
+                localDataSource.insertStaff(staff)
+            }
+        }.asFlow()
 
     override fun insertStaff(staff: Staff): Int {
         val staffEntity = DataMapper.mapStaffToEntity(staff)

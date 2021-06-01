@@ -1,5 +1,6 @@
 package com.capstone.personalmedicalrecord.core.domain.repository
 
+import com.capstone.personalmedicalrecord.core.data.Resource
 import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.core.domain.model.Record
@@ -14,8 +15,8 @@ interface IRepository {
     fun deleteNote(id: Int)
 
     fun getPatients(): Flow<List<Patient>>
-    fun getPatient(id: Int): Flow<Patient>
-    fun getPatient(email: String): Flow<Patient>
+    fun getPatient(id: Int): Flow<Resource<Patient>>
+    fun getPatient(email: String): Flow<Resource<Patient>>
     fun insertPatient(patient: Patient): Int
     fun updatePatient(patient: Patient)
     fun updatePicturePatient(id: Int, url: String)
@@ -28,8 +29,8 @@ interface IRepository {
     fun deleteRecord(id: Int)
 
     fun getStaffs(): Flow<List<Staff>>
-    fun getStaff(id: Int): Flow<Staff>
-    fun getStaff(email: String): Flow<Staff>
+    fun getStaff(id: Int): Flow<Resource<Staff>>
+    fun getStaff(email: String): Flow<Resource<Staff>>
     fun insertStaff(staff: Staff): Int
     fun updateStaff(staff: Staff)
     fun updatePictureStaff(id: Int, url: String)

@@ -1,11 +1,10 @@
-package com.capstone.personalmedicalrecord.core.domain.model
+package com.capstone.personalmedicalrecord.core.data.source.remote.response
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
-@Parcelize
-data class Record(
-    var id: String = "",
+data class RecordResponse(
+    var id: String,
     var date: String,
     var haematocrit: Double,
     var haemoglobin: Double,
@@ -16,4 +15,4 @@ data class Record(
     var mchc: Double,
     var mcv: Double,
     var idPatient: Int
-) : Parcelable
+)
