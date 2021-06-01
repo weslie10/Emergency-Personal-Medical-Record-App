@@ -98,13 +98,16 @@ class RecordsFragment : Fragment(), RecordsCallback {
                             .show()
                     } else {
                         MaterialAlertDialogBuilder(requireContext())
+                            .setTitle("Informed Consent")
                             .setMessage("With this term, you're willing to share your medical record to our app...")
                             .setPositiveButton("I agree") { _, _ ->
                                 val patient = it
                                 it.term = true
                                 viewModel.update(patient)
                             }
-                            .setCancelable(false)
+                            .setNegativeButton("I refuse") { _, _ ->
+
+                            }
                             .show()
                     }
                 })

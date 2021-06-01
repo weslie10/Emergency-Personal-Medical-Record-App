@@ -35,6 +35,7 @@ class SignUpActivity : AppCompatActivity() {
     private var repeatError = false
     private var check = false
     private var role = "Patient"
+    private var patientAgree = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -193,17 +194,14 @@ class SignUpActivity : AppCompatActivity() {
 
     private fun check(p: Boolean?, s: Boolean?) {
         if (p != null && s != null) {
-            Log.d("check", "hello")
             if (p == true && s == true) {
                 check = true
-                Log.d("check", "hello2")
                 setUser(
                     binding.inputEmail.text.toString(),
                     binding.inputPassword.text.toString()
                 )
             } else {
                 check = true
-                Log.d("check", "hello1")
                 MaterialAlertDialogBuilder(this@SignUpActivity)
                     .setMessage(getString(R.string.email_used))
                     .setPositiveButton(getString(R.string.ok), null)
@@ -213,16 +211,26 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun setUser(email: String, password: String) {
-        preference.setRole(role)
         if (role == "Patient") {
-            val patient = Patient(name = email.split("@")[0], email = email, password = password)
-            lifecycleScope.launch(Dispatchers.IO) {
-                val id = viewModel.insertPatient(patient)
-                preference.setId(id)
-            }
-            startActivity(Intent(this, PatientActivity::class.java))
-            this.finish()
+            MaterialAlertDialogBuilder(this@SignUpActivity)
+                .setTitle("Informed Consent")
+                .setMessage("With this term, you're willing to share your medical record to our app...")
+                .setPositiveButton("I agree") { _, _ ->
+                    preference.setRole(role)
+                    val patient = Patient(name = email.split("@")[0], email = email, password = password)
+                    lifecycleScope.launch(Dispatchers.IO) {
+                        val id = viewModel.insertPatient(patient)
+                        preference.setId(id)
+                    }
+                    startActivity(Intent(this, PatientActivity::class.java))
+                    this.finish()
+                }
+                .setNegativeButton("I refuse") { _, _ ->
+
+                }
+                .show()
         } else {
+            preference.setRole(role)
             val staff = Staff(name = email.split("@")[0], email = email, password = password)
             lifecycleScope.launch(Dispatchers.IO) {
                 val id = viewModel.insertStaff(staff)
@@ -231,7 +239,6 @@ class SignUpActivity : AppCompatActivity() {
             startActivity(Intent(this, StaffActivity::class.java))
             this.finish()
         }
-        finish()
     }
 
     private fun setSpinner() {
