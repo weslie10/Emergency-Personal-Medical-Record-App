@@ -11,9 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.capstone.personalmedicalrecord.R
-import com.capstone.personalmedicalrecord.core.domain.model.Note
-import com.capstone.personalmedicalrecord.core.domain.model.Patient
-import com.capstone.personalmedicalrecord.core.domain.model.Staff
 import com.google.android.material.textfield.TextInputLayout
 import java.time.LocalDate
 import java.time.LocalDateTime

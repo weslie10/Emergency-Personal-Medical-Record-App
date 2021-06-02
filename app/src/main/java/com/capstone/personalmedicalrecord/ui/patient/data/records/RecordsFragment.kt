@@ -22,13 +22,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.data.Resource
-import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.core.domain.model.Record
 import com.capstone.personalmedicalrecord.databinding.FragmentRecordsBinding
 import com.capstone.personalmedicalrecord.ui.patient.data.DetailDataFragment
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.IOException
@@ -44,9 +48,10 @@ class RecordsFragment : Fragment(), RecordsCallback {
     private val binding get() = _binding as FragmentRecordsBinding
     private val viewModel: RecordsViewModel by viewModel()
 
+    private var storageReference: StorageReference? = null
+
     private lateinit var currentPhotoPath: String
-    private var fileUri: Uri? = null
-    private var filePath: String? = null
+    private var imagePath: Uri? = null
     private var access = ""
 
     override fun onCreateView(
@@ -62,6 +67,8 @@ class RecordsFragment : Fragment(), RecordsCallback {
         super.onViewCreated(view, savedInstanceState)
 
         preference = MyPreference(requireActivity())
+
+        storageReference = FirebaseStorage.getInstance().reference
 
         if (activity != null) {
             recordsAdapter = RecordsAdapter(this)
@@ -241,16 +248,6 @@ class RecordsFragment : Fragment(), RecordsCallback {
         chooseDocument.launch(intent)
     }
 
-    private val takePhoto =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                Log.d("data", result.data?.extras?.get("data").toString())
-//                val takenImage = BitmapFactory.decodeFile(photoFile?.absolutePath)
-//            binding.imageView.setImageBitmap(takenImage)
-                Toast.makeText(context, currentPhotoPath, Toast.LENGTH_SHORT).show()
-            }
-        }
-
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
@@ -263,22 +260,51 @@ class RecordsFragment : Fragment(), RecordsCallback {
             }
         }
 
+    private val takePhoto =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                uploadFile(Uri.fromFile(File(currentPhotoPath)), "Image")
+            }
+        }
+
     private val choosePhoto =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-//            viewImage.setImageURI(data?.data)
-                Toast.makeText(context, "Image Choose", Toast.LENGTH_SHORT).show()
+                imagePath = result.data?.data
+                uploadFile(imagePath as Uri, "Image")
             }
         }
 
     private val chooseDocument =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                fileUri = result.data?.data
-                filePath = fileUri?.path
-                Toast.makeText(context, filePath, Toast.LENGTH_SHORT).show()
+                var fileUri = result.data?.data as Uri
+                uploadFile(fileUri, "PDF")
             }
         }
+
+    private fun uploadFile(filePath: Uri, type: String) {
+        if (filePath != null) {
+            val ref = storageReference?.child("records/$type - ${UUID.randomUUID()}")
+            val uploadTask = ref?.putFile(filePath)
+
+            uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let { throw it }
+                }
+                return@Continuation ref.downloadUrl
+            })?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri = task.result
+                    Log.d("downloadUri", downloadUri.toString())
+                }
+            }?.addOnFailureListener {
+                Log.e("error on upload file", it.message.toString())
+            }
+        } else {
+            Toast.makeText(context, "Please Upload an File", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onItemClick(record: Record) {
         val fragment = DetailDataFragment()

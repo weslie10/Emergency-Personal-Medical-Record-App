@@ -53,6 +53,7 @@ class UpdateProfileFragment : Fragment() {
     private var filePath: Uri? = null
 
     private var currentPhotoPath = ""
+    private var oldPicture = ""
     private var condition = false
     private var passwd = ""
     private var access = ""
@@ -67,6 +68,7 @@ class UpdateProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         preference = MyPreference(requireActivity())
 
         storageReference = FirebaseStorage.getInstance().reference
@@ -82,7 +84,7 @@ class UpdateProfileFragment : Fragment() {
                     binding.inputGender.setText(gender.convertEmpty())
                     binding.inputBloodType.setText(bloodType.convertEmpty())
                     passwd = password
-                    currentPhotoPath = picture
+                    oldPicture = picture
                     condition = term
 
                     binding.avatar.setImage(picture)
@@ -105,7 +107,7 @@ class UpdateProfileFragment : Fragment() {
                 address = binding.inputAddress.text.toString(),
                 gender = binding.inputGender.text.toString(),
                 bloodType = binding.inputBloodType.text.toString(),
-                picture = currentPhotoPath,
+                picture = oldPicture,
                 term = condition
             )
             viewModel.update(patient)
@@ -275,18 +277,6 @@ class UpdateProfileFragment : Fragment() {
         choosePhoto.launch(Intent.createChooser(intent, "Select Picture"))
     }
 
-    private val takePhoto =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-                Glide.with(requireContext())
-                    .load(File(currentPhotoPath))
-                    .centerCrop()
-                    .into(binding.avatar)
-                uploadImage(Uri.fromFile(File(currentPhotoPath)))
-            }
-        }
-
-
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
@@ -297,6 +287,17 @@ class UpdateProfileFragment : Fragment() {
                 }
             } else {
                 Toast.makeText(context, "Permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+    private val takePhoto =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                Glide.with(requireContext())
+                    .load(File(currentPhotoPath))
+                    .centerCrop()
+                    .into(binding.avatar)
+                uploadImage(oldPicture, Uri.fromFile(File(currentPhotoPath)))
             }
         }
 
@@ -324,7 +325,7 @@ class UpdateProfileFragment : Fragment() {
                         .centerCrop()
                         .into(binding.avatar)
 
-                    uploadImage(filePath as Uri)
+                    uploadImage(oldPicture, filePath as Uri)
 
                 } catch (e: IOException) {
                     e.printStackTrace()
@@ -332,7 +333,17 @@ class UpdateProfileFragment : Fragment() {
             }
         }
 
-    private fun uploadImage(filePath: Uri) {
+    private fun uploadImage(picture: String, filePath: Uri) {
+        if (picture.length > 2) {
+            val file = FirebaseStorage.getInstance().getReferenceFromUrl(picture)
+            file.delete()
+                .addOnSuccessListener {
+                    Log.d("deletePhoto", "Delete Photo from Firebase Storage")
+                }
+                .addOnFailureListener {
+                    Log.e("deletePhoto", "Error delete photo")
+                }
+        }
         if (filePath != null) {
             val ref = storageReference?.child("profile/" + UUID.randomUUID().toString())
             val uploadTask = ref?.putFile(filePath)

@@ -91,6 +91,38 @@ class RemoteDataSource {
         }
     }
 
+    fun getPatientDetail(id: String): Flow<ApiResponse<PatientResponse>> {
+        return flow {
+            val data = patientDb.document(id).get().await()
+            val patient = data.toObject(PatientResponse::class.java) as PatientResponse
+            Log.d("getPatientDetail", patient.toString())
+            emit(ApiResponse.Success(patient))
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun getPatient(email: String): Flow<ApiResponse<PatientResponse>> {
+        return flow {
+            val data = patientDb.get().await()
+            val patients = data.toObjects(PatientResponse::class.java)
+            if (patients.isNotEmpty()) {
+                var isAvailable = true
+                for (patient in patients) {
+                    if (patient.email == email) {
+                        isAvailable = false
+                        Log.d("getPatient", patient.toString())
+                        emit(ApiResponse.Success(patient))
+                        break
+                    }
+                }
+                if (isAvailable) {
+                    emit(ApiResponse.Success(PatientResponse()))
+                }
+            } else {
+                emit(ApiResponse.Success(PatientResponse()))
+            }
+        }.flowOn(Dispatchers.IO)
+    }
+
     suspend fun insertPatient(patient: PatientResponse): String {
         return try {
             val id = patientDb.document().id
@@ -124,20 +156,6 @@ class RemoteDataSource {
         }
     }
 
-    fun deletePatient(id: String) {
-        try {
-            patientDb.document(id).delete()
-                .addOnSuccessListener {
-                    Log.d("deletePatient", "Delete DB")
-                }
-                .addOnFailureListener {
-                    Log.e("deletePatient", "Error delete in DB")
-                }
-        } catch (e: Exception) {
-            Log.e("deletePatient", e.message.toString())
-        }
-    }
-
     fun updatePicturePatient(id: String, uri: String) {
         try {
             patientDb.document(id).update(mapOf("picture" to uri))
@@ -152,36 +170,18 @@ class RemoteDataSource {
         }
     }
 
-    fun getPatientDetail(id: String): Flow<ApiResponse<PatientResponse>> {
-        return flow {
-            val data = patientDb.document(id).get().await()
-            val patient = data.toObject(PatientResponse::class.java) as PatientResponse
-            Log.d("getPatientDetail", patient.toString())
-            emit(ApiResponse.Success(patient))
-        }.flowOn(Dispatchers.IO)
-    }
-
-    fun getPatient(email: String): Flow<ApiResponse<PatientResponse>> {
-        return flow {
-            val data = patientDb.get().await()
-            val patients = data.toObjects(PatientResponse::class.java)
-            if (patients.isNotEmpty()) {
-                var isAvailable = true
-                for (patient in patients) {
-                    if (patient.email == email) {
-                        isAvailable = false
-                        Log.d("getPatient", patient.toString())
-                        emit(ApiResponse.Success(patient))
-                        break
-                    }
+    fun deletePatient(id: String) {
+        try {
+            patientDb.document(id).delete()
+                .addOnSuccessListener {
+                    Log.d("deletePatient", "Delete DB")
                 }
-                if (isAvailable) {
-                    emit(ApiResponse.Success(PatientResponse()))
+                .addOnFailureListener {
+                    Log.e("deletePatient", "Error delete in DB")
                 }
-            } else {
-                emit(ApiResponse.Success(PatientResponse()))
-            }
-        }.flowOn(Dispatchers.IO)
+        } catch (e: Exception) {
+            Log.e("deletePatient", e.message.toString())
+        }
     }
 
     fun getRecords(idPatient: String): Flow<ApiResponse<List<RecordResponse>>> {
@@ -254,20 +254,6 @@ class RemoteDataSource {
         }
     }
 
-    fun updateStaff(staff: StaffResponse) {
-        try {
-            staffDb.document(staff.id).set(staff)
-                .addOnSuccessListener {
-                    Log.d("updateStaff", "Update DB")
-                }
-                .addOnFailureListener {
-                    Log.e("updateStaff", "Error update in DB")
-                }
-        } catch (e: Exception) {
-            Log.e("updateStaff", e.message.toString())
-        }
-    }
-
     fun getStaffDetail(id: String): Flow<ApiResponse<StaffResponse>> {
         return flow {
             val data = staffDb.document(id).get().await()
@@ -316,6 +302,34 @@ class RemoteDataSource {
         } catch (e: Exception) {
             Log.e("insertStaff", e.message.toString())
             ""
+        }
+    }
+
+    fun updateStaff(staff: StaffResponse) {
+        try {
+            staffDb.document(staff.id).set(staff)
+                .addOnSuccessListener {
+                    Log.d("updateStaff", "Update DB")
+                }
+                .addOnFailureListener {
+                    Log.e("updateStaff", "Error update in DB")
+                }
+        } catch (e: Exception) {
+            Log.e("updateStaff", e.message.toString())
+        }
+    }
+
+    fun updatePictureStaff(id: String, uri: String) {
+        try {
+            staffDb.document(id).update(mapOf("picture" to uri))
+                .addOnSuccessListener {
+                    Log.d("updatePictureStaff", "Success to Change Picture")
+                }
+                .addOnFailureListener {
+                    Log.d("updatePictureStaff", "Error saving to DB")
+                }
+        } catch (e: Exception) {
+            Log.e("updatePictureStaff", e.message.toString())
         }
     }
 

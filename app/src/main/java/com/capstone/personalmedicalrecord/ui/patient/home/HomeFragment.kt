@@ -56,7 +56,7 @@ class HomeFragment : Fragment() {
                 when (it) {
                     is Resource.Loading -> binding.records.text = String.format("Wait")
                     is Resource.Success -> {
-                        binding.records.text = it.data?.size.toString()
+                        binding.records.text = (it.data?.size ?: 0).toString()
                     }
                     is Resource.Error -> {
                         binding.records.text = String.format("Error")
@@ -69,7 +69,7 @@ class HomeFragment : Fragment() {
                 when (it) {
                     is Resource.Loading -> binding.notes.text = String.format("Wait")
                     is Resource.Success -> {
-                        binding.notes.text = it.data?.size.toString()
+                        binding.notes.text = (it.data?.size ?: 0).toString()
                     }
                     is Resource.Error -> {
                         binding.notes.text = String.format("Error")

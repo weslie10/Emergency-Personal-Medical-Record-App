@@ -1,5 +1,6 @@
 package com.capstone.personalmedicalrecord.core.data
 
+import android.net.Uri
 import android.util.Log
 import com.capstone.personalmedicalrecord.core.data.source.local.LocalDataSource
 import com.capstone.personalmedicalrecord.core.data.source.remote.RemoteDataSource
@@ -342,7 +343,7 @@ class Repository(
 
     override fun updatePictureStaff(id: String, url: String) {
         CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
-//            remoteDataSource.updatePicturePatient(id, Uri.parse(url))
+            remoteDataSource.updatePictureStaff(id, url)
             localDataSource.updatePictureStaff(id, url)
         }
     }

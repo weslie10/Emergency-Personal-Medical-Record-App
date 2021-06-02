@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,7 +26,12 @@ import com.capstone.personalmedicalrecord.databinding.FragmentStaffUpdateProfile
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.capstone.personalmedicalrecord.utils.Utility.hideKeyboard
 import com.capstone.personalmedicalrecord.utils.Utility.setImage
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.IOException
@@ -39,7 +45,11 @@ class UpdateProfileFragment : Fragment() {
     private val binding get() = _binding as FragmentStaffUpdateProfileBinding
     private val viewModel: UpdateStaffViewModel by viewModel()
 
+    private var storageReference: StorageReference? = null
+    private var filePath: Uri? = null
+
     private var currentPhotoPath = ""
+    private var oldPicture = ""
     private var passwd = ""
     private var access = ""
 
@@ -56,6 +66,8 @@ class UpdateProfileFragment : Fragment() {
 
         preference = MyPreference(requireContext())
 
+        storageReference = FirebaseStorage.getInstance().reference
+
         viewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, { staff ->
             if (staff.data != null) {
                 with(staff.data) {
@@ -64,7 +76,7 @@ class UpdateProfileFragment : Fragment() {
                     binding.inputPhoneNumber.setText(phoneNumber)
                     binding.inputHospital.setText(hospital)
                     passwd = password
-                    currentPhotoPath = picture
+                    oldPicture = picture
 
                     binding.avatar.setImage(picture)
                 }
@@ -80,7 +92,7 @@ class UpdateProfileFragment : Fragment() {
                 password = passwd,
                 phoneNumber = binding.inputPhoneNumber.text.toString(),
                 hospital = binding.inputHospital.text.toString(),
-                picture = currentPhotoPath
+                picture = oldPicture
             )
             viewModel.update(staff)
             it.hideKeyboard()
@@ -173,26 +185,10 @@ class UpdateProfileFragment : Fragment() {
     }
 
     private fun chooseImageGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/*"
-        choosePhoto.launch(intent)
+        choosePhoto.launch(Intent.createChooser(intent, "Select Picture"))
     }
-
-
-    private val takePhoto =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            if (result.resultCode == Activity.RESULT_OK) {
-//                val takenImage = BitmapFactory.decodeFile(photoFile?.absolutePath)
-//            binding.imageView.setImageBitmap(takenImage)
-                viewModel.updatePicture(preference.getId(), currentPhotoPath)
-
-                Glide.with(requireContext())
-                    .load(File(currentPhotoPath))
-                    .centerCrop()
-                    .into(binding.avatar)
-            }
-        }
-
 
     private val requestPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
@@ -207,16 +203,70 @@ class UpdateProfileFragment : Fragment() {
             }
         }
 
+    private val takePhoto =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                Glide.with(requireContext())
+                    .load(File(currentPhotoPath))
+                    .centerCrop()
+                    .into(binding.avatar)
+                uploadImage(oldPicture, Uri.fromFile(File(currentPhotoPath)))
+            }
+        }
+
     private val choosePhoto =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                viewModel.updatePicture(preference.getId(), result.data?.data.toString())
+                filePath = result.data?.data
+                try {
+                    val bitmap = MediaStore.Images.Media.getBitmap(
+                        requireContext().contentResolver,
+                        filePath
+                    )
+                    Glide.with(requireContext())
+                        .asBitmap()
+                        .load(bitmap)
+                        .centerCrop()
+                        .into(binding.avatar)
 
-                Glide.with(requireContext())
-                    .load(result.data?.data)
-                    .centerCrop()
-                    .into(binding.avatar)
-                Toast.makeText(context, result.data?.data.toString(), Toast.LENGTH_SHORT).show()
+                    uploadImage(oldPicture, filePath as Uri)
+
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+            }
+        }
+
+    private fun uploadImage(picture: String, filePath: Uri) {
+            if (picture.length > 2) {
+                val file = FirebaseStorage.getInstance().getReferenceFromUrl(picture)
+                file.delete()
+                    .addOnSuccessListener {
+                        Log.d("deletePhoto", "Delete Photo from Firebase Storage")
+                    }
+                    .addOnFailureListener {
+                        Log.e("deletePhoto", "Error delete photo")
+                    }
+            }
+            if (filePath != null) {
+                val ref = storageReference?.child("profile/" + UUID.randomUUID().toString())
+                val uploadTask = ref?.putFile(filePath)
+
+                uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                    if (!task.isSuccessful) {
+                        task.exception?.let { throw it }
+                    }
+                    return@Continuation ref.downloadUrl
+                })?.addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        val downloadUri = task.result
+                        viewModel.updatePicture(preference.getId(), downloadUri.toString())
+                    }
+                }?.addOnFailureListener {
+                    Log.e("error on upload image", it.message.toString())
+                }
+            } else {
+                Toast.makeText(context, "Please Upload an Image", Toast.LENGTH_SHORT).show()
             }
         }
 
