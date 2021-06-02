@@ -8,5 +8,6 @@ data class NoteResponse(
     var id:  String,
     var datetime: String,
     var description: String,
-    var idPatient: Int
+    var from: String,
+    var idPatient: String,
 ) : Parcelable

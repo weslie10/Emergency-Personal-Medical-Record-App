@@ -15,7 +15,7 @@
         android:background="@drawable/back_shape"
         android:contentDescription="@string/back"
         android:src="@drawable/ic_back_black_24dp"
-        android:tint="@color/black"
+        app:tint="@color/black"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,8 +36,8 @@
         android:id="@+id/link"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="https://www.google.com"
+        android:layout_marginTop="48dp"
+        tools:text="https://www.google.com"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="24sp"

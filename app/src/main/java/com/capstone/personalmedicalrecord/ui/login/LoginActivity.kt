@@ -11,8 +11,6 @@ import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.PatientActivity
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.StaffActivity
-import com.capstone.personalmedicalrecord.core.domain.model.Patient
-import com.capstone.personalmedicalrecord.core.domain.model.Staff
 import com.capstone.personalmedicalrecord.databinding.ActivityLoginBinding
 import com.capstone.personalmedicalrecord.ui.signup.SignUpActivity
 import com.capstone.personalmedicalrecord.utils.Utility.setColor
@@ -25,6 +23,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var preference: MyPreference
     private val viewModel: LoginViewModel by viewModel()
+    private var check = false
     private var emailError = false
     private var passwordError = false
 
@@ -41,33 +40,39 @@ class LoginActivity : AppCompatActivity() {
         initObserver()
 
         binding.loginBtn.setOnClickListener {
+            check = false
             val email = binding.inputEmail.text.toString()
             viewModel.checkPatient(email).observe(this, { it1 ->
                 if (it1.data != null) {
                     val patient = it1.data
                     if (patient.id != "") {
                         if (patient.password == binding.inputPassword.text.toString()) {
+                            check = true
                             preference.setId(patient.id)
                             preference.setRole("Patient")
                             startActivity(Intent(this, PatientActivity::class.java))
                             finish()
                         } else {
+                            check = true
                             binding.inputPassword.error = "Wrong Password"
                         }
                     } else {
                         viewModel.checkStaff(email).observe(this, { it2 ->
                             if (it2.data != null) {
+                                check = true
                                 val staff = it2.data
                                 if (staff.id != "") {
                                     if (staff.password == binding.inputPassword.text.toString()) {
+                                        check = true
                                         preference.setId(staff.id)
                                         preference.setRole("Staff")
                                         startActivity(Intent(this, StaffActivity::class.java))
                                         finish()
                                     } else {
+                                        check = true
                                         binding.inputPassword.error = "Wrong Password"
                                     }
-                                } else {
+                                } else if (!check) {
                                     MaterialAlertDialogBuilder(this)
                                         .setMessage(getString(R.string.email_not_found))
                                         .setPositiveButton(getString(R.string.ok), null)

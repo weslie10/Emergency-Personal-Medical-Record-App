@@ -9,14 +9,12 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
-import com.capstone.personalmedicalrecord.core.domain.model.Staff
 import com.capstone.personalmedicalrecord.databinding.FragmentStaffProfileBinding
 import com.capstone.personalmedicalrecord.ui.login.LoginActivity
 import com.capstone.personalmedicalrecord.utils.Utility.convertEmpty
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
-
 
 class ProfileFragment : Fragment() {
     private lateinit var preference: MyPreference
@@ -39,8 +37,8 @@ class ProfileFragment : Fragment() {
         preference = MyPreference(requireActivity())
 
         profileViewModel.getStaff(preference.getId()).observe(viewLifecycleOwner, {
-            if (it != null) {
-                with(it.data as Staff) {
+            if (it.data != null) {
+                with(it.data) {
                     binding.fullName.text = name.convertEmpty()
                     binding.email.text = email.convertEmpty()
                     binding.phoneNumber.text = phoneNumber.convertEmpty()

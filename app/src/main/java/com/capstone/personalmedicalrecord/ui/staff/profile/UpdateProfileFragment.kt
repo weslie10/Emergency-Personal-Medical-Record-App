@@ -56,8 +56,8 @@ class UpdateProfileFragment : Fragment() {
         preference = MyPreference(requireContext())
 
         viewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, { staff ->
-            if (staff != null) {
-                with(staff.data as Staff) {
+            if (staff.data != null) {
+                with(staff.data) {
                     binding.inputFullName.setText(name)
                     binding.inputEmail.setText(email)
                     binding.inputPhoneNumber.setText(phoneNumber)
@@ -65,12 +65,19 @@ class UpdateProfileFragment : Fragment() {
                     passwd = password
                     currentPhotoPath = picture
 
-                    Glide.with(requireContext())
-                        .load(File(picture))
-                        .centerCrop()
-                        .placeholder(R.drawable.user)
-                        .error(R.drawable.user)
-                        .into(binding.avatar)
+                    if (picture.length > 2) {
+                        Glide.with(requireContext())
+                            .load(File(picture))
+                            .placeholder(R.drawable.user)
+                            .error(R.drawable.user)
+                            .centerCrop()
+                            .into(binding.avatar)
+                    } else {
+                        Glide.with(requireContext())
+                            .load(R.drawable.user)
+                            .centerCrop()
+                            .into(binding.avatar)
+                    }
                 }
             }
         })

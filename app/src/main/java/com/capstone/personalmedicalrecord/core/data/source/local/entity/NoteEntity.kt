@@ -19,6 +19,9 @@ data class NoteEntity(
     @ColumnInfo(name = "description")
     var description: String,
 
+    @ColumnInfo(name = "from")
+    var from: String,
+
     @ColumnInfo(name = "idPatient")
     var idPatient: String
 ) : Parcelable

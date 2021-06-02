@@ -14,5 +14,5 @@ data class RecordResponse(
     var mch: Double,
     var mchc: Double,
     var mcv: Double,
-    var idPatient: Int
+    var idPatient: String
 )

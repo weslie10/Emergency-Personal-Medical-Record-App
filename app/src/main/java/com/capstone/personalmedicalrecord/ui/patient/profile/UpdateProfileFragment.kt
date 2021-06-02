@@ -10,7 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,13 +26,9 @@ import com.capstone.personalmedicalrecord.databinding.FragmentPatientUpdateProfi
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.capstone.personalmedicalrecord.utils.Utility.convertEmpty
 import com.capstone.personalmedicalrecord.utils.Utility.hideKeyboard
-import com.google.android.gms.tasks.Continuation
-import com.google.android.gms.tasks.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.UploadTask
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.IOException
@@ -49,7 +44,7 @@ class UpdateProfileFragment : Fragment() {
     private val viewModel: UpdatePatientViewModel by viewModel()
     private var calendar = Calendar.getInstance()
 
-    private var storageReference: StorageReference? = null
+//    private var storageReference: StorageReference? = null
     private var filePath: Uri? = null
 
     private var currentPhotoPath = ""
@@ -59,7 +54,7 @@ class UpdateProfileFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentPatientUpdateProfileBinding.inflate(inflater, container, false)
         return binding.root
@@ -69,7 +64,7 @@ class UpdateProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         preference = MyPreference(requireActivity())
 
-        storageReference = FirebaseStorage.getInstance().reference
+//        storageReference = FirebaseStorage.getInstance().reference
 
         viewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, {
             if (it.data != null) {
@@ -292,7 +287,7 @@ class UpdateProfileFragment : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
 //                val takenImage = BitmapFactory.decodeFile(photoFile?.absolutePath)
 //            binding.imageView.setImageBitmap(takenImage)
-                viewModel.updatePicture(preference.getId(), currentPhotoPath)
+                viewModel.updatePicture(preference.getId(), Uri.parse(currentPhotoPath))
 
                 Glide.with(requireContext())
                     .load(File(currentPhotoPath))
@@ -340,6 +335,7 @@ class UpdateProfileFragment : Fragment() {
                         .into(binding.avatar)
 
                     uploadImage()
+
                 } catch (e: IOException) {
                     e.printStackTrace()
                 }
@@ -359,7 +355,7 @@ class UpdateProfileFragment : Fragment() {
             })?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val downloadUri = task.result
-                    addUploadRecordToDb(downloadUri.toString())
+                    viewModel.updatePicture(preference.getId(), downloadUri.toString())
                 }
             }?.addOnFailureListener {
                 Log.e("error on upload image", it.message.toString())
@@ -369,26 +365,26 @@ class UpdateProfileFragment : Fragment() {
         }
     }
 
-    private fun addUploadRecordToDb(uri: String) {
-        val db = FirebaseFirestore.getInstance()
-
-//        val data = HashMap<String, Any>()
-//        data["picture"] = uri
-
-        db.collection("patient").document(preference.getId().toString())
-            .update(
-                mapOf(
-                    "picture" to uri
-                )
-            )
-            .addOnSuccessListener {
-                Toast.makeText(context, "Success to Change Picture", Toast.LENGTH_LONG).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(context, "Error saving to DB", Toast.LENGTH_LONG).show()
-            }
-        viewModel.updatePicture(preference.getId(), uri)
-    }
+//    private fun addUploadRecordToDb(uri: String) {
+//        val db = FirebaseFirestore.getInstance()
+//
+////        val data = HashMap<String, Any>()
+////        data["picture"] = uri
+//
+//        db.collection("patient").document(preference.getId())
+//            .update(
+//                mapOf(
+//                    "picture" to uri
+//                )
+//            )
+//            .addOnSuccessListener {
+//                Toast.makeText(context, "Success to Change Picture", Toast.LENGTH_LONG).show()
+//            }
+//            .addOnFailureListener {
+//                Toast.makeText(context, "Error saving to DB", Toast.LENGTH_LONG).show()
+//            }
+//        viewModel.updatePicture(preference.getId(), uri)
+//    }
 
 //    private fun getPathFromURI(contentUri: Uri): String? {
 //        var res: String? = null

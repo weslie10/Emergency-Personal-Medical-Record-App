@@ -61,7 +61,8 @@ class AddOrUpdateNotesFragment : Fragment() {
                     Note(
                         datetime = getDatetime(),
                         description = binding.inputNote.text.toString(),
-                        idPatient = preference.getId()
+                        from = "from",
+                        idPatient = preference.getId(),
                     )
                 )
                 it.hideKeyboard()
@@ -79,6 +80,7 @@ class AddOrUpdateNotesFragment : Fragment() {
                         id = id,
                         datetime = getDatetime(),
                         description = binding.inputNote.text.toString(),
+                        from = "from",
                         idPatient = preference.getId()
                     )
                 )

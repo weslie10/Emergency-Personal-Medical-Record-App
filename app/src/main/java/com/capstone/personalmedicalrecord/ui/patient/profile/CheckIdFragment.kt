@@ -1,25 +1,18 @@
 package com.capstone.personalmedicalrecord.ui.patient.profile
 
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Paint
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidmads.library.qrgenearator.QRGContents
 import androidmads.library.qrgenearator.QRGEncoder
 import androidx.fragment.app.Fragment
 import com.capstone.personalmedicalrecord.MyPreference
-import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentCheckIdBinding
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.google.zxing.WriterException
-
 
 class CheckIdFragment : Fragment() {
     private lateinit var preference: MyPreference
@@ -31,7 +24,7 @@ class CheckIdFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentCheckIdBinding.inflate(layoutInflater)
         return binding.root
@@ -44,21 +37,18 @@ class CheckIdFragment : Fragment() {
 
         activity?.clickBack(binding.backBtn)
 
-        binding.link.apply {
-            text =
-                context?.resources?.getString(R.string.link_format, preference.getId().toString())
+        binding.link.text = preference.getId()
 
-            paintFlags =
-                paintFlags or Paint.UNDERLINE_TEXT_FLAG
-
-            setOnClickListener {
-                val clipboardManager =
-                    context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-                val clipData = ClipData.newPlainText("text", text)
-                clipboardManager.setPrimaryClip(clipData)
-                Toast.makeText(context, "Text copied to clipboard", Toast.LENGTH_LONG).show()
-            }
-        }
+//        paintFlags =
+//            paintFlags or Paint.UNDERLINE_TEXT_FLAG
+//
+//        setOnClickListener {
+//            val clipboardManager =
+//                context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+//            val clipData = ClipData.newPlainText("text", text)
+//            clipboardManager.setPrimaryClip(clipData)
+//            Toast.makeText(context, "Text copied to clipboard", Toast.LENGTH_LONG).show()
+//        }
 
         qrgEncoder = QRGEncoder(binding.link.text.toString(), null, QRGContents.Type.TEXT, 300)
         try {

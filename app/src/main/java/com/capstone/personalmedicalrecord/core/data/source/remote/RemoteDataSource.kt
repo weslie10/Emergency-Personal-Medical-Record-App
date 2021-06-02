@@ -4,8 +4,6 @@ import android.util.Log
 import com.capstone.personalmedicalrecord.core.data.source.remote.network.ApiResponse
 import com.capstone.personalmedicalrecord.core.data.source.remote.response.PatientResponse
 import com.capstone.personalmedicalrecord.core.data.source.remote.response.StaffResponse
-import com.capstone.personalmedicalrecord.core.domain.model.Patient
-import com.capstone.personalmedicalrecord.core.domain.model.Staff
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -19,7 +17,7 @@ class RemoteDataSource {
     private val patientDb = db.collection("patient")
     private val staffDb = db.collection("staff")
 
-    suspend fun insertPatient(patient: Patient): String {
+    suspend fun insertPatient(patient: PatientResponse): String {
         return try {
             val result = patientDb.add(patient)
                 .addOnSuccessListener {
@@ -33,6 +31,34 @@ class RemoteDataSource {
         } catch (e: Exception) {
             Log.e("insertPatient", e.message.toString())
             ""
+        }
+    }
+
+    fun updatePatient(patient: PatientResponse) {
+        try {
+            patientDb.document(patient.id).set(patient)
+                .addOnSuccessListener {
+                    Log.d("updatePatient", "Update DB")
+                }
+                .addOnFailureListener {
+                    Log.e("updatePatient", "Error update in DB")
+                }
+        } catch (e: Exception) {
+            Log.e("updatePatient", e.message.toString())
+        }
+    }
+
+    fun updatePicturePatient(id: String, uri: String) {
+        try {
+            patientDb.document(id).update(mapOf("picture" to uri))
+                .addOnSuccessListener {
+                    Log.d("updatePicturePatient", "Success to Change Picture")
+                }
+                .addOnFailureListener {
+                    Log.d("updatePicturePatient", "Error saving to DB")
+                }
+        } catch (e: Exception) {
+            Log.e("updatePicturePatient", e.message.toString())
         }
     }
 
@@ -73,7 +99,7 @@ class RemoteDataSource {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun insertStaff(staff: Staff): String {
+    suspend fun insertStaff(staff: StaffResponse): String {
         return try {
             val result = staffDb.add(staff)
                 .addOnSuccessListener {
@@ -90,9 +116,23 @@ class RemoteDataSource {
         }
     }
 
+    fun updateStaff(staff: StaffResponse) {
+        try {
+            staffDb.document(staff.id).set(staff)
+                .addOnSuccessListener {
+                    Log.d("updateStaff", "Update DB")
+                }
+                .addOnFailureListener {
+                    Log.e("updateStaff", "Error update in DB")
+                }
+        } catch (e: Exception) {
+            Log.e("updateStaff", e.message.toString())
+        }
+    }
+
     fun getStaffDetail(id: String): Flow<ApiResponse<StaffResponse>> {
         return flow {
-            val idStaff = patientDb.document(id).id
+            val idStaff = staffDb.document(id).id
             val data = staffDb.document(id).get().await()
             val staff = data.toObject(StaffResponse::class.java) as StaffResponse
             staff.id = idStaff

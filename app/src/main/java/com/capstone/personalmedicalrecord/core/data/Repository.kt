@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 class Repository(
     private val localDataSource: LocalDataSource,
-    private val remoteDataSource: RemoteDataSource
+    private val remoteDataSource: RemoteDataSource,
 ) : IRepository {
 
     override fun getNotes(idPatient: String): Flow<List<Note>> =
@@ -107,30 +107,31 @@ class Repository(
                 remoteDataSource.getPatient(email)
 
             override suspend fun saveCallResult(data: PatientResponse) {
-                if (data.id != ""){
+                if (data.id != "") {
                     val patientList = DataMapper.mapPatientResponseToEntity(data)
                     CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
                         localDataSource.insertPatient(patientList)
                     }
-                }
-                else {
-                    Log.d("save",data.toString())
+                } else {
+                    Log.d("save", data.toString())
                 }
             }
         }.asFlow()
 
     override suspend fun insertPatient(patient: Patient): String =
-        remoteDataSource.insertPatient(patient)
+        remoteDataSource.insertPatient(DataMapper.mapPatientToResponse(patient))
 
     override fun updatePatient(patient: Patient) {
         val patientEntity = DataMapper.mapPatientToEntity(patient)
         CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            remoteDataSource.updatePatient(DataMapper.mapPatientToResponse(patient))
             localDataSource.updatePatient(patientEntity)
         }
     }
 
     override fun updatePicturePatient(id: String, url: String) {
         CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            remoteDataSource.updatePicturePatient(id, url)
             localDataSource.updatePicturePatient(id, url)
         }
     }
@@ -196,7 +197,7 @@ class Repository(
             }
 
             override suspend fun createCall(): Flow<ApiResponse<StaffResponse>> =
-                remoteDataSource.getStaff(id)
+                remoteDataSource.getStaffDetail(id)
 
             override suspend fun saveCallResult(data: StaffResponse) {
                 val staff = DataMapper.mapStaffResponseToEntity(data)
@@ -227,30 +228,31 @@ class Repository(
                 remoteDataSource.getStaff(email)
 
             override suspend fun saveCallResult(data: StaffResponse) {
-                if (data.id != ""){
+                if (data.id != "") {
                     val staff = DataMapper.mapStaffResponseToEntity(data)
                     CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
                         localDataSource.insertStaff(staff)
                     }
-                }
-                else {
-                    Log.d("save",data.toString())
+                } else {
+                    Log.d("save", data.toString())
                 }
             }
         }.asFlow()
 
     override suspend fun insertStaff(staff: Staff): String =
-        remoteDataSource.insertStaff(staff)
+        remoteDataSource.insertStaff(DataMapper.mapStaffToResponse(staff))
 
     override fun updateStaff(staff: Staff) {
         val staffEntity = DataMapper.mapStaffToEntity(staff)
         CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            remoteDataSource.updateStaff(DataMapper.mapStaffToResponse(staff))
             localDataSource.updateStaff(staffEntity)
         }
     }
 
     override fun updatePictureStaff(id: String, url: String) {
         CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+//            remoteDataSource.updatePicturePatient(id, Uri.parse(url))
             localDataSource.updatePictureStaff(id, url)
         }
     }
