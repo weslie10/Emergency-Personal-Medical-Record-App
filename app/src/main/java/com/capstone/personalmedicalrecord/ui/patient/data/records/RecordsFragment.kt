@@ -124,8 +124,9 @@ class RecordsFragment : Fragment(), RecordsCallback {
                                     I hereby agree to share my personal medical record to this application.
                                 """.trimIndent())
                                 .setPositiveButton("I agree") { _, _ ->
-                                    val patient = it.data as Patient
+                                    val patient = it.data
                                     patient.term = true
+                                    Log.d("patient", patient.toString())
                                     viewModel.update(patient)
                                 }
                                 .setNegativeButton("I refuse", null)

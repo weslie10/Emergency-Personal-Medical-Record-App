@@ -52,7 +52,7 @@ class NotesFragment : Fragment(), NotesCallback {
                             showLoading(false)
                             Snackbar.make(
                                 binding.root,
-                                "There is some mistake",
+                                "There's some mistake",
                                 Snackbar.LENGTH_LONG
                             ).show()
                         }
@@ -79,16 +79,16 @@ class NotesFragment : Fragment(), NotesCallback {
         if (isEmpty) {
             binding.empty.visibility = View.VISIBLE
         } else {
-            binding.empty.visibility = View.GONE
+            binding.empty.visibility = View.INVISIBLE
         }
     }
 
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {
             binding.progressBar.visibility = View.VISIBLE
-            binding.rvNotes.visibility = View.GONE
+            binding.rvNotes.visibility = View.INVISIBLE
         } else {
-            binding.progressBar.visibility = View.GONE
+            binding.progressBar.visibility = View.INVISIBLE
             binding.rvNotes.visibility = View.VISIBLE
         }
     }

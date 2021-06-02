@@ -50,16 +50,12 @@ class AddOrUpdateNotesFragment : Fragment() {
                     viewModel.getNote(id).observe(viewLifecycleOwner, { note ->
                         if (note != null) {
                             when (note) {
-                                is Resource.Loading -> {
-
-                                }
+                                is Resource.Loading -> {}
                                 is Resource.Success -> {
                                     binding.inputNote.setText(note.data?.description)
                                     from = note.data?.from.toString()
                                 }
-                                is Resource.Error -> {
-
-                                }
+                                is Resource.Error -> {}
                             }
                         }
                     })
@@ -79,7 +75,7 @@ class AddOrUpdateNotesFragment : Fragment() {
                         Note(
                             datetime = getDatetime(),
                             description = binding.inputNote.text.toString(),
-                            from = "from",
+                            from = "me",
                             idPatient = preference.getId(),
                         )
                     )

@@ -12,7 +12,7 @@ class RecordsViewModel(
 ) : ViewModel() {
     fun getRecords(idPatient: String) = recordUseCase.getRecords(idPatient).asLiveData()
 
-    fun getPatient(id: String) = patientUseCase.getPatient(id).asLiveData()
+    fun getPatient(id: String) = patientUseCase.getPatientDetail(id).asLiveData()
 
     fun update(patient: Patient) = patientUseCase.updatePatient(patient)
 
