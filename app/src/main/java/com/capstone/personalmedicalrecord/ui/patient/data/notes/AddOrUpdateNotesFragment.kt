@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
+import com.capstone.personalmedicalrecord.core.data.Resource
 import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.databinding.FragmentAddOrUpdateNotesBinding
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.capstone.personalmedicalrecord.utils.Utility.getDatetime
 import com.capstone.personalmedicalrecord.utils.Utility.hideKeyboard
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class AddOrUpdateNotesFragment : Fragment() {
@@ -20,6 +24,7 @@ class AddOrUpdateNotesFragment : Fragment() {
 
     private val viewModel: NoteAddUpdateViewModel by viewModel()
     private lateinit var preference: MyPreference
+    private lateinit var from: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +39,6 @@ class AddOrUpdateNotesFragment : Fragment() {
 
         preference = MyPreference(requireContext())
 
-
         val arg = this.arguments
         if (arg != null) {
             when (arg.getString("state")) {
@@ -44,7 +48,20 @@ class AddOrUpdateNotesFragment : Fragment() {
                 "Update" -> {
                     val id = arg.getString("id").toString()
                     viewModel.getNote(id).observe(viewLifecycleOwner, { note ->
-                        binding.inputNote.setText(note.description)
+                        if (note != null) {
+                            when (note) {
+                                is Resource.Loading -> {
+
+                                }
+                                is Resource.Success -> {
+                                    binding.inputNote.setText(note.data?.description)
+                                    from = note.data?.from.toString()
+                                }
+                                is Resource.Error -> {
+
+                                }
+                            }
+                        }
                     })
                     updateNote(id)
                 }
@@ -57,14 +74,16 @@ class AddOrUpdateNotesFragment : Fragment() {
         binding.notesBtn.apply {
             text = resources.getString(R.string.add_note)
             setOnClickListener {
-                viewModel.insert(
-                    Note(
-                        datetime = getDatetime(),
-                        description = binding.inputNote.text.toString(),
-                        from = "from",
-                        idPatient = preference.getId(),
+                lifecycleScope.launch(Dispatchers.IO) {
+                    viewModel.insert(
+                        Note(
+                            datetime = getDatetime(),
+                            description = binding.inputNote.text.toString(),
+                            from = "from",
+                            idPatient = preference.getId(),
+                        )
                     )
-                )
+                }
                 it.hideKeyboard()
                 activity?.supportFragmentManager?.popBackStack()
             }
@@ -80,7 +99,7 @@ class AddOrUpdateNotesFragment : Fragment() {
                         id = id,
                         datetime = getDatetime(),
                         description = binding.inputNote.text.toString(),
-                        from = "from",
+                        from = from,
                         idPatient = preference.getId()
                     )
                 )

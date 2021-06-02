@@ -1,18 +1,15 @@
 package com.capstone.personalmedicalrecord.core.data.source.remote.response
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-
 data class RecordResponse(
-    var id: String,
-    var date: String,
-    var haematocrit: Double,
-    var haemoglobin: Double,
-    var erythrocyte: Double,
-    var leucocyte: Double,
-    var thrombocyte: Int,
-    var mch: Double,
-    var mchc: Double,
-    var mcv: Double,
-    var idPatient: String
+    var id: String = "",
+    var date: String = "",
+    var haematocrit: Double = 0.0,
+    var haemoglobin: Double = 0.0,
+    var erythrocyte: Double = 0.0,
+    var leucocyte: Double = 0.0,
+    var thrombocyte: Int = 0,
+    var mch: Double = 0.0,
+    var mchc: Double = 0.0,
+    var mcv: Double = 0.0,
+    var idPatient: String = "",
 )

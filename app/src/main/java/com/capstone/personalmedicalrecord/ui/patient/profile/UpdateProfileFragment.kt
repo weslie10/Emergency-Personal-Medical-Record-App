@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,9 +27,12 @@ import com.capstone.personalmedicalrecord.databinding.FragmentPatientUpdateProfi
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.capstone.personalmedicalrecord.utils.Utility.convertEmpty
 import com.capstone.personalmedicalrecord.utils.Utility.hideKeyboard
+import com.google.android.gms.tasks.Continuation
+import com.google.android.gms.tasks.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.IOException
@@ -44,7 +48,7 @@ class UpdateProfileFragment : Fragment() {
     private val viewModel: UpdatePatientViewModel by viewModel()
     private var calendar = Calendar.getInstance()
 
-//    private var storageReference: StorageReference? = null
+    private var storageReference: StorageReference? = null
     private var filePath: Uri? = null
 
     private var currentPhotoPath = ""
@@ -64,7 +68,7 @@ class UpdateProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         preference = MyPreference(requireActivity())
 
-//        storageReference = FirebaseStorage.getInstance().reference
+        storageReference = FirebaseStorage.getInstance().reference
 
         viewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, {
             if (it.data != null) {
@@ -285,9 +289,8 @@ class UpdateProfileFragment : Fragment() {
     private val takePhoto =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-//                val takenImage = BitmapFactory.decodeFile(photoFile?.absolutePath)
-//            binding.imageView.setImageBitmap(takenImage)
-                viewModel.updatePicture(preference.getId(), Uri.parse(currentPhotoPath))
+
+                uploadImage(Uri.parse(currentPhotoPath))
 
                 Glide.with(requireContext())
                     .load(File(currentPhotoPath))
@@ -334,7 +337,7 @@ class UpdateProfileFragment : Fragment() {
                         .centerCrop()
                         .into(binding.avatar)
 
-                    uploadImage()
+                    uploadImage(filePath as Uri)
 
                 } catch (e: IOException) {
                     e.printStackTrace()
@@ -342,10 +345,10 @@ class UpdateProfileFragment : Fragment() {
             }
         }
 
-    private fun uploadImage() {
+    private fun uploadImage(filePath: Uri) {
         if (filePath != null) {
-            val ref = storageReference?.child("images/" + UUID.randomUUID().toString())
-            val uploadTask = ref?.putFile(filePath!!)
+            val ref = storageReference?.child("profile/" + UUID.randomUUID().toString())
+            val uploadTask = ref?.putFile(filePath)
 
             uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
                 if (!task.isSuccessful) {

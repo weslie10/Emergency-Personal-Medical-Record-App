@@ -16,7 +16,7 @@ class RecordsViewModel(
 
     fun update(patient: Patient) = patientUseCase.updatePatient(patient)
 
-    fun getRecord(id: String) = recordUseCase.getRecord(id).asLiveData()
+    fun getRecordDetail(id: String) = recordUseCase.getRecordDetail(id).asLiveData()
 
     fun deleteRecord(id: String) = recordUseCase.deleteRecord(id)
 }

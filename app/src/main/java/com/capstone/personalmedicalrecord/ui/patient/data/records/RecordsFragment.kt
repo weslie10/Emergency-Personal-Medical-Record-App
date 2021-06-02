@@ -21,12 +21,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
+import com.capstone.personalmedicalrecord.core.data.Resource
 import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.core.domain.model.Record
 import com.capstone.personalmedicalrecord.databinding.FragmentRecordsBinding
 import com.capstone.personalmedicalrecord.ui.patient.data.DetailDataFragment
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.IOException
@@ -50,7 +52,7 @@ class RecordsFragment : Fragment(), RecordsCallback {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentRecordsBinding.inflate(inflater, container, false)
         return binding.root
@@ -66,7 +68,22 @@ class RecordsFragment : Fragment(), RecordsCallback {
             val id = preference.getId()
             viewModel.getRecords(id).observe(viewLifecycleOwner, { records ->
                 if (records != null) {
-                    recordsAdapter.setData(records)
+                    when (records) {
+                        is Resource.Loading -> showLoading(true)
+                        is Resource.Success -> {
+                            showLoading(false)
+                            recordsAdapter.setData(records.data)
+                            showEmpty(records.data?.isEmpty() as Boolean)
+                        }
+                        is Resource.Error -> {
+                            showLoading(false)
+                            Snackbar.make(
+                                binding.root,
+                                "There is some mistake",
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                        }
+                    }
                 }
             })
             with(binding.rvRecords) {
@@ -77,38 +94,64 @@ class RecordsFragment : Fragment(), RecordsCallback {
 
             binding.plusBtn.setOnClickListener {
                 viewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, {
-                    if (it.data?.term == true) {
-                        val singleItems = arrayOf("Take a Photo", "Choose a photo", "Choose a document", "Manual Input")
-                        var checkedItem = 0
+                    if (it.data != null) {
+                        if (it.data.term) {
+                            val singleItems = arrayOf("Take a Photo",
+                                "Choose a photo",
+                                "Choose a document",
+                                "Manual Input")
+                            var checkedItem = 0
 
-                        MaterialAlertDialogBuilder(requireContext())
-                            .setTitle(getString(R.string.add_record_text))
-                            .setNeutralButton(getString(R.string.cancel), null)
-                            .setPositiveButton(getString(R.string.ok)) { _, _ ->
-                                when (checkedItem) {
-                                    0 -> requestPhoto()
-                                    1 -> choosePhoto()
-                                    2 -> chooseDocument()
-                                    3 -> manualInput()
+                            MaterialAlertDialogBuilder(requireContext())
+                                .setTitle(getString(R.string.add_record_text))
+                                .setNeutralButton(getString(R.string.cancel), null)
+                                .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                                    when (checkedItem) {
+                                        0 -> requestPhoto()
+                                        1 -> choosePhoto()
+                                        2 -> chooseDocument()
+                                        3 -> manualInput()
+                                    }
                                 }
-                            }
-                            .setSingleChoiceItems(singleItems, 0) { _, which ->
-                                checkedItem = which
-                            }
-                            .show()
-                    } else {
-                        MaterialAlertDialogBuilder(requireContext())
-                            .setMessage("With this term, you're willing to share your medical record to our app...")
-                            .setPositiveButton("I agree") { _, _ ->
-                                val patient = it.data as Patient
-                                patient.term = true
-                                viewModel.update(patient)
-                            }
-                            .setCancelable(false)
-                            .show()
+                                .setSingleChoiceItems(singleItems, 0) { _, which ->
+                                    checkedItem = which
+                                }
+                                .show()
+                        } else if (!it.data.term) {
+                            MaterialAlertDialogBuilder(requireContext())
+                                .setTitle("Informed Consent")
+                                .setMessage("""
+                                    I hereby agree to share my personal medical record to this application.
+                                """.trimIndent())
+                                .setPositiveButton("I agree") { _, _ ->
+                                    val patient = it.data as Patient
+                                    patient.term = true
+                                    viewModel.update(patient)
+                                }
+                                .setNegativeButton("I refuse", null)
+                                .show()
+                        }
                     }
                 })
             }
+        }
+    }
+
+    private fun showEmpty(isEmpty: Boolean) {
+        if (isEmpty) {
+            binding.empty.visibility = View.VISIBLE
+        } else {
+            binding.empty.visibility = View.GONE
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.rvRecords.visibility = View.GONE
+        } else {
+            binding.progressBar.visibility = View.GONE
+            binding.rvRecords.visibility = View.VISIBLE
         }
     }
 

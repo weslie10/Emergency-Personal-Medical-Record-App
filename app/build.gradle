@@ -53,6 +53,7 @@ dependencies {
     implementation "androidx.preference:preference-ktx:$preference_version"
     implementation "androidmads.library.qrgenearator:QRGenearator:$qr_code_version"
     implementation 'com.budiyev.android:code-scanner:2.1.0'
+    implementation "com.airbnb.android:lottie:$lottie_version"
 
     implementation 'io.data2viz.charts:core:1.1.0-eap1'
     implementation 'io.data2viz.d2v:viz:0.8.12'

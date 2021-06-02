@@ -2,7 +2,9 @@ package com.capstone.personalmedicalrecord.ui.patient.data.notes
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.databinding.ItemNoteBinding
 
@@ -20,7 +22,7 @@ class NotesAdapter(private val callback: NotesCallback) :
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        viewType: Int
+        viewType: Int,
     ): ListViewHolder {
         val binding = ItemNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListViewHolder(binding)
@@ -32,7 +34,10 @@ class NotesAdapter(private val callback: NotesCallback) :
             with(binding) {
                 tvItemDate.text = note.datetime
                 tvItemDescription.text = note.description
-
+                if (note.from != "Personal") {
+                    itemContainer.setBackgroundColor(ContextCompat.getColor(itemContainer.context,
+                        R.color.blue_dark))
+                }
                 itemView.setOnClickListener {
                     callback.onItemClick(note)
                 }

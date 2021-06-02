@@ -18,6 +18,7 @@ buildscript {
         qr_code_version = "1.0.3"
         zxing_embedded_version = "3.6.0"
         mutltidex_version = "1.0.3"
+        lottie_version = "3.4.1"
 
         preference_version = "1.1.1"
 

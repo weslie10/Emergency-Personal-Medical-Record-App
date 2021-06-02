@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.Flow
 class RecordInteractor(private val repository: IRepository) : RecordUseCase {
     override fun getRecords(idPatient: String) = repository.getRecords(idPatient)
 
-    override fun getRecord(id: String): Flow<Record> = repository.getRecord(id)
+    override fun getRecordDetail(id: String) = repository.getRecordDetail(id)
 
-    override fun insertRecord(record: Record) = repository.insertRecord(record)
+    override suspend fun insertRecord(record: Record) = repository.insertRecord(record)
 
     override fun updateRecord(record: Record) = repository.updateRecord(record)
 

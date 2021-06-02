@@ -8,9 +8,9 @@ import com.capstone.personalmedicalrecord.core.domain.model.Staff
 import kotlinx.coroutines.flow.Flow
 
 interface IRepository {
-    fun getNotes(idPatient: String): Flow<List<Note>>
-    fun getNote(id: String): Flow<Note>
-    fun insertNote(note: Note)
+    fun getNotes(idPatient: String): Flow<Resource<List<Note>>>
+    fun getNoteDetail(id: String): Flow<Resource<Note>>
+    suspend fun insertNote(note: Note): String
     fun updateNote(note: Note)
     fun deleteNote(id: String)
 
@@ -22,9 +22,9 @@ interface IRepository {
     fun updatePicturePatient(id: String, url: String)
     fun deletePatient(patient: Patient)
 
-    fun getRecords(idPatient: String): Flow<List<Record>>
-    fun getRecord(id: String): Flow<Record>
-    fun insertRecord(record: Record)
+    fun getRecords(idPatient: String): Flow<Resource<List<Record>>>
+    fun getRecordDetail(id: String): Flow<Resource<Record>>
+    suspend fun insertRecord(record: Record): String
     fun updateRecord(record: Record)
     fun deleteRecord(id: String)
 

@@ -8,10 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
+import com.capstone.personalmedicalrecord.core.data.Resource
 import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.databinding.FragmentNotesBinding
 import com.capstone.personalmedicalrecord.ui.patient.data.DetailDataFragment
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
+import com.google.android.material.snackbar.Snackbar
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class NotesFragment : Fragment(), NotesCallback {
@@ -38,8 +40,23 @@ class NotesFragment : Fragment(), NotesCallback {
             notesAdapter = NotesAdapter(this)
             val id = preference.getId()
             viewModel.getNotes(id).observe(viewLifecycleOwner, { notes ->
-                if (notes!=null) {
-                    notesAdapter.setData(notes)
+                if (notes != null) {
+                    when (notes) {
+                        is Resource.Loading -> showLoading(true)
+                        is Resource.Success -> {
+                            showLoading(false)
+                            notesAdapter.setData(notes.data)
+                            showEmpty(notes.data?.isEmpty() as Boolean)
+                        }
+                        is Resource.Error -> {
+                            showLoading(false)
+                            Snackbar.make(
+                                binding.root,
+                                "There is some mistake",
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                        }
+                    }
                 }
             })
             with(binding.rvNotes) {
@@ -55,6 +72,24 @@ class NotesFragment : Fragment(), NotesCallback {
                 fragment.arguments = bundle
                 activity?.navigateTo(fragment, R.id.frame)
             }
+        }
+    }
+
+    private fun showEmpty(isEmpty: Boolean) {
+        if (isEmpty) {
+            binding.empty.visibility = View.VISIBLE
+        } else {
+            binding.empty.visibility = View.GONE
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.rvNotes.visibility = View.GONE
+        } else {
+            binding.progressBar.visibility = View.GONE
+            binding.rvNotes.visibility = View.VISIBLE
         }
     }
 

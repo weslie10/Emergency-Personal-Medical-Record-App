@@ -4,7 +4,9 @@ import android.util.Log
 import com.capstone.personalmedicalrecord.core.data.source.local.LocalDataSource
 import com.capstone.personalmedicalrecord.core.data.source.remote.RemoteDataSource
 import com.capstone.personalmedicalrecord.core.data.source.remote.network.ApiResponse
+import com.capstone.personalmedicalrecord.core.data.source.remote.response.NoteResponse
 import com.capstone.personalmedicalrecord.core.data.source.remote.response.PatientResponse
+import com.capstone.personalmedicalrecord.core.data.source.remote.response.RecordResponse
 import com.capstone.personalmedicalrecord.core.data.source.remote.response.StaffResponse
 import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.core.domain.model.Patient
@@ -23,22 +25,64 @@ class Repository(
     private val remoteDataSource: RemoteDataSource,
 ) : IRepository {
 
-    override fun getNotes(idPatient: String): Flow<List<Note>> =
-        localDataSource.getNotes(idPatient).map {
-            DataMapper.mapNoteEntitiesToDomain(it)
-        }
+    override fun getNotes(idPatient: String): Flow<Resource<List<Note>>> =
+        object : NetworkBoundResource<List<Note>, List<NoteResponse>>() {
+            override fun loadFromDB(): Flow<List<Note>> {
+                return localDataSource.getNotes(idPatient).map { notes ->
+                    if (notes != null) {
+                        DataMapper.mapNoteEntitiesToDomain(notes)
+                    } else {
+                        notes
+                    }
+                }
+            }
 
-    override fun getNote(id: String): Flow<Note> =
-        localDataSource.getNote(id).map {
-            if (it != null) DataMapper.mapNoteEntityToDomain(it)
-            else it
-        }
+            override fun shouldFetch(data: List<Note>?): Boolean = true
 
-    override fun insertNote(note: Note) {
-        val noteEntity = DataMapper.mapNoteToEntity(note)
-        CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
-            localDataSource.insertNote(noteEntity)
-        }
+            override suspend fun createCall(): Flow<ApiResponse<List<NoteResponse>>> =
+                remoteDataSource.getNotes(idPatient)
+
+            override suspend fun saveCallResult(data: List<NoteResponse>) {
+                val notes = data.map {
+                    DataMapper.mapNoteResponseToEntity(it)
+                }
+                CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+                    for (note in notes) {
+                        localDataSource.insertNote(note)
+                    }
+                }
+            }
+        }.asFlow()
+
+    override fun getNoteDetail(id: String): Flow<Resource<Note>> =
+        object : NetworkBoundResource<Note, NoteResponse>() {
+            override fun loadFromDB(): Flow<Note> {
+                return localDataSource.getNoteDetail(id).map {
+                    Log.d("getNoteDetail repo", it.toString())
+                    if (it != null) {
+                        DataMapper.mapNoteEntityToDomain(it)
+                    } else {
+                        it
+                    }
+                }
+            }
+
+            override fun shouldFetch(data: Note?): Boolean = data?.id == null
+
+            override suspend fun createCall(): Flow<ApiResponse<NoteResponse>> =
+                remoteDataSource.getNoteDetail(id)
+
+            override suspend fun saveCallResult(data: NoteResponse) {
+                val note = DataMapper.mapNoteResponseToEntity(data)
+                CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+                    localDataSource.insertNote(note)
+                }
+            }
+        }.asFlow()
+
+    override suspend fun insertNote(note: Note): String {
+        val noteResponse = DataMapper.mapNoteToResponse(note)
+        return remoteDataSource.insertNote(noteResponse)
     }
 
     override fun updateNote(note: Note) {
@@ -143,22 +187,64 @@ class Repository(
         }
     }
 
-    override fun getRecords(idPatient: String): Flow<List<Record>> =
-        localDataSource.getRecords(idPatient).map {
-            DataMapper.mapRecordEntitiesToDomain(it)
-        }
+    override fun getRecords(idPatient: String): Flow<Resource<List<Record>>> =
+        object : NetworkBoundResource<List<Record>, List<RecordResponse>>() {
+            override fun loadFromDB(): Flow<List<Record>> {
+                return localDataSource.getRecords(idPatient).map { records ->
+                    if (records != null) {
+                        DataMapper.mapRecordEntitiesToDomain(records)
+                    } else {
+                        records
+                    }
+                }
+            }
 
-    override fun getRecord(id: String): Flow<Record> =
-        localDataSource.getRecord(id).map {
-            if (it != null) DataMapper.mapRecordEntityToDomain(it)
-            else it
-        }
+            override fun shouldFetch(data: List<Record>?): Boolean = true
 
-    override fun insertRecord(record: Record) {
-        val recordEntity = DataMapper.mapRecordToEntity(record)
-        CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
-            localDataSource.insertRecord(recordEntity)
-        }
+            override suspend fun createCall(): Flow<ApiResponse<List<RecordResponse>>> =
+                remoteDataSource.getRecords(idPatient)
+
+            override suspend fun saveCallResult(data: List<RecordResponse>) {
+                val records = data.map {
+                    DataMapper.mapRecordResponseToEntity(it)
+                }
+                CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+                    for (record in records) {
+                        localDataSource.insertRecord(record)
+                    }
+                }
+            }
+        }.asFlow()
+
+    override fun getRecordDetail(id: String): Flow<Resource<Record>> =
+        object : NetworkBoundResource<Record, RecordResponse>() {
+            override fun loadFromDB(): Flow<Record> {
+                return localDataSource.getRecordDetail(id).map {
+                    Log.d("getRecordDetail repo", it.toString())
+                    if (it != null) {
+                        DataMapper.mapRecordEntityToDomain(it)
+                    } else {
+                        it
+                    }
+                }
+            }
+
+            override fun shouldFetch(data: Record?): Boolean = data?.id == null
+
+            override suspend fun createCall(): Flow<ApiResponse<RecordResponse>> =
+                remoteDataSource.getRecordDetail(id)
+
+            override suspend fun saveCallResult(data: RecordResponse) {
+                val record = DataMapper.mapRecordResponseToEntity(data)
+                CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+                    localDataSource.insertRecord(record)
+                }
+            }
+        }.asFlow()
+
+    override suspend fun insertRecord(record: Record): String {
+        val recordResponse = DataMapper.mapRecordToResponse(record)
+        return remoteDataSource.insertRecord(recordResponse)
     }
 
     override fun updateRecord(record: Record) {

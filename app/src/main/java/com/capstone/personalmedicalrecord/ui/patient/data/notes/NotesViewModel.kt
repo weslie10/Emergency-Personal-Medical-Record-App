@@ -8,7 +8,7 @@ class NotesViewModel(private val noteUseCase: NoteUseCase) : ViewModel() {
 
     fun getNotes(idPatient: String) = noteUseCase.getNotes(idPatient).asLiveData()
 
-    fun getNote(id: String) = noteUseCase.getNote(id).asLiveData()
+    fun getNoteDetail(id: String) = noteUseCase.getNoteDetail(id).asLiveData()
 
     fun deleteNote(id: String) = noteUseCase.deleteNote(id)
 }

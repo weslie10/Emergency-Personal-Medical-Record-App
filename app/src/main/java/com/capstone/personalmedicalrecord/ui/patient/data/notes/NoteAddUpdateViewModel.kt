@@ -7,9 +7,9 @@ import com.capstone.personalmedicalrecord.core.domain.usecase.NoteUseCase
 
 class NoteAddUpdateViewModel(private val noteUseCase: NoteUseCase) : ViewModel() {
 
-    fun insert(note: Note) = noteUseCase.insertNote(note)
+    suspend fun insert(note: Note) = noteUseCase.insertNote(note)
 
     fun update(note: Note) = noteUseCase.updateNote(note)
 
-    fun getNote(id: String) = noteUseCase.getNote(id).asLiveData()
+    fun getNote(id: String) = noteUseCase.getNoteDetail(id).asLiveData()
 }

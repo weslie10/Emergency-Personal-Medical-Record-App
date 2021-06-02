@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
+import com.capstone.personalmedicalrecord.core.data.Resource
 import com.capstone.personalmedicalrecord.core.domain.model.Record
 import com.capstone.personalmedicalrecord.databinding.FragmentAddOrUpdateRecordBinding
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.capstone.personalmedicalrecord.utils.Utility.getDate
 import com.capstone.personalmedicalrecord.utils.Utility.hideKeyboard
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class AddOrUpdateRecordFragment : Fragment() {
@@ -43,14 +47,26 @@ class AddOrUpdateRecordFragment : Fragment() {
                 "Update" -> {
                     val id = arg.getString("id").toString()
                     viewModel.getRecord(id).observe(viewLifecycleOwner, { record ->
-                        binding.inputHaematocrit.setText(record.haematocrit.toString())
-                        binding.inputHaemoglobin.setText(record.haemoglobin.toString())
-                        binding.inputErythrocyte.setText(record.erythrocyte.toString())
-                        binding.inputLeucocyte.setText(record.leucocyte.toString())
-                        binding.inputThrombocyte.setText(record.thrombocyte.toString())
-                        binding.inputMch.setText(record.mch.toString())
-                        binding.inputMchc.setText(record.mchc.toString())
-                        binding.inputMcv.setText(record.mcv.toString())
+                        if (record != null) {
+                            when (record) {
+                                is Resource.Loading -> {
+                                    binding.inputHaematocrit.setText(record.data?.haematocrit.toString())
+                                    binding.inputHaemoglobin.setText(record.data?.haemoglobin.toString())
+                                    binding.inputErythrocyte.setText(record.data?.erythrocyte.toString())
+                                    binding.inputLeucocyte.setText(record.data?.leucocyte.toString())
+                                    binding.inputThrombocyte.setText(record.data?.thrombocyte.toString())
+                                    binding.inputMch.setText(record.data?.mch.toString())
+                                    binding.inputMchc.setText(record.data?.mchc.toString())
+                                    binding.inputMcv.setText(record.data?.mcv.toString())
+                                }
+                                is Resource.Success -> {
+
+                                }
+                                is Resource.Error -> {
+
+                                }
+                            }
+                        }
                     })
                     updateRecord(id)
                 }
@@ -63,20 +79,22 @@ class AddOrUpdateRecordFragment : Fragment() {
         binding.recordBtn.apply {
             text = resources.getString(R.string.add_record)
             setOnClickListener {
-                viewModel.insert(
-                    Record(
-                        date = getDate(),
-                        haematocrit = binding.inputHaematocrit.text.toString().toDouble(),
-                        haemoglobin = binding.inputHaemoglobin.text.toString().toDouble(),
-                        erythrocyte = binding.inputErythrocyte.text.toString().toDouble(),
-                        leucocyte = binding.inputLeucocyte.text.toString().toDouble(),
-                        thrombocyte = binding.inputThrombocyte.text.toString().toInt(),
-                        mch = binding.inputMch.text.toString().toDouble(),
-                        mchc = binding.inputMchc.text.toString().toDouble(),
-                        mcv = binding.inputMcv.text.toString().toDouble(),
-                        idPatient = preference.getId()
+                lifecycleScope.launch(Dispatchers.IO) {
+                    viewModel.insert(
+                        Record(
+                            date = getDate(),
+                            haematocrit = binding.inputHaematocrit.text.toString().toDouble(),
+                            haemoglobin = binding.inputHaemoglobin.text.toString().toDouble(),
+                            erythrocyte = binding.inputErythrocyte.text.toString().toDouble(),
+                            leucocyte = binding.inputLeucocyte.text.toString().toDouble(),
+                            thrombocyte = binding.inputThrombocyte.text.toString().toInt(),
+                            mch = binding.inputMch.text.toString().toDouble(),
+                            mchc = binding.inputMchc.text.toString().toDouble(),
+                            mcv = binding.inputMcv.text.toString().toDouble(),
+                            idPatient = preference.getId()
+                        )
                     )
-                )
+                }
                 it.hideKeyboard()
                 activity?.supportFragmentManager?.popBackStack()
             }

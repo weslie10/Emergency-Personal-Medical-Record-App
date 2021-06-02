@@ -62,10 +62,10 @@ class HomeFragment : Fragment() {
 
         })
         homeViewModel.getRecords(preference.getId()).observe(viewLifecycleOwner, {
-            binding.records.text = it.size.toString()
+            binding.records.text = it.data?.size.toString()
         })
         homeViewModel.getNotes(preference.getId()).observe(viewLifecycleOwner, {
-            binding.notes.text = it.size.toString()
+            binding.notes.text = it.data?.size.toString()
         })
         binding.graph.addView(TestChart(requireContext()))
     }
