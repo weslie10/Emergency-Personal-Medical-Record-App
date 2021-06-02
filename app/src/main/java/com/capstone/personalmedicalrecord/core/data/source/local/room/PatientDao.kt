@@ -28,6 +28,6 @@ interface PatientDao {
     @Query("UPDATE patient SET picture=:url WHERE id=:id")
     fun updatePicturePatient(id: String, url: String)
 
-    @Delete
-    fun deletePatient(patient: PatientEntity)
+    @Query("DELETE FROM patient WHERE id=:id")
+    fun deletePatient(id: String)
 }

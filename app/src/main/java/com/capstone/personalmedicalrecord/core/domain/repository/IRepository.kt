@@ -20,7 +20,7 @@ interface IRepository {
     suspend fun insertPatient(patient: Patient): String
     fun updatePatient(patient: Patient)
     fun updatePicturePatient(id: String, url: String)
-    fun deletePatient(patient: Patient)
+    fun deletePatient(id: String)
 
     fun getRecords(idPatient: String): Flow<Resource<List<Record>>>
     fun getRecordDetail(id: String): Flow<Resource<Record>>
@@ -34,5 +34,5 @@ interface IRepository {
     suspend fun insertStaff(staff: Staff): String
     fun updateStaff(staff: Staff)
     fun updatePictureStaff(id: String, url: String)
-    fun deleteStaff(staff: Staff)
+    fun deleteStaff(id: String)
 }

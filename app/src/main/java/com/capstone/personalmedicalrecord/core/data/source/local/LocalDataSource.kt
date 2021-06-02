@@ -40,7 +40,7 @@ class LocalDataSource(
 
     fun updatePicturePatient(id: String, url: String) = patientDao.updatePicturePatient(id, url)
 
-    fun deletePatient(patient: PatientEntity) = patientDao.deletePatient(patient)
+    fun deletePatient(id: String) = patientDao.deletePatient(id)
 
     fun getRecords(idPatient: String) = recordDao.getRecords(idPatient)
 
@@ -66,5 +66,5 @@ class LocalDataSource(
 
     fun updatePictureStaff(id: String, url: String) = staffDao.updatePictureStaff(id, url)
 
-    fun deleteStaff(staff: StaffEntity) = staffDao.deleteStaff(staff)
+    fun deleteStaff(id: String) = staffDao.deleteStaff(id)
 }

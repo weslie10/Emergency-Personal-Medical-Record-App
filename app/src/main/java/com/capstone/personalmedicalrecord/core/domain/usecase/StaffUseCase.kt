@@ -11,5 +11,5 @@ interface StaffUseCase {
     suspend fun insertStaff(staff: Staff): String
     fun updateStaff(staff: Staff)
     fun updatePictureStaff(id: String, url: String)
-    fun deleteStaff(staff: Staff)
+    fun deleteStaff(id: String)
 }
