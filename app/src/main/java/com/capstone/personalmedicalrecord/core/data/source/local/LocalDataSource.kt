@@ -18,7 +18,7 @@ class LocalDataSource(
 
     fun getNotes(idPatient: String) = noteDao.getNotes(idPatient)
 
-    fun getNote(id: String) = noteDao.getNote(id)
+    fun getNoteDetail(id: String) = noteDao.getNote(id)
 
     fun insertNote(note: NoteEntity) = noteDao.insertNote(note)
 
@@ -44,7 +44,7 @@ class LocalDataSource(
 
     fun getRecords(idPatient: String) = recordDao.getRecords(idPatient)
 
-    fun getRecord(id: String) = recordDao.getRecord(id)
+    fun getRecordDetail(id: String) = recordDao.getRecord(id)
 
     fun insertRecord(record: RecordEntity) = recordDao.insertRecord(record)
 

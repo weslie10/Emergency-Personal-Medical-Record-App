@@ -21,12 +21,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
+import com.capstone.personalmedicalrecord.core.data.Resource
 import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.core.domain.model.Record
 import com.capstone.personalmedicalrecord.databinding.FragmentRecordsBinding
 import com.capstone.personalmedicalrecord.ui.patient.data.DetailDataFragment
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 import java.io.IOException
@@ -66,7 +68,22 @@ class RecordsFragment : Fragment(), RecordsCallback {
             val id = preference.getId()
             viewModel.getRecords(id).observe(viewLifecycleOwner, { records ->
                 if (records != null) {
-                    recordsAdapter.setData(records)
+                    when (records) {
+                        is Resource.Loading -> showLoading(true)
+                        is Resource.Success -> {
+                            showLoading(false)
+                            recordsAdapter.setData(records.data)
+                            showEmpty(records.data?.isEmpty() as Boolean)
+                        }
+                        is Resource.Error -> {
+                            showLoading(false)
+                            Snackbar.make(
+                                binding.root,
+                                "There is some mistake",
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                        }
+                    }
                 }
             })
             with(binding.rvRecords) {
@@ -114,6 +131,24 @@ class RecordsFragment : Fragment(), RecordsCallback {
                     }
                 })
             }
+        }
+    }
+
+    private fun showEmpty(isEmpty: Boolean) {
+        if (isEmpty) {
+            binding.empty.visibility = View.VISIBLE
+        } else {
+            binding.empty.visibility = View.GONE
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+            binding.rvRecords.visibility = View.GONE
+        } else {
+            binding.progressBar.visibility = View.GONE
+            binding.rvRecords.visibility = View.VISIBLE
         }
     }
 

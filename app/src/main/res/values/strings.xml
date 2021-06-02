@@ -75,4 +75,6 @@
     <string name="mch">MCH</string>
     <string name="mchc">MCHC</string>
     <string name="mcv">MCV</string>
+    <string name="empty_data">There is nothing here.</string>
+    <string name="item_from">From Weslie Leonardo</string>
 </resources>
