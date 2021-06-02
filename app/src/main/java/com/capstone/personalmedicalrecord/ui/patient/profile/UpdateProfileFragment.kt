@@ -27,6 +27,7 @@ import com.capstone.personalmedicalrecord.databinding.FragmentPatientUpdateProfi
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.capstone.personalmedicalrecord.utils.Utility.convertEmpty
 import com.capstone.personalmedicalrecord.utils.Utility.hideKeyboard
+import com.capstone.personalmedicalrecord.utils.Utility.setImage
 import com.google.android.gms.tasks.Continuation
 import com.google.android.gms.tasks.Task
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -84,19 +85,7 @@ class UpdateProfileFragment : Fragment() {
                     currentPhotoPath = picture
                     condition = term
 
-                    if (picture.length > 2) {
-                        Glide.with(requireContext())
-                            .load(File(picture))
-                            .placeholder(R.drawable.user)
-                            .error(R.drawable.user)
-                            .centerCrop()
-                            .into(binding.avatar)
-                    } else {
-                        Glide.with(requireContext())
-                            .load(R.drawable.user)
-                            .centerCrop()
-                            .into(binding.avatar)
-                    }
+                    binding.avatar.setImage(picture)
                 }
             }
         })
@@ -289,13 +278,11 @@ class UpdateProfileFragment : Fragment() {
     private val takePhoto =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-
-                uploadImage(Uri.parse(currentPhotoPath))
-
                 Glide.with(requireContext())
                     .load(File(currentPhotoPath))
                     .centerCrop()
                     .into(binding.avatar)
+                uploadImage(Uri.fromFile(File(currentPhotoPath)))
             }
         }
 

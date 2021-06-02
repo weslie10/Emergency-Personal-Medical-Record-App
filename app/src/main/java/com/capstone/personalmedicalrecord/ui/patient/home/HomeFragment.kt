@@ -11,6 +11,7 @@ import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentPatientHomeBinding
 import com.capstone.personalmedicalrecord.utils.Utility.dateNow
+import com.capstone.personalmedicalrecord.utils.Utility.setImage
 import com.capstone.personalmedicalrecord.utils.Utility.simpleText
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
@@ -45,19 +46,7 @@ class HomeFragment : Fragment() {
                 val text = arr.simpleText()
                 binding.greeting.text = resources.getString(R.string.greeting, text)
 
-                if (patient.picture.length > 2) {
-                    Glide.with(requireContext())
-                        .load(File(patient.picture))
-                        .placeholder(R.drawable.user)
-                        .error(R.drawable.user)
-                        .centerCrop()
-                        .into(binding.avatar)
-                } else {
-                    Glide.with(requireContext())
-                        .load(R.drawable.user)
-                        .centerCrop()
-                        .into(binding.avatar)
-                }
+                binding.avatar.setImage(patient.picture)
             }
 
         })

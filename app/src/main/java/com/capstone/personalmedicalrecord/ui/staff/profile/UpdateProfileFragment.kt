@@ -24,6 +24,7 @@ import com.capstone.personalmedicalrecord.core.domain.model.Staff
 import com.capstone.personalmedicalrecord.databinding.FragmentStaffUpdateProfileBinding
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.capstone.personalmedicalrecord.utils.Utility.hideKeyboard
+import com.capstone.personalmedicalrecord.utils.Utility.setImage
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
@@ -65,19 +66,7 @@ class UpdateProfileFragment : Fragment() {
                     passwd = password
                     currentPhotoPath = picture
 
-                    if (picture.length > 2) {
-                        Glide.with(requireContext())
-                            .load(File(picture))
-                            .placeholder(R.drawable.user)
-                            .error(R.drawable.user)
-                            .centerCrop()
-                            .into(binding.avatar)
-                    } else {
-                        Glide.with(requireContext())
-                            .load(R.drawable.user)
-                            .centerCrop()
-                            .into(binding.avatar)
-                    }
+                    binding.avatar.setImage(picture)
                 }
             }
         })

@@ -13,6 +13,7 @@ import com.capstone.personalmedicalrecord.databinding.FragmentStaffProfileBindin
 import com.capstone.personalmedicalrecord.ui.login.LoginActivity
 import com.capstone.personalmedicalrecord.utils.Utility.convertEmpty
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
+import com.capstone.personalmedicalrecord.utils.Utility.setImage
 import org.koin.android.viewmodel.ext.android.viewModel
 import java.io.File
 
@@ -44,19 +45,7 @@ class ProfileFragment : Fragment() {
                     binding.phoneNumber.text = phoneNumber.convertEmpty()
                     binding.hospital.text = hospital.convertEmpty()
 
-                    if (picture.length > 2) {
-                        Glide.with(requireContext())
-                            .load(File(picture))
-                            .placeholder(R.drawable.user)
-                            .error(R.drawable.user)
-                            .centerCrop()
-                            .into(binding.avatar)
-                    } else {
-                        Glide.with(requireContext())
-                            .load(R.drawable.user)
-                            .centerCrop()
-                            .into(binding.avatar)
-                    }
+                    binding.avatar.setImage(picture)
                 }
             }
         })

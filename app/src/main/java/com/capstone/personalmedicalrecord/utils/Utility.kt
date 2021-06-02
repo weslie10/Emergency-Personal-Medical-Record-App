@@ -5,9 +5,11 @@ import android.content.res.ColorStateList
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import com.bumptech.glide.Glide
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.core.domain.model.Patient
@@ -43,24 +45,6 @@ object Utility {
             supportFragmentManager.popBackStack()
         }
     }
-
-//    fun Int.searchPatient(): Patient {
-//        return DataDummy.listPatient.filter { patient ->
-//            patient.id == this
-//        }[0]
-//    }
-//
-//    fun Int.searchStaff(): Staff {
-//        return DataDummy.listStaff.filter { staff ->
-//            staff.id == this
-//        }[0]
-//    }
-//
-//    fun Int.searchNote(): Note {
-//        return DataDummy.listNotes.filter { note ->
-//            note.id == this
-//        }[0]
-//    }
 
     fun MutableList<String>.simpleText(): String {
         var count = 0
@@ -102,5 +86,21 @@ object Utility {
         val imm =
             context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+    fun ImageView.setImage(picture: String) {
+        if (picture.length > 2) {
+            Glide.with(context)
+                .load(picture)
+                .placeholder(R.drawable.user)
+                .error(R.drawable.user)
+                .centerCrop()
+                .into(this)
+        } else {
+            Glide.with(context)
+                .load(R.drawable.user)
+                .centerCrop()
+                .into(this)
+        }
     }
 }
