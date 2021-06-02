@@ -11,6 +11,8 @@ import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.PatientActivity
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.StaffActivity
+import com.capstone.personalmedicalrecord.core.domain.model.Patient
+import com.capstone.personalmedicalrecord.core.domain.model.Staff
 import com.capstone.personalmedicalrecord.databinding.ActivityLoginBinding
 import com.capstone.personalmedicalrecord.ui.signup.SignUpActivity
 import com.capstone.personalmedicalrecord.utils.Utility.setColor
@@ -40,34 +42,40 @@ class LoginActivity : AppCompatActivity() {
 
         binding.loginBtn.setOnClickListener {
             val email = binding.inputEmail.text.toString()
-            viewModel.checkPatient(email).observe(this, { patient ->
-                if (patient.id != 0) {
-                    if (patient.password == binding.inputPassword.text.toString()) {
-                        preference.setId(patient.id)
-                        preference.setRole("Patient")
-                        startActivity(Intent(this, PatientActivity::class.java))
-                        finish()
-                    } else {
-                        binding.inputPassword.error = "Wrong Password"
-                    }
-                } else {
-                    viewModel.checkStaff(email).observe(this, { staff ->
-                        if (staff.id != 0) {
-                            if (staff.password == binding.inputPassword.text.toString()) {
-                                preference.setId(staff.id)
-                                preference.setRole("Staff")
-                                startActivity(Intent(this, StaffActivity::class.java))
-                                finish()
-                            } else {
-                                binding.inputPassword.error = "Wrong Password"
-                            }
+            viewModel.checkPatient(email).observe(this, { it1 ->
+                if (it1.data != null) {
+                    val patient = it1.data
+                    if (patient.id != "") {
+                        if (patient.password == binding.inputPassword.text.toString()) {
+                            preference.setId(patient.id)
+                            preference.setRole("Patient")
+                            startActivity(Intent(this, PatientActivity::class.java))
+                            finish()
                         } else {
-                            MaterialAlertDialogBuilder(this)
-                                .setMessage(getString(R.string.email_not_found))
-                                .setPositiveButton(getString(R.string.ok), null)
-                                .show()
+                            binding.inputPassword.error = "Wrong Password"
                         }
-                    })
+                    } else {
+                        viewModel.checkStaff(email).observe(this, { it2 ->
+                            if (it2.data != null) {
+                                val staff = it2.data
+                                if (staff.id != "") {
+                                    if (staff.password == binding.inputPassword.text.toString()) {
+                                        preference.setId(staff.id)
+                                        preference.setRole("Staff")
+                                        startActivity(Intent(this, StaffActivity::class.java))
+                                        finish()
+                                    } else {
+                                        binding.inputPassword.error = "Wrong Password"
+                                    }
+                                } else {
+                                    MaterialAlertDialogBuilder(this)
+                                        .setMessage(getString(R.string.email_not_found))
+                                        .setPositiveButton(getString(R.string.ok), null)
+                                        .show()
+                                }
+                            }
+                        })
+                    }
                 }
             })
         }

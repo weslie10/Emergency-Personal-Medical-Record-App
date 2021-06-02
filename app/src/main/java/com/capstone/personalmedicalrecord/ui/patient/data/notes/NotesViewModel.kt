@@ -6,9 +6,9 @@ import com.capstone.personalmedicalrecord.core.domain.usecase.NoteUseCase
 
 class NotesViewModel(private val noteUseCase: NoteUseCase) : ViewModel() {
 
-    fun getNotes(idPatient: Int) = noteUseCase.getNotes(idPatient).asLiveData()
+    fun getNotes(idPatient: String) = noteUseCase.getNotes(idPatient).asLiveData()
 
-    fun getNote(id: Int) = noteUseCase.getNote(id).asLiveData()
+    fun getNote(id: String) = noteUseCase.getNote(id).asLiveData()
 
-    fun deleteNote(id: Int) = noteUseCase.deleteNote(id)
+    fun deleteNote(id: String) = noteUseCase.deleteNote(id)
 }

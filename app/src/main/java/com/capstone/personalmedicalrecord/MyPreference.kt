@@ -12,13 +12,13 @@ internal class MyPreference(context: Context) {
 
     private val preferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
-    fun setId(id: Int) {
+    fun setId(id: String) {
         preferences.edit {
-            putInt(ID, id)
+            putString(ID, id)
         }
     }
 
-    fun getId(): Int = preferences.getInt(ID, 0)
+    fun getId(): String = preferences.getString(ID, "").toString()
 
     fun setRole(role: String) {
         preferences.edit {

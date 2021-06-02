@@ -16,19 +16,19 @@ class LocalDataSource(
     private val staffDao: StaffDao
 ) {
 
-    fun getNotes(idPatient: Int) = noteDao.getNotes(idPatient)
+    fun getNotes(idPatient: String) = noteDao.getNotes(idPatient)
 
-    fun getNote(id: Int) = noteDao.getNote(id)
+    fun getNote(id: String) = noteDao.getNote(id)
 
     fun insertNote(note: NoteEntity) = noteDao.insertNote(note)
 
     fun updateNote(note: NoteEntity) = noteDao.updateNote(note)
 
-    fun deleteNote(id: Int) = noteDao.deleteNote(id)
+    fun deleteNote(id: String) = noteDao.deleteNote(id)
 
     fun getPatients() = patientDao.getPatients()
 
-    fun getPatient(id: Int) = patientDao.getPatient(id)
+    fun getPatientDetail(id: String) = patientDao.getPatientDetail(id)
 
     fun getPatient(email: String) = patientDao.getPatient(email)
 
@@ -38,23 +38,23 @@ class LocalDataSource(
 
     fun updatePatient(patient: PatientEntity) = patientDao.updatePatient(patient)
 
-    fun updatePicturePatient(id: Int, url: String) = patientDao.updatePicturePatient(id, url)
+    fun updatePicturePatient(id: String, url: String) = patientDao.updatePicturePatient(id, url)
 
     fun deletePatient(patient: PatientEntity) = patientDao.deletePatient(patient)
 
-    fun getRecords(idPatient: Int) = recordDao.getRecords(idPatient)
+    fun getRecords(idPatient: String) = recordDao.getRecords(idPatient)
 
-    fun getRecord(id: Int) = recordDao.getRecord(id)
+    fun getRecord(id: String) = recordDao.getRecord(id)
 
     fun insertRecord(record: RecordEntity) = recordDao.insertRecord(record)
 
     fun updateRecord(record: RecordEntity) = recordDao.updateRecord(record)
 
-    fun deleteRecord(id: Int) = recordDao.deleteRecord(id)
+    fun deleteRecord(id: String) = recordDao.deleteRecord(id)
 
     fun getStaffs() = staffDao.getStaffs()
 
-    fun getStaff(id: Int) = staffDao.getStaff(id)
+    fun getStaffDetail(id: String) = staffDao.getStaffDetail(id)
 
     fun getStaff(email: String) = staffDao.getStaff(email)
 
@@ -64,7 +64,7 @@ class LocalDataSource(
 
     fun updateStaff(staff: StaffEntity) = staffDao.updateStaff(staff)
 
-    fun updatePictureStaff(id: Int, url: String) = staffDao.updatePictureStaff(id, url)
+    fun updatePictureStaff(id: String, url: String) = staffDao.updatePictureStaff(id, url)
 
     fun deleteStaff(staff: StaffEntity) = staffDao.deleteStaff(staff)
 }

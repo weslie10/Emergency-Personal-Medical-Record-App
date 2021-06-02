@@ -21,10 +21,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
+import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.core.domain.model.Record
 import com.capstone.personalmedicalrecord.databinding.FragmentRecordsBinding
 import com.capstone.personalmedicalrecord.ui.patient.data.DetailDataFragment
-import com.capstone.personalmedicalrecord.utils.DataDummy
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -77,7 +77,7 @@ class RecordsFragment : Fragment(), RecordsCallback {
 
             binding.plusBtn.setOnClickListener {
                 viewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, {
-                    if (it.term) {
+                    if (it.data?.term == true) {
                         val singleItems = arrayOf("Take a Photo", "Choose a photo", "Choose a document", "Manual Input")
                         var checkedItem = 0
 
@@ -103,8 +103,8 @@ class RecordsFragment : Fragment(), RecordsCallback {
                                 I hereby agree to share my personal medical record to this application.
                             """.trimIndent())
                             .setPositiveButton("I agree") { _, _ ->
-                                val patient = it
-                                it.term = true
+                                val patient = it.data as Patient
+                                patient.term = true
                                 viewModel.update(patient)
                             }
                             .setNegativeButton("I refuse") { _, _ ->
@@ -244,7 +244,7 @@ class RecordsFragment : Fragment(), RecordsCallback {
     override fun onItemClick(record: Record) {
         val fragment = DetailDataFragment()
         val bundle = Bundle().apply {
-            putInt("id", record.id)
+            putString("id", record.id)
             putString("type", "records")
         }
         fragment.arguments = bundle

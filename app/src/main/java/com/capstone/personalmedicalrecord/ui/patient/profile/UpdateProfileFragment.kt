@@ -72,8 +72,8 @@ class UpdateProfileFragment : Fragment() {
         storageReference = FirebaseStorage.getInstance().reference
 
         viewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, {
-            if (it != null) {
-                with(it) {
+            if (it.data != null) {
+                with(it.data) {
                     binding.inputFullName.setText(name.convertEmpty())
                     binding.inputEmail.setText(email.convertEmpty())
                     binding.inputAddress.setText(address.convertEmpty())

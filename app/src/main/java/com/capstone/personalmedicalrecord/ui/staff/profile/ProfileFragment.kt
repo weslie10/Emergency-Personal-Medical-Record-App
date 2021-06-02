@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
+import com.capstone.personalmedicalrecord.core.domain.model.Staff
 import com.capstone.personalmedicalrecord.databinding.FragmentStaffProfileBinding
 import com.capstone.personalmedicalrecord.ui.login.LoginActivity
 import com.capstone.personalmedicalrecord.utils.Utility.convertEmpty
@@ -39,7 +40,7 @@ class ProfileFragment : Fragment() {
 
         profileViewModel.getStaff(preference.getId()).observe(viewLifecycleOwner, {
             if (it != null) {
-                with(it) {
+                with(it.data as Staff) {
                     binding.fullName.text = name.convertEmpty()
                     binding.email.text = email.convertEmpty()
                     binding.phoneNumber.text = phoneNumber.convertEmpty()
@@ -63,7 +64,7 @@ class ProfileFragment : Fragment() {
         })
 
         binding.logoutBtn.setOnClickListener {
-            preference.setId(0)
+            preference.setId("")
             preference.setRole("")
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)

@@ -3,6 +3,7 @@ package com.capstone.personalmedicalrecord.ui.signup
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
+import android.util.Log
 import android.util.Patterns
 import android.view.View
 import android.widget.AdapterView
@@ -165,22 +166,30 @@ class SignUpActivity : AppCompatActivity() {
 
         lifecycleScope.launch(Dispatchers.Main) {
             viewModel.checkPatient(email).observe(this@SignUpActivity, { patient ->
-                if (!check) {
-                    p = patient.data?.id == ""
-                    check(p, s)
+                if (patient.data != null) {
+                    Log.d("patient",patient.data.toString())
+                    if (!check) {
+                        p = patient.data.id == ""
+                        Log.d("check1","p: ${p.toString()}, s: ${s.toString()}, check: $check")
+                        check(p, s)
+                    }
                 }
-
             })
             viewModel.checkStaff(email).observe(this@SignUpActivity, { staff ->
-                if (!check) {
-                    s = staff.data?.id == ""
-                    check(p, s)
+                if (staff.data != null) {
+                    Log.d("staff", staff.data.toString())
+                    if (!check) {
+                        s = staff.data.id == ""
+                        Log.d("check2", "p: ${p.toString()}, s: ${s.toString()}, check: $check")
+                        check(p, s)
+                    }
                 }
             })
         }
     }
 
     private fun check(p: Boolean?, s: Boolean?) {
+        Log.d("check3","p: ${p.toString()}, s: ${s.toString()}, check: $check")
         if (p != null && s != null && !check) {
             if (p && s) {
                 check = true

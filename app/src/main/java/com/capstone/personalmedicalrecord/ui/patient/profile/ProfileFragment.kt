@@ -26,7 +26,7 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentPatientProfileBinding.inflate(inflater, container, false)
         return binding.root
@@ -38,8 +38,8 @@ class ProfileFragment : Fragment() {
         preference = MyPreference(requireActivity())
 
         profileViewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, {
-            if (it != null) {
-                with(it) {
+            if (it.data != null) {
+                with(it.data) {
                     binding.fullName.text = name.convertEmpty()
                     binding.email.text = email.convertEmpty()
                     binding.address.text = address.convertEmpty()
@@ -70,7 +70,7 @@ class ProfileFragment : Fragment() {
         }
 
         binding.logoutBtn.setOnClickListener {
-            preference.setId(0)
+            preference.setId("")
             preference.setRole("")
             val intent = Intent(activity, LoginActivity::class.java)
             startActivity(intent)

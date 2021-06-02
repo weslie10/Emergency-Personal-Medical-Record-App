@@ -2,7 +2,6 @@ package com.capstone.personalmedicalrecord.ui.staff.profile
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -13,7 +12,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -46,7 +44,7 @@ class UpdateProfileFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentStaffUpdateProfileBinding.inflate(inflater, container, false)
         return binding.root
@@ -59,7 +57,7 @@ class UpdateProfileFragment : Fragment() {
 
         viewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, { staff ->
             if (staff != null) {
-                with(staff) {
+                with(staff.data as Staff) {
                     binding.inputFullName.setText(name)
                     binding.inputEmail.setText(email)
                     binding.inputPhoneNumber.setText(phoneNumber)

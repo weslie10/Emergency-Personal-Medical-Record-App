@@ -31,5 +31,6 @@ class LoginViewModel(
     }
 
     fun checkPatient(email: String) = patientUseCase.getPatient(email).asLiveData()
+
     fun checkStaff(email: String) = staffUseCase.getStaff(email).asLiveData()
 }

@@ -5,5 +5,5 @@ import androidx.lifecycle.asLiveData
 import com.capstone.personalmedicalrecord.core.domain.usecase.StaffUseCase
 
 class ProfileViewModel(private val staffUseCase: StaffUseCase) : ViewModel() {
-    fun getStaff(id: Int) = staffUseCase.getStaff(id).asLiveData()
+    fun getStaff(id: String) = staffUseCase.getStaff(id).asLiveData()
 }

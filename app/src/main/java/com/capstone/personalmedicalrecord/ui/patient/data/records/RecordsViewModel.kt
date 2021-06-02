@@ -10,13 +10,13 @@ class RecordsViewModel(
     private val recordUseCase: RecordUseCase,
     private val patientUseCase: PatientUseCase
 ) : ViewModel() {
-    fun getRecords(idPatient: Int) = recordUseCase.getRecords(idPatient).asLiveData()
+    fun getRecords(idPatient: String) = recordUseCase.getRecords(idPatient).asLiveData()
 
-    fun getPatient(id: Int) = patientUseCase.getPatient(id).asLiveData()
+    fun getPatient(id: String) = patientUseCase.getPatient(id).asLiveData()
 
     fun update(patient: Patient) = patientUseCase.updatePatient(patient)
 
-    fun getRecord(id: Int) = recordUseCase.getRecord(id).asLiveData()
+    fun getRecord(id: String) = recordUseCase.getRecord(id).asLiveData()
 
-    fun deleteRecord(id: Int) = recordUseCase.deleteRecord(id)
+    fun deleteRecord(id: String) = recordUseCase.deleteRecord(id)
 }

@@ -40,7 +40,7 @@ class DetailDataFragment : Fragment() {
             binding.notes.visibility = View.GONE
             binding.records.visibility = View.GONE
             if (type == "notes") {
-                val id = arg.getInt("id")
+                val id = arg.getString("id").toString()
                 notesViewModel.getNote(id).observe(viewLifecycleOwner, { note ->
                     binding.notes.visibility = View.VISIBLE
                     binding.detailNotesDate.text = note.datetime
@@ -51,7 +51,7 @@ class DetailDataFragment : Fragment() {
                 binding.editNotesBtn.setOnClickListener {
                     val fragment = AddOrUpdateNotesFragment()
                     val bundle = Bundle().apply {
-                        putInt("id", id)
+                        putString("id", id)
                         putString("state", "Update")
                     }
                     fragment.arguments = bundle
@@ -66,7 +66,7 @@ class DetailDataFragment : Fragment() {
                     activity?.supportFragmentManager?.popBackStack()
                 }
             } else {
-                val id = arg.getInt("id")
+                val id = arg.getString("id").toString()
                 recordsViewModel.getRecord(id).observe(viewLifecycleOwner, { record ->
                     binding.records.visibility = View.VISIBLE
                     binding.detailRecordsDate.text = record.date
@@ -84,7 +84,7 @@ class DetailDataFragment : Fragment() {
                 binding.editRecordsBtn.setOnClickListener {
                     val fragment = AddOrUpdateRecordFragment()
                     val bundle = Bundle().apply {
-                        putInt("id", id)
+                        putString("id", id)
                         putString("state", "Update")
                     }
                     fragment.arguments = bundle

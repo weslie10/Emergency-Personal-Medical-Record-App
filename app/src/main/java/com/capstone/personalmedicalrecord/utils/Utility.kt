@@ -44,23 +44,23 @@ object Utility {
         }
     }
 
-    fun Int.searchPatient(): Patient {
-        return DataDummy.listPatient.filter { patient ->
-            patient.id == this
-        }[0]
-    }
-
-    fun Int.searchStaff(): Staff {
-        return DataDummy.listStaff.filter { staff ->
-            staff.id == this
-        }[0]
-    }
-
-    fun Int.searchNote(): Note {
-        return DataDummy.listNotes.filter { note ->
-            note.id == this
-        }[0]
-    }
+//    fun Int.searchPatient(): Patient {
+//        return DataDummy.listPatient.filter { patient ->
+//            patient.id == this
+//        }[0]
+//    }
+//
+//    fun Int.searchStaff(): Staff {
+//        return DataDummy.listStaff.filter { staff ->
+//            staff.id == this
+//        }[0]
+//    }
+//
+//    fun Int.searchNote(): Note {
+//        return DataDummy.listNotes.filter { note ->
+//            note.id == this
+//        }[0]
+//    }
 
     fun MutableList<String>.simpleText(): String {
         var count = 0

@@ -1,7 +1,7 @@
 package com.capstone.personalmedicalrecord.core.data.source.remote.response
 
 data class StaffResponse(
-    val id:  String = "",
+    var id:  String = "",
     val name: String = "",
     val email: String = "",
     val password: String = "",
