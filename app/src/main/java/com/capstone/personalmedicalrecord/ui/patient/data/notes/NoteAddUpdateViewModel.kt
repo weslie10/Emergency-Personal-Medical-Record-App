@@ -11,5 +11,5 @@ class NoteAddUpdateViewModel(private val noteUseCase: NoteUseCase) : ViewModel()
 
     fun update(note: Note) = noteUseCase.updateNote(note)
 
-    fun getNote(id: Int) = noteUseCase.getNote(id).asLiveData()
+    fun getNote(id: String) = noteUseCase.getNote(id).asLiveData()
 }

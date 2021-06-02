@@ -26,7 +26,7 @@ class SplashScreenActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         Handler(Looper.getMainLooper()).postDelayed({
-            if (preference.getId() == 0) {
+            if (preference.getId() == "") {
                 startActivity(Intent(this, LoginActivity::class.java))
             } else {
                 when (preference.getRole()) {

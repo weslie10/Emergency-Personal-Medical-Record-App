@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 interface RecordDao {
 
     @Query("SELECT * FROM record WHERE idPatient=:idPatient ORDER BY date DESC")
-    fun getRecords(idPatient: Int): Flow<List<RecordEntity>>
+    fun getRecords(idPatient: String): Flow<List<RecordEntity>>
 
     @Query("SELECT * FROM record WHERE id=:id")
-    fun getRecord(id: Int): Flow<RecordEntity>
+    fun getRecord(id: String): Flow<RecordEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertRecord(record: RecordEntity)
@@ -20,5 +20,5 @@ interface RecordDao {
     fun updateRecord(record: RecordEntity)
 
     @Query("DELETE FROM record WHERE id=:id")
-    fun deleteRecord(id: Int)
+    fun deleteRecord(id: String)
 }

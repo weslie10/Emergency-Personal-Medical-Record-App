@@ -1,6 +1,7 @@
 package com.capstone.personalmedicalrecord.ui.patient.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,12 +20,12 @@ class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModel()
 
     private var _binding: FragmentPatientHomeBinding? = null
-    private val binding get() = _binding!!
+    private val binding get() = _binding as FragmentPatientHomeBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentPatientHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -35,12 +36,14 @@ class HomeFragment : Fragment() {
 
         preference = MyPreference(requireActivity())
 
-        homeViewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, { patient ->
-            if (patient != null) {
+        homeViewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, {
+            binding.date.dateNow()
+            if (it.data != null) {
+                Log.d("homeFragment", it.data.toString())
+                val patient = it.data
                 val arr = patient.name.split(" ").toMutableList()
                 val text = arr.simpleText()
                 binding.greeting.text = resources.getString(R.string.greeting, text)
-                binding.date.dateNow()
 
                 if (patient.picture.length > 2) {
                     Glide.with(requireContext())
@@ -56,6 +59,7 @@ class HomeFragment : Fragment() {
                         .into(binding.avatar)
                 }
             }
+
         })
         homeViewModel.getRecords(preference.getId()).observe(viewLifecycleOwner, {
             binding.records.text = it.size.toString()

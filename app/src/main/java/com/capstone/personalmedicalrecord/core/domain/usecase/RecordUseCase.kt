@@ -4,9 +4,9 @@ import com.capstone.personalmedicalrecord.core.domain.model.Record
 import kotlinx.coroutines.flow.Flow
 
 interface RecordUseCase {
-    fun getRecords(idPatient: Int): Flow<List<Record>>
-    fun getRecord(id: Int): Flow<Record>
+    fun getRecords(idPatient: String): Flow<List<Record>>
+    fun getRecord(id: String): Flow<Record>
     fun insertRecord(record: Record)
     fun updateRecord(record: Record)
-    fun deleteRecord(id: Int)
+    fun deleteRecord(id: String)
 }

@@ -11,7 +11,7 @@ interface StaffDao {
     fun getStaffs(): Flow<List<StaffEntity>>
 
     @Query("SELECT * FROM staff WHERE id=:id")
-    fun getStaff(id: Int): Flow<StaffEntity>
+    fun getStaffDetail(id: String): Flow<StaffEntity>
 
     @Query("SELECT * FROM staff WHERE email=:email")
     fun getStaff(email: String): Flow<StaffEntity>
@@ -26,7 +26,7 @@ interface StaffDao {
     fun updateStaff(staff: StaffEntity)
 
     @Query("UPDATE staff SET picture=:url WHERE id=:id")
-    fun updatePictureStaff(id: Int, url: String)
+    fun updatePictureStaff(id: String, url: String)
 
     @Delete
     fun deleteStaff(staff: StaffEntity)

@@ -41,7 +41,7 @@ class AddOrUpdateRecordFragment : Fragment() {
                     addRecord()
                 }
                 "Update" -> {
-                    val id = arg.getInt("id")
+                    val id = arg.getString("id").toString()
                     viewModel.getRecord(id).observe(viewLifecycleOwner, { record ->
                         binding.inputHaematocrit.setText(record.haematocrit.toString())
                         binding.inputHaemoglobin.setText(record.haemoglobin.toString())
@@ -83,7 +83,7 @@ class AddOrUpdateRecordFragment : Fragment() {
         }
     }
 
-    private fun updateRecord(id: Int) {
+    private fun updateRecord(id: String) {
         binding.recordBtn.apply {
             text = resources.getString(R.string.update_record)
             setOnClickListener {

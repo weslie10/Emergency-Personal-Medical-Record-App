@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface StaffUseCase {
     fun getStaffs(): Flow<List<Staff>>
-    fun getStaff(id: Int): Flow<Resource<Staff>>
+    fun getStaffDetail(id: String): Flow<Resource<Staff>>
     fun getStaff(email: String): Flow<Resource<Staff>>
-    fun insertStaff(staff: Staff): Int
+    suspend fun insertStaff(staff: Staff): String
     fun updateStaff(staff: Staff)
-    fun updatePictureStaff(id: Int, url: String)
+    fun updatePictureStaff(id: String, url: String)
     fun deleteStaff(staff: Staff)
 }

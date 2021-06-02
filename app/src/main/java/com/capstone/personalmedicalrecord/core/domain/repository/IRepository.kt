@@ -8,31 +8,31 @@ import com.capstone.personalmedicalrecord.core.domain.model.Staff
 import kotlinx.coroutines.flow.Flow
 
 interface IRepository {
-    fun getNotes(idPatient: Int): Flow<List<Note>>
-    fun getNote(id: Int): Flow<Note>
+    fun getNotes(idPatient: String): Flow<List<Note>>
+    fun getNote(id: String): Flow<Note>
     fun insertNote(note: Note)
     fun updateNote(note: Note)
-    fun deleteNote(id: Int)
+    fun deleteNote(id: String)
 
     fun getPatients(): Flow<List<Patient>>
-    fun getPatient(id: Int): Flow<Resource<Patient>>
+    fun getPatientDetail(id: String): Flow<Resource<Patient>>
     fun getPatient(email: String): Flow<Resource<Patient>>
-    fun insertPatient(patient: Patient): Int
+    suspend fun insertPatient(patient: Patient): String
     fun updatePatient(patient: Patient)
-    fun updatePicturePatient(id: Int, url: String)
+    fun updatePicturePatient(id: String, url: String)
     fun deletePatient(patient: Patient)
 
-    fun getRecords(idPatient: Int): Flow<List<Record>>
-    fun getRecord(id: Int): Flow<Record>
+    fun getRecords(idPatient: String): Flow<List<Record>>
+    fun getRecord(id: String): Flow<Record>
     fun insertRecord(record: Record)
     fun updateRecord(record: Record)
-    fun deleteRecord(id: Int)
+    fun deleteRecord(id: String)
 
     fun getStaffs(): Flow<List<Staff>>
-    fun getStaff(id: Int): Flow<Resource<Staff>>
+    fun getStaffDetail(id: String): Flow<Resource<Staff>>
     fun getStaff(email: String): Flow<Resource<Staff>>
-    fun insertStaff(staff: Staff): Int
+    suspend fun insertStaff(staff: Staff): String
     fun updateStaff(staff: Staff)
-    fun updatePictureStaff(id: Int, url: String)
+    fun updatePictureStaff(id: String, url: String)
     fun deleteStaff(staff: Staff)
 }

@@ -11,5 +11,5 @@ class RecordAddUpdateViewModel(private val recordUseCase: RecordUseCase) : ViewM
 
     fun update(record: Record) = recordUseCase.updateRecord(record)
 
-    fun getRecord(id: Int) = recordUseCase.getRecord(id).asLiveData()
+    fun getRecord(id: String) = recordUseCase.getRecord(id).asLiveData()
 }

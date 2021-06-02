@@ -61,7 +61,7 @@ class NotesFragment : Fragment(), NotesCallback {
     override fun onItemClick(note: Note) {
         val fragment = DetailDataFragment()
         val bundle = Bundle().apply {
-            putInt("id", note.id)
+            putString("id", note.id)
             putString("type", "notes")
         }
         fragment.arguments = bundle

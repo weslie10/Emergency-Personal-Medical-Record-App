@@ -11,7 +11,7 @@ class HomeViewModel(
     private val noteUseCase: NoteUseCase,
     private val recordUseCase: RecordUseCase
 ) : ViewModel() {
-    fun getPatient(id: Int) = patientUseCase.getPatient(id).asLiveData()
-    fun getNotes(id: Int) = noteUseCase.getNotes(id).asLiveData()
-    fun getRecords(id: Int) = recordUseCase.getRecords(id).asLiveData()
+    fun getPatient(id: String) = patientUseCase.getPatientDetail(id).asLiveData()
+    fun getNotes(id: String) = noteUseCase.getNotes(id).asLiveData()
+    fun getRecords(id: String) = recordUseCase.getRecords(id).asLiveData()
 }

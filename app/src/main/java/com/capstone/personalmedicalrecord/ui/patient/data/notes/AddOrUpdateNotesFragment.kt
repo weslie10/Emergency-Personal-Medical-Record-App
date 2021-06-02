@@ -42,7 +42,7 @@ class AddOrUpdateNotesFragment : Fragment() {
                     addNote()
                 }
                 "Update" -> {
-                    val id = arg.getInt("id")
+                    val id = arg.getString("id").toString()
                     viewModel.getNote(id).observe(viewLifecycleOwner, { note ->
                         binding.inputNote.setText(note.description)
                     })
@@ -70,7 +70,7 @@ class AddOrUpdateNotesFragment : Fragment() {
         }
     }
 
-    private fun updateNote(id: Int) {
+    private fun updateNote(id: String) {
         binding.notesBtn.apply {
             text = resources.getString(R.string.update_note)
             setOnClickListener {

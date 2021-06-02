@@ -11,7 +11,7 @@ interface PatientDao {
     fun getPatients(): Flow<List<PatientEntity>>
 
     @Query("SELECT * FROM patient WHERE id=:id")
-    fun getPatient(id: Int): Flow<PatientEntity>
+    fun getPatientDetail(id: String): Flow<PatientEntity>
 
     @Query("SELECT * FROM patient WHERE email=:email")
     fun getPatient(email: String): Flow<PatientEntity>
@@ -26,7 +26,7 @@ interface PatientDao {
     fun updatePatient(patient: PatientEntity)
 
     @Query("UPDATE patient SET picture=:url WHERE id=:id")
-    fun updatePicturePatient(id: Int, url: String)
+    fun updatePicturePatient(id: String, url: String)
 
     @Delete
     fun deletePatient(patient: PatientEntity)

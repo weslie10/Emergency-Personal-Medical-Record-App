@@ -1,8 +1,6 @@
 package com.capstone.personalmedicalrecord.ui.signup
 
 import android.util.Patterns
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.capstone.personalmedicalrecord.core.domain.model.Patient
@@ -15,14 +13,14 @@ import kotlinx.coroutines.flow.combine
 
 class SignUpViewModel(
     private val patientUseCase: PatientUseCase,
-    private val staffUseCase: StaffUseCase
+    private val staffUseCase: StaffUseCase,
 ) : ViewModel() {
     private val _email = MutableStateFlow("")
     private val _password = MutableStateFlow("")
     private val _repeat = MutableStateFlow("")
 
-    private val _emailPatient = MutableLiveData<String>()
-    private val _emailStaff = MutableLiveData<String>()
+//    private val _emailPatient = MutableLiveData<String>()
+//    private val _emailStaff = MutableLiveData<String>()
 
     fun setEmail(email: String) {
         _email.value = email
@@ -52,9 +50,9 @@ class SignUpViewModel(
             return@combine isEmailCorrect and isPasswordCorrect and isPasswordSame
         }
 
-    fun insertPatient(patient: Patient) = patientUseCase.insertPatient(patient)
+    suspend fun insertPatient(patient: Patient) = patientUseCase.insertPatient(patient)
 
-    fun insertStaff(staff: Staff) = staffUseCase.insertStaff(staff)
+    suspend fun insertStaff(staff: Staff) = staffUseCase.insertStaff(staff)
 
     fun checkPatient(email: String) = patientUseCase.getPatient(email).asLiveData()
 

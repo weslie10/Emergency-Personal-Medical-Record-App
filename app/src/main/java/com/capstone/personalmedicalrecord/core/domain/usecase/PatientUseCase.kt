@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface PatientUseCase {
     fun getPatients(): Flow<List<Patient>>
-    fun getPatient(id: Int): Flow<Resource<Patient>>
+    fun getPatientDetail(id: String): Flow<Resource<Patient>>
     fun getPatient(email: String): Flow<Resource<Patient>>
-    fun insertPatient(patient: Patient): Int
+    suspend fun insertPatient(patient: Patient): String
     fun updatePatient(patient: Patient)
-    fun updatePicturePatient(id: Int, url: String)
+    fun updatePicturePatient(id: String, url: String)
     fun deletePatient(patient: Patient)
 }

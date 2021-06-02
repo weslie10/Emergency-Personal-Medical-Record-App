@@ -8,10 +8,10 @@ import kotlinx.coroutines.flow.Flow
 interface NoteDao {
 
     @Query("SELECT * FROM note WHERE idPatient=:idPatient ORDER BY datetime DESC")
-    fun getNotes(idPatient: Int): Flow<List<NoteEntity>>
+    fun getNotes(idPatient: String): Flow<List<NoteEntity>>
 
     @Query("SELECT * FROM note WHERE id=:id")
-    fun getNote(id: Int): Flow<NoteEntity>
+    fun getNote(id: String): Flow<NoteEntity>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertNote(note: NoteEntity)
@@ -20,5 +20,5 @@ interface NoteDao {
     fun updateNote(note: NoteEntity)
 
     @Query("DELETE FROM note WHERE id=:id")
-    fun deleteNote(id: Int)
+    fun deleteNote(id: String)
 }

@@ -8,5 +8,5 @@ data class Note(
     var id:  String = "",
     var datetime: String,
     var description: String,
-    var idPatient: Int
+    var idPatient: String
 ) : Parcelable

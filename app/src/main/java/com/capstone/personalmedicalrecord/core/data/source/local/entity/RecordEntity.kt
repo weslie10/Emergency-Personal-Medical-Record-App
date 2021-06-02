@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @Entity(tableName = "record")
 data class RecordEntity(
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo(name = "id")
     var id: String,
 
@@ -41,6 +41,6 @@ data class RecordEntity(
     var mcv: Double,
 
     @ColumnInfo(name = "idPatient")
-    var idPatient: Int
+    var idPatient: String
 ) : Parcelable
 
