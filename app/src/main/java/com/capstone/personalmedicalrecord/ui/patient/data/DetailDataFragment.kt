@@ -45,22 +45,14 @@ class DetailDataFragment : Fragment() {
                 notesViewModel.getNoteDetail(id).observe(viewLifecycleOwner, { note ->
                     if (note != null) {
                         when (note) {
-                            is Resource.Loading -> {
-
-                            }
+                            is Resource.Loading -> {}
                             is Resource.Success -> {
                                 binding.notes.visibility = View.VISIBLE
                                 binding.detailNotesDate.text = note.data?.datetime
                                 binding.detailNotesDescription.text = note.data?.description
-                                if (note.data?.from == "Personal") {
-                                    binding.detailNotesFrom.text = String.format("%s note", note.data.from)
-                                } else {
-                                    binding.detailNotesFrom.text = String.format("From %s", note.data?.from)
-                                }
+                                binding.detailNotesFrom.text = String.format("From %s", note.data?.from)
                             }
-                            is Resource.Error -> {
-
-                            }
+                            is Resource.Error -> {}
                         }
                     }
                 })
@@ -88,9 +80,7 @@ class DetailDataFragment : Fragment() {
                 recordsViewModel.getRecordDetail(id).observe(viewLifecycleOwner, { record ->
                     if (record != null) {
                         when (record) {
-                            is Resource.Loading -> {
-
-                            }
+                            is Resource.Loading -> {}
                             is Resource.Success -> {
                                 binding.records.visibility = View.VISIBLE
                                 binding.detailRecordsDate.text = record.data?.date
@@ -103,9 +93,7 @@ class DetailDataFragment : Fragment() {
                                 binding.detailRecordsMchc.text = record.data?.mchc.toString()
                                 binding.detailRecordsMcv.text = record.data?.mcv.toString()
                             }
-                            is Resource.Error -> {
-
-                            }
+                            is Resource.Error -> {}
                         }
                     }
                 })

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
+import com.capstone.personalmedicalrecord.core.data.Resource
 import com.capstone.personalmedicalrecord.databinding.FragmentPatientHomeBinding
 import com.capstone.personalmedicalrecord.utils.Utility.dateNow
 import com.capstone.personalmedicalrecord.utils.Utility.setImage
@@ -51,10 +52,30 @@ class HomeFragment : Fragment() {
 
         })
         homeViewModel.getRecords(preference.getId()).observe(viewLifecycleOwner, {
-            binding.records.text = it.data?.size.toString()
+            if (it != null) {
+                when (it) {
+                    is Resource.Loading -> binding.records.text = String.format("Wait")
+                    is Resource.Success -> {
+                        binding.records.text = it.data?.size.toString()
+                    }
+                    is Resource.Error -> {
+                        binding.records.text = String.format("Error")
+                    }
+                }
+            }
         })
         homeViewModel.getNotes(preference.getId()).observe(viewLifecycleOwner, {
-            binding.notes.text = it.data?.size.toString()
+            if (it != null) {
+                when (it) {
+                    is Resource.Loading -> binding.notes.text = String.format("Wait")
+                    is Resource.Success -> {
+                        binding.notes.text = it.data?.size.toString()
+                    }
+                    is Resource.Error -> {
+                        binding.notes.text = String.format("Error")
+                    }
+                }
+            }
         })
         binding.graph.addView(TestChart(requireContext()))
     }

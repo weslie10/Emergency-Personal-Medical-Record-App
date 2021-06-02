@@ -53,13 +53,41 @@ class RemoteDataSource {
                     Log.d("insertNote", "Saved to DB")
                 }
                 .addOnFailureListener {
-                    Log.d("insertNote", "Error saving to DB")
+                    Log.e("insertNote", "Error saving to DB")
                 }
                 .await()
             id
         } catch (e: Exception) {
             Log.e("insertNote", e.message.toString())
             ""
+        }
+    }
+
+    fun updateNote(note: NoteResponse) {
+        try {
+            noteDb.document(note.id).set(note)
+                .addOnSuccessListener {
+                    Log.d("updateNote", "Update DB")
+                }
+                .addOnFailureListener {
+                    Log.e("updateNote", "Error update in DB")
+                }
+        } catch (e: Exception) {
+            Log.e("updateNote", e.message.toString())
+        }
+    }
+
+    fun deleteNote(id: String) {
+        try {
+            noteDb.document(id).delete()
+                .addOnSuccessListener {
+                    Log.d("deleteNote", "Delete DB")
+                }
+                .addOnFailureListener {
+                    Log.e("deleteNote", "Error delete in DB")
+                }
+        } catch (e: Exception) {
+            Log.e("deleteNote", e.message.toString())
         }
     }
 
@@ -93,6 +121,20 @@ class RemoteDataSource {
                 }
         } catch (e: Exception) {
             Log.e("updatePatient", e.message.toString())
+        }
+    }
+
+    fun deletePatient(id: String) {
+        try {
+            patientDb.document(id).delete()
+                .addOnSuccessListener {
+                    Log.d("deletePatient", "Delete DB")
+                }
+                .addOnFailureListener {
+                    Log.e("deletePatient", "Error delete in DB")
+                }
+        } catch (e: Exception) {
+            Log.e("deletePatient", e.message.toString())
         }
     }
 
@@ -174,13 +216,41 @@ class RemoteDataSource {
                     Log.d("insertRecord", "Saved to DB")
                 }
                 .addOnFailureListener {
-                    Log.d("insertRecord", "Error saving to DB")
+                    Log.e("insertRecord", "Error saving to DB")
                 }
                 .await()
             id
         } catch (e: Exception) {
             Log.e("insertRecord", e.message.toString())
             ""
+        }
+    }
+
+    fun updateRecord(record: RecordResponse) {
+        try {
+            recordDb.document(record.id).set(record)
+                .addOnSuccessListener {
+                    Log.d("updateRecord", "Update DB")
+                }
+                .addOnFailureListener {
+                    Log.e("updateRecord", "Error update in DB")
+                }
+        } catch (e: Exception) {
+            Log.e("updateRecord", e.message.toString())
+        }
+    }
+
+    fun deleteRecord(id: String) {
+        try {
+            recordDb.document(id).delete()
+                .addOnSuccessListener {
+                    Log.d("deleteRecord", "Delete DB")
+                }
+                .addOnFailureListener {
+                    Log.e("deleteRecord", "Error delete in DB")
+                }
+        } catch (e: Exception) {
+            Log.e("deleteRecord", e.message.toString())
         }
     }
 
@@ -246,6 +316,20 @@ class RemoteDataSource {
         } catch (e: Exception) {
             Log.e("insertStaff", e.message.toString())
             ""
+        }
+    }
+
+    fun deleteStaff(id: String) {
+        try {
+            staffDb.document(id).delete()
+                .addOnSuccessListener {
+                    Log.d("deleteStaff", "Delete DB")
+                }
+                .addOnFailureListener {
+                    Log.e("deleteStaff", "Error delete in DB")
+                }
+        } catch (e: Exception) {
+            Log.e("deleteStaff", e.message.toString())
         }
     }
 }

@@ -34,7 +34,7 @@ class NotesAdapter(private val callback: NotesCallback) :
             with(binding) {
                 tvItemDate.text = note.datetime
                 tvItemDescription.text = note.description
-                if (note.from != "Personal") {
+                if (note.from != "me") {
                     itemContainer.setBackgroundColor(ContextCompat.getColor(itemContainer.context,
                         R.color.blue_dark))
                 }

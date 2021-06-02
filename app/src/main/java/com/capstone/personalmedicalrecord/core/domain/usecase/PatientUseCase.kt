@@ -11,5 +11,5 @@ interface PatientUseCase {
     suspend fun insertPatient(patient: Patient): String
     fun updatePatient(patient: Patient)
     fun updatePicturePatient(id: String, url: String)
-    fun deletePatient(patient: Patient)
+    fun deletePatient(id: String)
 }

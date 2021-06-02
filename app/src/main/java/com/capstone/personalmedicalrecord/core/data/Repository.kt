@@ -28,11 +28,11 @@ class Repository(
     override fun getNotes(idPatient: String): Flow<Resource<List<Note>>> =
         object : NetworkBoundResource<List<Note>, List<NoteResponse>>() {
             override fun loadFromDB(): Flow<List<Note>> {
-                return localDataSource.getNotes(idPatient).map { notes ->
-                    if (notes != null) {
-                        DataMapper.mapNoteEntitiesToDomain(notes)
+                return localDataSource.getNotes(idPatient).map {
+                    if (it != null) {
+                        DataMapper.mapNoteEntitiesToDomain(it)
                     } else {
-                        notes
+                        it
                     }
                 }
             }
@@ -58,8 +58,8 @@ class Repository(
         object : NetworkBoundResource<Note, NoteResponse>() {
             override fun loadFromDB(): Flow<Note> {
                 return localDataSource.getNoteDetail(id).map {
-                    Log.d("getNoteDetail repo", it.toString())
                     if (it != null) {
+                        Log.d("getNoteDetail repo", it.toString())
                         DataMapper.mapNoteEntityToDomain(it)
                     } else {
                         it
@@ -88,12 +88,14 @@ class Repository(
     override fun updateNote(note: Note) {
         val noteEntity = DataMapper.mapNoteToEntity(note)
         CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            remoteDataSource.updateNote(DataMapper.mapNoteToResponse(note))
             localDataSource.updateNote(noteEntity)
         }
     }
 
     override fun deleteNote(id: String) {
         CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            remoteDataSource.deleteNote(id)
             localDataSource.deleteNote(id)
         }
     }
@@ -108,8 +110,8 @@ class Repository(
             NetworkBoundResource<Patient, PatientResponse>() {
             override fun loadFromDB(): Flow<Patient> {
                 return localDataSource.getPatientDetail(id).map {
-                    Log.d("getPatientDetail repo", it.toString())
                     if (it != null) {
+                        Log.d("getPatientDetail repo", it.toString())
                         DataMapper.mapPatientEntityToDomain(it)
                     } else it
                 }
@@ -180,10 +182,10 @@ class Repository(
         }
     }
 
-    override fun deletePatient(patient: Patient) {
-        val patientEntity = DataMapper.mapPatientToEntity(patient)
+    override fun deletePatient(id: String) {
         CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
-            localDataSource.deletePatient(patientEntity)
+            remoteDataSource.deletePatient(id)
+            localDataSource.deletePatient(id)
         }
     }
 
@@ -220,8 +222,8 @@ class Repository(
         object : NetworkBoundResource<Record, RecordResponse>() {
             override fun loadFromDB(): Flow<Record> {
                 return localDataSource.getRecordDetail(id).map {
-                    Log.d("getRecordDetail repo", it.toString())
                     if (it != null) {
+                        Log.d("getRecordDetail repo", it.toString())
                         DataMapper.mapRecordEntityToDomain(it)
                     } else {
                         it
@@ -250,12 +252,14 @@ class Repository(
     override fun updateRecord(record: Record) {
         val recordEntity = DataMapper.mapRecordToEntity(record)
         CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            remoteDataSource.updateRecord(DataMapper.mapRecordToResponse(record))
             localDataSource.updateRecord(recordEntity)
         }
     }
 
     override fun deleteRecord(id: String) {
         CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
+            remoteDataSource.deleteRecord(id)
             localDataSource.deleteRecord(id)
         }
     }
@@ -343,10 +347,10 @@ class Repository(
         }
     }
 
-    override fun deleteStaff(staff: Staff) {
-        val staffEntity = DataMapper.mapStaffToEntity(staff)
+    override fun deleteStaff(id: String) {
         CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
-            localDataSource.deleteStaff(staffEntity)
+            remoteDataSource.deleteStaff(id)
+            localDataSource.deleteStaff(id)
         }
     }
 }
