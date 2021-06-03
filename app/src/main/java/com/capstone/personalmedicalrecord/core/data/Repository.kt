@@ -1,6 +1,5 @@
 package com.capstone.personalmedicalrecord.core.data
 
-import android.net.Uri
 import android.util.Log
 import com.capstone.personalmedicalrecord.core.data.source.local.LocalDataSource
 import com.capstone.personalmedicalrecord.core.data.source.remote.RemoteDataSource
@@ -68,7 +67,7 @@ class Repository(
                 }
             }
 
-            override fun shouldFetch(data: Note?): Boolean = data?.id == null
+            override fun shouldFetch(data: Note?): Boolean = data?.id == ""
 
             override suspend fun createCall(): Flow<ApiResponse<NoteResponse>> =
                 remoteDataSource.getNoteDetail(id)
@@ -81,9 +80,12 @@ class Repository(
             }
         }.asFlow()
 
-    override suspend fun insertNote(note: Note): String {
+    override fun insertNote(note: Note) {
         val noteResponse = DataMapper.mapNoteToResponse(note)
-        return remoteDataSource.insertNote(noteResponse)
+        val id = remoteDataSource.insertNote(noteResponse)
+        val noteEntity = DataMapper.mapNoteToEntity(note)
+        noteEntity.id = id
+        localDataSource.insertNote(noteEntity)
     }
 
     override fun updateNote(note: Note) {
@@ -119,7 +121,7 @@ class Repository(
             }
 
             override fun shouldFetch(data: Patient?): Boolean {
-                return data?.id == null
+                return data?.id == ""
             }
 
             override suspend fun createCall(): Flow<ApiResponse<PatientResponse>> =
@@ -284,7 +286,7 @@ class Repository(
             }
 
             override fun shouldFetch(data: Staff?): Boolean {
-                return data?.id == null
+                return data?.id == ""
             }
 
             override suspend fun createCall(): Flow<ApiResponse<StaffResponse>> =

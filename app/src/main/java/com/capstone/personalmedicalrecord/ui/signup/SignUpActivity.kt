@@ -247,4 +247,14 @@ class SignUpActivity : AppCompatActivity() {
             this.finish()
         }
     }
+
+    override fun onBackPressed() {
+        MaterialAlertDialogBuilder(this)
+            .setMessage(getString(R.string.exit_text))
+            .setNegativeButton(getString(R.string.no), null)
+            .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                super.onBackPressed()
+            }
+            .show()
+    }
 }

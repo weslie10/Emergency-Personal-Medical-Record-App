@@ -9,7 +9,7 @@ class NoteInteractor(private val repository: IRepository) : NoteUseCase {
 
     override fun getNoteDetail(id: String) = repository.getNoteDetail(id)
 
-    override suspend fun insertNote(note: Note) = repository.insertNote(note)
+    override fun insertNote(note: Note) = repository.insertNote(note)
 
     override fun updateNote(note: Note) = repository.updateNote(note)
 

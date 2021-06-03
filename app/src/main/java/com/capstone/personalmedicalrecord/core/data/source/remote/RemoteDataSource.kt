@@ -44,7 +44,7 @@ class RemoteDataSource {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun insertNote(note: NoteResponse): String {
+    fun insertNote(note: NoteResponse): String {
         return try {
             val id = noteDb.document().id
             note.id = id
@@ -55,10 +55,9 @@ class RemoteDataSource {
                 .addOnFailureListener {
                     Log.e("insertNote", "Error saving to DB")
                 }
-                .await()
             id
         } catch (e: Exception) {
-            Log.e("insertNote", e.message.toString())
+            Log.e("insertNote m", e.message.toString())
             ""
         }
     }

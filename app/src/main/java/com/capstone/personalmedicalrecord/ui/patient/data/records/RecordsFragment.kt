@@ -99,10 +99,12 @@ class RecordsFragment : Fragment(), RecordsCallback {
                 adapter = recordsAdapter
             }
 
-            binding.plusBtn.setOnClickListener {
-                viewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, {
+            viewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, {
+                binding.plusBtn.setOnClickListener { none ->
+                    var check = true
                     if (it.data != null) {
-                        if (it.data.term) {
+                        if (it.data.term && check) {
+                            check = false
                             val singleItems = arrayOf("Take a Photo",
                                 "Choose a photo",
                                 "Choose a document",
@@ -112,7 +114,7 @@ class RecordsFragment : Fragment(), RecordsCallback {
                             MaterialAlertDialogBuilder(requireContext())
                                 .setTitle(getString(R.string.add_record_text))
                                 .setNeutralButton(getString(R.string.cancel), null)
-                                .setPositiveButton(getString(R.string.ok)) { _, _ ->
+                                .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
                                     when (checkedItem) {
                                         0 -> requestPhoto()
                                         1 -> choosePhoto()
@@ -124,7 +126,8 @@ class RecordsFragment : Fragment(), RecordsCallback {
                                     checkedItem = which
                                 }
                                 .show()
-                        } else if (!it.data.term) {
+                        } else if (!it.data.term && check) {
+                            check = false
                             MaterialAlertDialogBuilder(requireContext())
                                 .setTitle("Informed Consent")
                                 .setMessage("""
@@ -140,8 +143,8 @@ class RecordsFragment : Fragment(), RecordsCallback {
                                 .show()
                         }
                     }
-                })
-            }
+                }
+            })
         }
     }
 
@@ -242,10 +245,9 @@ class RecordsFragment : Fragment(), RecordsCallback {
     }
 
     private fun chooseDocument() {
-        var intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "*/*"
-        intent = Intent.createChooser(intent, "Choose a file")
-        chooseDocument.launch(intent)
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "application/pdf"
+        chooseDocument.launch(Intent.createChooser(intent, "Select PDF"))
     }
 
     private val requestPermission =
@@ -296,6 +298,7 @@ class RecordsFragment : Fragment(), RecordsCallback {
             })?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val downloadUri = task.result
+                    Snackbar.make(binding.rvRecords, "File already upload, Please wait For a while", Snackbar.LENGTH_SHORT).show()
                     Log.d("downloadUri", downloadUri.toString())
                 }
             }?.addOnFailureListener {
@@ -319,5 +322,10 @@ class RecordsFragment : Fragment(), RecordsCallback {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        activity?.viewModelStore?.clear()
     }
 }

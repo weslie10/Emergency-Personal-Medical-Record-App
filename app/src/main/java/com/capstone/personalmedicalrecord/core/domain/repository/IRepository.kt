@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface IRepository {
     fun getNotes(idPatient: String): Flow<Resource<List<Note>>>
     fun getNoteDetail(id: String): Flow<Resource<Note>>
-    suspend fun insertNote(note: Note): String
+    fun insertNote(note: Note)
     fun updateNote(note: Note)
     fun deleteNote(id: String)
 
