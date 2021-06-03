@@ -39,7 +39,7 @@ class TestChart(context: Context) : VizContainerView(context) {
 
     private val chart = chart(listData, lightConfig) {
         size = Size(vizSize, vizSize)
-        title = "Corona Case in 2021"
+        title = "Total Corona Cases"
         setPadding(16, 16, 16, 16)
 
         config {

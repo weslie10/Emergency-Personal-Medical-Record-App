@@ -1,6 +1,7 @@
 package com.capstone.personalmedicalrecord.ui.patient.data.notes
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,6 +41,7 @@ class NotesFragment : Fragment(), NotesCallback {
             notesAdapter = NotesAdapter(this)
             val id = preference.getId()
             viewModel.getNotes(id).observe(viewLifecycleOwner, { notes ->
+                Log.d("notes",notes.data.toString())
                 if (notes != null) {
                     when (notes) {
                         is Resource.Loading -> showLoading(true)

@@ -9,7 +9,7 @@ class RecordInteractor(private val repository: IRepository) : RecordUseCase {
 
     override fun getRecordDetail(id: String) = repository.getRecordDetail(id)
 
-    override suspend fun insertRecord(record: Record) = repository.insertRecord(record)
+    override fun insertRecord(record: Record) = repository.insertRecord(record)
 
     override fun updateRecord(record: Record) = repository.updateRecord(record)
 

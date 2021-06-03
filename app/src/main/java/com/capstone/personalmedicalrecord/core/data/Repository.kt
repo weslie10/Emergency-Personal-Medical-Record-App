@@ -1,6 +1,5 @@
 package com.capstone.personalmedicalrecord.core.data
 
-import android.net.Uri
 import android.util.Log
 import com.capstone.personalmedicalrecord.core.data.source.local.LocalDataSource
 import com.capstone.personalmedicalrecord.core.data.source.remote.RemoteDataSource
@@ -68,7 +67,7 @@ class Repository(
                 }
             }
 
-            override fun shouldFetch(data: Note?): Boolean = data?.id == null
+            override fun shouldFetch(data: Note?): Boolean = data?.id == ""
 
             override suspend fun createCall(): Flow<ApiResponse<NoteResponse>> =
                 remoteDataSource.getNoteDetail(id)
@@ -81,9 +80,12 @@ class Repository(
             }
         }.asFlow()
 
-    override suspend fun insertNote(note: Note): String {
+    override fun insertNote(note: Note) {
         val noteResponse = DataMapper.mapNoteToResponse(note)
-        return remoteDataSource.insertNote(noteResponse)
+        val id = remoteDataSource.insertNote(noteResponse)
+        val noteEntity = DataMapper.mapNoteToEntity(note)
+        noteEntity.id = id
+        localDataSource.insertNote(noteEntity)
     }
 
     override fun updateNote(note: Note) {
@@ -114,12 +116,12 @@ class Repository(
                     if (it != null) {
                         Log.d("getPatientDetail repo", it.toString())
                         DataMapper.mapPatientEntityToDomain(it)
-                    } else it
+                    } else Patient()
                 }
             }
 
             override fun shouldFetch(data: Patient?): Boolean {
-                return data?.id == null
+                return data?.id == ""
             }
 
             override suspend fun createCall(): Flow<ApiResponse<PatientResponse>> =
@@ -165,8 +167,15 @@ class Repository(
             }
         }.asFlow()
 
-    override suspend fun insertPatient(patient: Patient): String =
-        remoteDataSource.insertPatient(DataMapper.mapPatientToResponse(patient))
+    override suspend fun insertPatient(patient: Patient): String {
+        val patientResponse = DataMapper.mapPatientToResponse(patient)
+        val id = remoteDataSource.insertPatient(patientResponse)
+        val patientEntity = DataMapper.mapPatientToEntity(patient)
+        patientEntity.id = id
+        localDataSource.insertPatient(patientEntity)
+        return id
+    }
+
 
     override fun updatePatient(patient: Patient) {
         val patientEntity = DataMapper.mapPatientToEntity(patient)
@@ -245,9 +254,12 @@ class Repository(
             }
         }.asFlow()
 
-    override suspend fun insertRecord(record: Record): String {
+    override fun insertRecord(record: Record) {
         val recordResponse = DataMapper.mapRecordToResponse(record)
-        return remoteDataSource.insertRecord(recordResponse)
+        val id =  remoteDataSource.insertRecord(recordResponse)
+        val recordEntity = DataMapper.mapRecordToEntity(record)
+        recordEntity.id = id
+        localDataSource.insertRecord(recordEntity)
     }
 
     override fun updateRecord(record: Record) {
@@ -284,7 +296,7 @@ class Repository(
             }
 
             override fun shouldFetch(data: Staff?): Boolean {
-                return data?.id == null
+                return data?.id == ""
             }
 
             override suspend fun createCall(): Flow<ApiResponse<StaffResponse>> =
@@ -330,8 +342,14 @@ class Repository(
             }
         }.asFlow()
 
-    override suspend fun insertStaff(staff: Staff): String =
-        remoteDataSource.insertStaff(DataMapper.mapStaffToResponse(staff))
+    override suspend fun insertStaff(staff: Staff): String{
+        val staffResponse = DataMapper.mapStaffToResponse(staff)
+        val id = remoteDataSource.insertStaff(staffResponse)
+        val staffEntity = DataMapper.mapStaffToEntity(staff)
+        staffEntity.id = id
+        localDataSource.insertStaff(staffEntity)
+        return id
+    }
 
     override fun updateStaff(staff: Staff) {
         val staffEntity = DataMapper.mapStaffToEntity(staff)

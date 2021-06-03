@@ -38,18 +38,18 @@ class HomeFragment : Fragment() {
 
         preference = MyPreference(requireActivity())
 
+        Log.d("preference", preference.getId())
+        binding.date.dateNow()
+
         homeViewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, {
-            binding.date.dateNow()
             if (it.data != null) {
                 Log.d("homeFragment", it.data.toString())
                 val patient = it.data
                 val arr = patient.name.split(" ").toMutableList()
                 val text = arr.simpleText()
                 binding.greeting.text = resources.getString(R.string.greeting, text)
-
                 binding.avatar.setImage(patient.picture)
             }
-
         })
         homeViewModel.getRecords(preference.getId()).observe(viewLifecycleOwner, {
             if (it != null) {

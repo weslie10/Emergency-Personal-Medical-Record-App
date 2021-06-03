@@ -40,7 +40,6 @@ class PatientActivity : AppCompatActivity(), BottomNavigationView.OnNavigationIt
                     .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                     .commit()
             }
-
             return true
         }
         return false
