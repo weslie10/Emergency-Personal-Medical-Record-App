@@ -116,7 +116,7 @@ class Repository(
                     if (it != null) {
                         Log.d("getPatientDetail repo", it.toString())
                         DataMapper.mapPatientEntityToDomain(it)
-                    } else it
+                    } else Patient()
                 }
             }
 
@@ -167,8 +167,15 @@ class Repository(
             }
         }.asFlow()
 
-    override suspend fun insertPatient(patient: Patient): String =
-        remoteDataSource.insertPatient(DataMapper.mapPatientToResponse(patient))
+    override suspend fun insertPatient(patient: Patient): String {
+        val patientResponse = DataMapper.mapPatientToResponse(patient)
+        val id = remoteDataSource.insertPatient(patientResponse)
+        val patientEntity = DataMapper.mapPatientToEntity(patient)
+        patientEntity.id = id
+        localDataSource.insertPatient(patientEntity)
+        return id
+    }
+
 
     override fun updatePatient(patient: Patient) {
         val patientEntity = DataMapper.mapPatientToEntity(patient)
@@ -247,9 +254,12 @@ class Repository(
             }
         }.asFlow()
 
-    override suspend fun insertRecord(record: Record): String {
+    override fun insertRecord(record: Record) {
         val recordResponse = DataMapper.mapRecordToResponse(record)
-        return remoteDataSource.insertRecord(recordResponse)
+        val id =  remoteDataSource.insertRecord(recordResponse)
+        val recordEntity = DataMapper.mapRecordToEntity(record)
+        recordEntity.id = id
+        localDataSource.insertRecord(recordEntity)
     }
 
     override fun updateRecord(record: Record) {
@@ -332,8 +342,14 @@ class Repository(
             }
         }.asFlow()
 
-    override suspend fun insertStaff(staff: Staff): String =
-        remoteDataSource.insertStaff(DataMapper.mapStaffToResponse(staff))
+    override suspend fun insertStaff(staff: Staff): String{
+        val staffResponse = DataMapper.mapStaffToResponse(staff)
+        val id = remoteDataSource.insertStaff(staffResponse)
+        val staffEntity = DataMapper.mapStaffToEntity(staff)
+        staffEntity.id = id
+        localDataSource.insertStaff(staffEntity)
+        return id
+    }
 
     override fun updateStaff(staff: Staff) {
         val staffEntity = DataMapper.mapStaffToEntity(staff)

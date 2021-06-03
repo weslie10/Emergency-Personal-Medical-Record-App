@@ -24,7 +24,7 @@ interface IRepository {
 
     fun getRecords(idPatient: String): Flow<Resource<List<Record>>>
     fun getRecordDetail(id: String): Flow<Resource<Record>>
-    suspend fun insertRecord(record: Record): String
+    fun insertRecord(record: Record)
     fun updateRecord(record: Record)
     fun deleteRecord(id: String)
 

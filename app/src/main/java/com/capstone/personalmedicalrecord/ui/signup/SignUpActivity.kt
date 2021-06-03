@@ -167,7 +167,6 @@ class SignUpActivity : AppCompatActivity() {
         lifecycleScope.launch(Dispatchers.Main) {
             viewModel.checkPatient(email).observe(this@SignUpActivity, { patient ->
                 if (patient.data != null) {
-                    Log.d("patient",patient.data.toString())
                     if (!check) {
                         p = patient.data.id == ""
                         Log.d("check1","p: ${p.toString()}, s: ${s.toString()}, check: $check")
@@ -177,7 +176,6 @@ class SignUpActivity : AppCompatActivity() {
             })
             viewModel.checkStaff(email).observe(this@SignUpActivity, { staff ->
                 if (staff.data != null) {
-                    Log.d("staff", staff.data.toString())
                     if (!check) {
                         s = staff.data.id == ""
                         Log.d("check2", "p: ${p.toString()}, s: ${s.toString()}, check: $check")
@@ -191,7 +189,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun check(p: Boolean?, s: Boolean?) {
         Log.d("check3","p: ${p.toString()}, s: ${s.toString()}, check: $check")
         if (p != null && s != null && !check) {
-            if (p && s) {
+            if (p == true && s == true) {
                 check = true
                 setUser(
                     binding.inputEmail.text.toString(),
@@ -228,13 +226,11 @@ class SignUpActivity : AppCompatActivity() {
                     lifecycleScope.launch(Dispatchers.IO) {
                         val id = viewModel.insertPatient(patient)
                         preference.setId(id)
+                        startActivity(Intent(this@SignUpActivity, PatientActivity::class.java))
+                        this@SignUpActivity.finish()
                     }
-                    startActivity(Intent(this, PatientActivity::class.java))
-                    this.finish()
                 }
-                .setNegativeButton("I refuse") { _, _ ->
-
-                }
+                .setNegativeButton("I refuse", null)
                 .show()
         } else {
             preference.setRole(role)

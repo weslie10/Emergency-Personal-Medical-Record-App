@@ -136,7 +136,6 @@ class RecordsFragment : Fragment(), RecordsCallback {
                                 .setPositiveButton("I agree") { _, _ ->
                                     val patient = it.data
                                     patient.term = true
-                                    Log.d("patient", patient.toString())
                                     viewModel.update(patient)
                                 }
                                 .setNegativeButton("I refuse", null)

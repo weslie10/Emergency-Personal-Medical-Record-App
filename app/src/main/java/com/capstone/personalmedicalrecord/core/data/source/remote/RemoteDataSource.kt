@@ -206,7 +206,7 @@ class RemoteDataSource {
         }.flowOn(Dispatchers.IO)
     }
 
-    suspend fun insertRecord(record: RecordResponse): String {
+    fun insertRecord(record: RecordResponse): String {
         return try {
             val id = recordDb.document().id
             record.id = id
@@ -217,7 +217,6 @@ class RemoteDataSource {
                 .addOnFailureListener {
                     Log.e("insertRecord", "Error saving to DB")
                 }
-                .await()
             id
         } catch (e: Exception) {
             Log.e("insertRecord", e.message.toString())
