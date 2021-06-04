@@ -84,9 +84,9 @@ class DetailDataFragment : Fragment() {
                             is Resource.Success -> {
                                 binding.records.visibility = View.VISIBLE
                                 binding.detailRecordsDate.text = record.data?.date
-                                binding.detailRecordsHaematocrit.text = record.data?.haematocrit.toString()
-                                binding.detailRecordsHaemoglobin.text = record.data?.haemoglobin.toString()
-                                binding.detailRecordsErythrocyte.text = record.data?.erythrocyte.toString()
+                                binding.detailRecordsHaematocrit.text = String.format("%s\n", record.data?.haematocrit.toString())
+                                binding.detailRecordsHaemoglobin.text = String.format("%s\n", record.data?.haemoglobin.toString())
+                                binding.detailRecordsErythrocyte.text = String.format("%s\n", record.data?.erythrocyte.toString())
                                 binding.detailRecordsLeucocyte.text = record.data?.leucocyte.toString()
                                 binding.detailRecordsThrombocyte.text = record.data?.thrombocyte.toString()
                                 binding.detailRecordsMch.text = record.data?.mch.toString()
