@@ -14,11 +14,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.budiyev.android.codescanner.*
+import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentStaffScannerBinding
+import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
 
 class ScannerFragment : Fragment() {
-
-    private lateinit var scannerViewModel: ScannerViewModel
     private var _binding: FragmentStaffScannerBinding? = null
     private val binding get() = _binding as FragmentStaffScannerBinding
     private lateinit var codeScanner: CodeScanner
@@ -37,17 +37,21 @@ class ScannerFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        scannerViewModel =
-            ViewModelProvider(this).get(ScannerViewModel::class.java)
-
         setupPermissions()
         codeScanner()
 
         binding.openBtn.setOnClickListener {
             if (link != "") {
-                val intent = Intent(Intent.ACTION_VIEW)
-                intent.data = Uri.parse(link)
-                startActivity(intent)
+                val fragment = AddNoteFragment()
+                val bundle = Bundle().apply {
+                    putString("idPatient", link)
+                }
+                fragment.arguments = bundle
+                activity?.navigateTo(fragment, R.id.frame)
+
+//                val intent = Intent(Intent.ACTION_VIEW)
+//                intent.data = Uri.parse(link)
+//                startActivity(intent)
             }
         }
     }

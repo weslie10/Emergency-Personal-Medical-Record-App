@@ -1,13 +1,15 @@
 package com.capstone.personalmedicalrecord.ui.staff.scanner
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import com.capstone.personalmedicalrecord.core.domain.model.Note
+import com.capstone.personalmedicalrecord.core.domain.usecase.NoteUseCase
+import com.capstone.personalmedicalrecord.core.domain.usecase.StaffUseCase
 
-class ScannerViewModel : ViewModel() {
-
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is scanner Fragment"
-    }
-    val text: LiveData<String> = _text
+class ScannerViewModel(
+    private val staffUseCase: StaffUseCase,
+    private val noteUseCase: NoteUseCase,
+) : ViewModel() {
+    fun getStaff(id: String) = staffUseCase.getStaffDetail(id).asLiveData()
+    suspend fun insert(note: Note) = noteUseCase.insertNote(note)
 }

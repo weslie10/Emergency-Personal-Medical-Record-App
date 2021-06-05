@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Emergency Personal Medical Record</string>
     <string name="login">Log In</string>
@@ -60,8 +61,6 @@
     <string name="b">B</string>
     <string name="ab">AB</string>
     <string name="o">O</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="repeat">Confirm Password</string>
 
     <string name="add_record">Add Record</string>
@@ -70,6 +69,9 @@
     <string name="haematocrit">Haematocrit</string>
     <string name="haemoglobin">Haemoglobin</string>
     <string name="erythrocyte">Erythrocyte</string>
+    <string name="haematocrit_enter">Haematocrit\n</string>
+    <string name="haemoglobin_enter">Haemoglobin\n</string>
+    <string name="erythrocyte_enter">Erythrocyte\n</string>
     <string name="leucocyte">Leucocyte</string>
     <string name="thrombocyte">Thrombocyte</string>
     <string name="mch">MCH</string>
@@ -77,4 +79,33 @@
     <string name="mcv">MCV</string>
     <string name="empty_data">There is nothing here.</string>
     <string name="item_from">From Weslie Leonardo</string>
+    <string name="haematocrit_unit">%\n</string>
+    <string name="haemoglobin_unit">g/dL\n</string>
+    <string name="erythrocyte_unit">10^6/uL\n</string>
+    <string name="leucocyte_unit">10^3/µL</string>
+    <string name="thrombocyte_unit">10^3/µL</string>
+    <string name="mch_unit">pg</string>
+    <string name="mchc_unit">g/dL</string>
+    <string name="mcv_unit">fL</string>
+    <string name="examination">Examination</string>
+    <string name="result">Result</string>
+    <string name="unit">Unit</string>
+    <string name="reference">Reference Value</string>
+    <string name="haematocrit_reference">40 – 50 (F)\n45 – 55 (M)</string>
+    <string name="haemoglobin_reference">12 – 14 (F)\n13 – 16 (M)</string>
+    <string name="erythrocyte_reference">4 – 5 (F)\n4.5 – 5.5 (M)</string>
+    <string name="leucocyte_reference">5.0 – 10.0</string>
+    <string name="thrombocyte_reference">150 – 400</string>
+    <string name="mch_reference">27 – 31</string>
+    <string name="mchc_reference">32 – 36</string>
+    <string name="mcv_reference">80 – 96</string>
+
+    <string name="haematocrit_helper">Reference value : 40 – 50 (F) | 45 – 55 (M)</string>
+    <string name="haemoglobin_helper">Reference value : 12 – 14 (F) | 13 – 16 (M)</string>
+    <string name="erythrocyte_helper">Reference value : 4 – 5 (F) | 4.5 – 5.5 (M)</string>
+    <string name="leucocyte_helper">Reference value : 5.0 – 10.0</string>
+    <string name="thrombocyte_helper">Reference value : 150 – 400</string>
+    <string name="mch_helper">Reference value : 27 – 31</string>
+    <string name="mchc_helper">Reference value : 32 – 36</string>
+    <string name="mcv_helper">Reference value : 80 – 96</string>
 </resources>

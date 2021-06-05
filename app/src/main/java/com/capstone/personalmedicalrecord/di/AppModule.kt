@@ -11,6 +11,7 @@ import com.capstone.personalmedicalrecord.ui.patient.profile.ProfileViewModel
 import com.capstone.personalmedicalrecord.ui.patient.profile.UpdatePatientViewModel
 import com.capstone.personalmedicalrecord.ui.signup.SignUpViewModel
 import com.capstone.personalmedicalrecord.ui.staff.profile.UpdateStaffViewModel
+import com.capstone.personalmedicalrecord.ui.staff.scanner.ScannerViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
@@ -38,6 +39,7 @@ val viewModelModule = module {
     //staff
     viewModel { com.capstone.personalmedicalrecord.ui.staff.profile.ProfileViewModel(get()) }
     viewModel { UpdateStaffViewModel(get()) }
+    viewModel { ScannerViewModel(get(), get()) }
 
     //auth
     viewModel { SignUpViewModel(get(), get()) }

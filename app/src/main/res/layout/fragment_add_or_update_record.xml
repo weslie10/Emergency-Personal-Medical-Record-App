@@ -42,6 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/haematocrit"
+            app:helperText="@string/haematocrit_helper"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/record_txt">
 
@@ -59,6 +60,7 @@
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:helperText="@string/haemoglobin_helper"
             android:hint="@string/haemoglobin"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_haematocrit">
@@ -77,6 +79,7 @@
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:helperText="@string/erythrocyte_helper"
             android:hint="@string/erythrocyte"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_haemoglobin">
@@ -95,6 +98,7 @@
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:helperText="@string/leucocyte_helper"
             android:hint="@string/leucocyte"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_erythrocyte">
@@ -113,6 +117,7 @@
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:helperText="@string/thrombocyte_helper"
             android:hint="@string/thrombocyte"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_leucocyte">
@@ -131,6 +136,7 @@
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:helperText="@string/mch_helper"
             android:hint="@string/mch"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_thrombocyte">
@@ -149,6 +155,7 @@
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:helperText="@string/mchc_helper"
             android:hint="@string/mchc"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_mch">
@@ -167,6 +174,7 @@
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:helperText="@string/mcv_helper"
             android:hint="@string/mcv"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/til_mchc">
