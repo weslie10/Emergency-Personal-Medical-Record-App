@@ -41,6 +41,6 @@ data class RecordEntity(
     var mcv: Double,
 
     @ColumnInfo(name = "idPatient")
-    var idPatient: String
+    var idPatient: String,
 ) : Parcelable
 

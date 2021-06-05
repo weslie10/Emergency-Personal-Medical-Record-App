@@ -17,7 +17,7 @@ class DataFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentPatientDataBinding.inflate(layoutInflater)
         return binding.root

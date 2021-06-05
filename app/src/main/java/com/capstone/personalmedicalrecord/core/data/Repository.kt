@@ -256,7 +256,7 @@ class Repository(
 
     override fun insertRecord(record: Record) {
         val recordResponse = DataMapper.mapRecordToResponse(record)
-        val id =  remoteDataSource.insertRecord(recordResponse)
+        val id = remoteDataSource.insertRecord(recordResponse)
         val recordEntity = DataMapper.mapRecordToEntity(record)
         recordEntity.id = id
         localDataSource.insertRecord(recordEntity)
@@ -342,7 +342,7 @@ class Repository(
             }
         }.asFlow()
 
-    override suspend fun insertStaff(staff: Staff): String{
+    override suspend fun insertStaff(staff: Staff): String {
         val staffResponse = DataMapper.mapStaffToResponse(staff)
         val id = remoteDataSource.insertStaff(staffResponse)
         val staffEntity = DataMapper.mapStaffToEntity(staff)

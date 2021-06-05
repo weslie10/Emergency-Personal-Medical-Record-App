@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.data.Resource
@@ -26,7 +25,7 @@ class DetailDataFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentPatientDetailDataBinding.inflate(layoutInflater)
         return binding.root
@@ -45,14 +44,17 @@ class DetailDataFragment : Fragment() {
                 notesViewModel.getNoteDetail(id).observe(viewLifecycleOwner, { note ->
                     if (note != null) {
                         when (note) {
-                            is Resource.Loading -> {}
+                            is Resource.Loading -> {
+                            }
                             is Resource.Success -> {
                                 binding.notes.visibility = View.VISIBLE
                                 binding.detailNotesDate.text = note.data?.datetime
                                 binding.detailNotesDescription.text = note.data?.description
-                                binding.detailNotesFrom.text = String.format("From %s", note.data?.from)
+                                binding.detailNotesFrom.text =
+                                    String.format("From %s", note.data?.from)
                             }
-                            is Resource.Error -> {}
+                            is Resource.Error -> {
+                            }
                         }
                     }
                 })
@@ -80,20 +82,27 @@ class DetailDataFragment : Fragment() {
                 recordsViewModel.getRecordDetail(id).observe(viewLifecycleOwner, { record ->
                     if (record != null) {
                         when (record) {
-                            is Resource.Loading -> {}
+                            is Resource.Loading -> {
+                            }
                             is Resource.Success -> {
                                 binding.records.visibility = View.VISIBLE
                                 binding.detailRecordsDate.text = record.data?.date
-                                binding.detailRecordsHaematocrit.text = String.format("%s\n", record.data?.haematocrit.toString())
-                                binding.detailRecordsHaemoglobin.text = String.format("%s\n", record.data?.haemoglobin.toString())
-                                binding.detailRecordsErythrocyte.text = String.format("%s\n", record.data?.erythrocyte.toString())
-                                binding.detailRecordsLeucocyte.text = record.data?.leucocyte.toString()
-                                binding.detailRecordsThrombocyte.text = record.data?.thrombocyte.toString()
+                                binding.detailRecordsHaematocrit.text =
+                                    String.format("%s\n", record.data?.haematocrit.toString())
+                                binding.detailRecordsHaemoglobin.text =
+                                    String.format("%s\n", record.data?.haemoglobin.toString())
+                                binding.detailRecordsErythrocyte.text =
+                                    String.format("%s\n", record.data?.erythrocyte.toString())
+                                binding.detailRecordsLeucocyte.text =
+                                    record.data?.leucocyte.toString()
+                                binding.detailRecordsThrombocyte.text =
+                                    record.data?.thrombocyte.toString()
                                 binding.detailRecordsMch.text = record.data?.mch.toString()
                                 binding.detailRecordsMchc.text = record.data?.mchc.toString()
                                 binding.detailRecordsMcv.text = record.data?.mcv.toString()
                             }
-                            is Resource.Error -> {}
+                            is Resource.Error -> {
+                            }
                         }
                     }
                 })

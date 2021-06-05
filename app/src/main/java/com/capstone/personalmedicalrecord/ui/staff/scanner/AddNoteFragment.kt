@@ -14,7 +14,6 @@ import com.capstone.personalmedicalrecord.databinding.FragmentAddNoteBinding
 import com.capstone.personalmedicalrecord.utils.Utility
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.capstone.personalmedicalrecord.utils.Utility.hideKeyboard
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -69,7 +68,8 @@ class AddNoteFragment : Fragment() {
             }
             it.hideKeyboard()
             activity?.supportFragmentManager?.popBackStack()
-            Toast.makeText(requireContext(), "Note has been added to patient", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Note has been added to patient", Toast.LENGTH_SHORT)
+                .show()
         }
 
         activity?.clickBack(binding.backBtn)

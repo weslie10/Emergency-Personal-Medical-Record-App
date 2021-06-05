@@ -13,7 +13,7 @@ class LocalDataSource(
     private val noteDao: NoteDao,
     private val patientDao: PatientDao,
     private val recordDao: RecordDao,
-    private val staffDao: StaffDao
+    private val staffDao: StaffDao,
 ) {
 
     fun getNotes(idPatient: String) = noteDao.getNotes(idPatient)

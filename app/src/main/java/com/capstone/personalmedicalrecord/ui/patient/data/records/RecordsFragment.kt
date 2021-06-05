@@ -114,7 +114,7 @@ class RecordsFragment : Fragment(), RecordsCallback {
                             MaterialAlertDialogBuilder(requireContext())
                                 .setTitle(getString(R.string.add_record_text))
                                 .setNeutralButton(getString(R.string.cancel), null)
-                                .setPositiveButton(getString(R.string.ok)) { dialog, _ ->
+                                .setPositiveButton(getString(R.string.ok)) { _, _ ->
                                     when (checkedItem) {
                                         0 -> requestPhoto()
                                         1 -> choosePhoto()
@@ -279,7 +279,7 @@ class RecordsFragment : Fragment(), RecordsCallback {
     private val chooseDocument =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                var fileUri = result.data?.data as Uri
+                val fileUri = result.data?.data as Uri
                 uploadFile(fileUri, "PDF")
             }
         }
@@ -297,7 +297,9 @@ class RecordsFragment : Fragment(), RecordsCallback {
             })?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val downloadUri = task.result
-                    Snackbar.make(binding.rvRecords, "File already upload, Please wait For a while", Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(binding.rvRecords,
+                        "File already upload, Please wait For a while",
+                        Snackbar.LENGTH_SHORT).show()
                     Log.d("downloadUri", downloadUri.toString())
                 }
             }?.addOnFailureListener {

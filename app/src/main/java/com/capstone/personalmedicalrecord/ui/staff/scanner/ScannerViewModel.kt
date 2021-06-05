@@ -11,5 +11,5 @@ class ScannerViewModel(
     private val noteUseCase: NoteUseCase,
 ) : ViewModel() {
     fun getStaff(id: String) = staffUseCase.getStaffDetail(id).asLiveData()
-    suspend fun insert(note: Note) = noteUseCase.insertNote(note)
+    fun insert(note: Note) = noteUseCase.insertNote(note)
 }

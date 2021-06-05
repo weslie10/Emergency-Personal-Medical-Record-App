@@ -8,7 +8,8 @@ import kotlinx.coroutines.flow.Flow
 class PatientInteractor(private val repository: IRepository) : PatientUseCase {
     override fun getPatients() = repository.getPatients()
 
-    override fun getPatientDetail(id: String): Flow<Resource<Patient>> = repository.getPatientDetail(id)
+    override fun getPatientDetail(id: String): Flow<Resource<Patient>> =
+        repository.getPatientDetail(id)
 
     override fun getPatient(email: String): Flow<Resource<Patient>> = repository.getPatient(email)
 

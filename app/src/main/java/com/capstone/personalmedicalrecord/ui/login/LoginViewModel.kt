@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.combine
 
 class LoginViewModel(
     private val patientUseCase: PatientUseCase,
-    private val staffUseCase: StaffUseCase
+    private val staffUseCase: StaffUseCase,
 ) : ViewModel() {
     private val _email = MutableStateFlow("")
     private val _password = MutableStateFlow("")

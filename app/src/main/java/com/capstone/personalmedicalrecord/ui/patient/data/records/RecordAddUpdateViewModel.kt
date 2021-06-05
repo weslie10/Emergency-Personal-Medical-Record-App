@@ -7,7 +7,7 @@ import com.capstone.personalmedicalrecord.core.domain.usecase.RecordUseCase
 
 class RecordAddUpdateViewModel(private val recordUseCase: RecordUseCase) : ViewModel() {
 
-    suspend fun insert(record: Record) = recordUseCase.insertRecord(record)
+    fun insert(record: Record) = recordUseCase.insertRecord(record)
 
     fun update(record: Record) = recordUseCase.updateRecord(record)
 

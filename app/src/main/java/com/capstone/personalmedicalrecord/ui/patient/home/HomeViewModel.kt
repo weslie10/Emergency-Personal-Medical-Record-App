@@ -9,7 +9,7 @@ import com.capstone.personalmedicalrecord.core.domain.usecase.RecordUseCase
 class HomeViewModel(
     private val patientUseCase: PatientUseCase,
     private val noteUseCase: NoteUseCase,
-    private val recordUseCase: RecordUseCase
+    private val recordUseCase: RecordUseCase,
 ) : ViewModel() {
     fun getPatient(id: String) = patientUseCase.getPatientDetail(id).asLiveData()
     fun getNotes(id: String) = noteUseCase.getNotes(id).asLiveData()

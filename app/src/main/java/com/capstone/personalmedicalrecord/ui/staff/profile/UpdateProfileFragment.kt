@@ -238,37 +238,37 @@ class UpdateProfileFragment : Fragment() {
         }
 
     private fun uploadImage(picture: String, filePath: Uri) {
-            if (picture.length > 2) {
-                val file = FirebaseStorage.getInstance().getReferenceFromUrl(picture)
-                file.delete()
-                    .addOnSuccessListener {
-                        Log.d("deletePhoto", "Delete Photo from Firebase Storage")
-                    }
-                    .addOnFailureListener {
-                        Log.e("deletePhoto", "Error delete photo")
-                    }
-            }
-            if (filePath != null) {
-                val ref = storageReference?.child("profile/" + UUID.randomUUID().toString())
-                val uploadTask = ref?.putFile(filePath)
-
-                uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
-                    if (!task.isSuccessful) {
-                        task.exception?.let { throw it }
-                    }
-                    return@Continuation ref.downloadUrl
-                })?.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val downloadUri = task.result
-                        viewModel.updatePicture(preference.getId(), downloadUri.toString())
-                    }
-                }?.addOnFailureListener {
-                    Log.e("error on upload image", it.message.toString())
+        if (picture.length > 2) {
+            val file = FirebaseStorage.getInstance().getReferenceFromUrl(picture)
+            file.delete()
+                .addOnSuccessListener {
+                    Log.d("deletePhoto", "Delete Photo from Firebase Storage")
                 }
-            } else {
-                Toast.makeText(context, "Please Upload an Image", Toast.LENGTH_SHORT).show()
-            }
+                .addOnFailureListener {
+                    Log.e("deletePhoto", "Error delete photo")
+                }
         }
+        if (filePath != null) {
+            val ref = storageReference?.child("profile/" + UUID.randomUUID().toString())
+            val uploadTask = ref?.putFile(filePath)
+
+            uploadTask?.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
+                if (!task.isSuccessful) {
+                    task.exception?.let { throw it }
+                }
+                return@Continuation ref.downloadUrl
+            })?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val downloadUri = task.result
+                    viewModel.updatePicture(preference.getId(), downloadUri.toString())
+                }
+            }?.addOnFailureListener {
+                Log.e("error on upload image", it.message.toString())
+            }
+        } else {
+            Toast.makeText(context, "Please Upload an Image", Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

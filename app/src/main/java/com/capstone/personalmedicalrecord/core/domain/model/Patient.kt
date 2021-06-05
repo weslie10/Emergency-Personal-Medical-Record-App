@@ -11,5 +11,5 @@ data class Patient(
     val gender: String = "",
     val bloodType: String = "",
     val picture: String = "",
-    var term: Boolean = false
+    var term: Boolean = false,
 )

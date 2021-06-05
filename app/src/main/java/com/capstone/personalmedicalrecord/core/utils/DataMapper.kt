@@ -12,7 +12,6 @@ import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.core.domain.model.Patient
 import com.capstone.personalmedicalrecord.core.domain.model.Record
 import com.capstone.personalmedicalrecord.core.domain.model.Staff
-import io.data2viz.time.date
 
 object DataMapper {
 

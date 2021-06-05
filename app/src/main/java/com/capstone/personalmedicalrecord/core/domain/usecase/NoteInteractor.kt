@@ -2,7 +2,6 @@ package com.capstone.personalmedicalrecord.core.domain.usecase
 
 import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.core.domain.repository.IRepository
-import kotlinx.coroutines.flow.Flow
 
 class NoteInteractor(private val repository: IRepository) : NoteUseCase {
     override fun getNotes(idPatient: String) = repository.getNotes(idPatient)

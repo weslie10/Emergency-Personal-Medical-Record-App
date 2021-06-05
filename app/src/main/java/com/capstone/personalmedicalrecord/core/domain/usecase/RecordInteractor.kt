@@ -2,7 +2,6 @@ package com.capstone.personalmedicalrecord.core.domain.usecase
 
 import com.capstone.personalmedicalrecord.core.domain.model.Record
 import com.capstone.personalmedicalrecord.core.domain.repository.IRepository
-import kotlinx.coroutines.flow.Flow
 
 class RecordInteractor(private val repository: IRepository) : RecordUseCase {
     override fun getRecords(idPatient: String) = repository.getRecords(idPatient)

@@ -19,8 +19,8 @@ class CheckIdFragment : Fragment() {
     private var _binding: FragmentCheckIdBinding? = null
     private val binding get() = _binding as FragmentCheckIdBinding
 
-    var bitmap: Bitmap? = null
-    var qrgEncoder: QRGEncoder? = null
+    private var bitmap: Bitmap? = null
+    private var qrgEncoder: QRGEncoder? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

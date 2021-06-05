@@ -16,7 +16,8 @@ class StaffInteractor(private val repository: IRepository) : StaffUseCase {
 
     override fun updateStaff(staff: Staff) = repository.updateStaff(staff)
 
-    override fun updatePictureStaff(id: String, url: String) = repository.updatePictureStaff(id, url)
+    override fun updatePictureStaff(id: String, url: String) =
+        repository.updatePictureStaff(id, url)
 
     override fun deleteStaff(id: String) = repository.deleteStaff(id)
 }

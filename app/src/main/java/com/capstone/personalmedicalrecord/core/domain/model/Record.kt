@@ -15,5 +15,5 @@ data class Record(
     var mch: Double,
     var mchc: Double,
     var mcv: Double,
-    var idPatient: String
+    var idPatient: String,
 ) : Parcelable

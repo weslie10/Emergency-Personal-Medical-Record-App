@@ -28,7 +28,7 @@ class AddOrUpdateRecordFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentAddOrUpdateRecordBinding.inflate(layoutInflater)
         return binding.root
@@ -49,7 +49,8 @@ class AddOrUpdateRecordFragment : Fragment() {
                     viewModel.getRecord(id).observe(viewLifecycleOwner, { record ->
                         if (record != null) {
                             when (record) {
-                                is Resource.Loading -> {}
+                                is Resource.Loading -> {
+                                }
                                 is Resource.Success -> {
                                     binding.inputHaematocrit.setText(record.data?.haematocrit.toString())
                                     binding.inputHaemoglobin.setText(record.data?.haemoglobin.toString())
@@ -60,7 +61,8 @@ class AddOrUpdateRecordFragment : Fragment() {
                                     binding.inputMchc.setText(record.data?.mchc.toString())
                                     binding.inputMcv.setText(record.data?.mcv.toString())
                                 }
-                                is Resource.Error -> {}
+                                is Resource.Error -> {
+                                }
                             }
                         }
                     })

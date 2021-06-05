@@ -26,7 +26,7 @@ class NotesFragment : Fragment(), NotesCallback {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentNotesBinding.inflate(layoutInflater)
         return binding.root
@@ -41,7 +41,7 @@ class NotesFragment : Fragment(), NotesCallback {
             notesAdapter = NotesAdapter(this)
             val id = preference.getId()
             viewModel.getNotes(id).observe(viewLifecycleOwner, { notes ->
-                Log.d("notes",notes.data.toString())
+                Log.d("notes", notes.data.toString())
                 if (notes != null) {
                     when (notes) {
                         is Resource.Loading -> showLoading(true)

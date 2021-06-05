@@ -149,7 +149,7 @@ class SignUpActivity : AppCompatActivity() {
                     parent: AdapterView<*>?,
                     view: View?,
                     position: Int,
-                    id: Long
+                    id: Long,
                 ) {
                     role = list[position]
                 }
@@ -169,7 +169,7 @@ class SignUpActivity : AppCompatActivity() {
                 if (patient.data != null) {
                     if (!check) {
                         p = patient.data.id == ""
-                        Log.d("check1","p: ${p.toString()}, s: ${s.toString()}, check: $check")
+                        Log.d("check1", "p: ${p.toString()}, s: ${s.toString()}, check: $check")
                         check(p, s)
                     }
                 }
@@ -187,7 +187,7 @@ class SignUpActivity : AppCompatActivity() {
     }
 
     private fun check(p: Boolean?, s: Boolean?) {
-        Log.d("check3","p: ${p.toString()}, s: ${s.toString()}, check: $check")
+        Log.d("check3", "p: ${p.toString()}, s: ${s.toString()}, check: $check")
         if (p != null && s != null && !check) {
             if (p == true && s == true) {
                 check = true
@@ -222,7 +222,8 @@ class SignUpActivity : AppCompatActivity() {
                 """.trimIndent())
                 .setPositiveButton("I agree") { _, _ ->
                     preference.setRole(role)
-                    val patient = Patient(name = email.split("@")[0], email = email, password = password)
+                    val patient =
+                        Patient(name = email.split("@")[0], email = email, password = password)
                     lifecycleScope.launch(Dispatchers.IO) {
                         val id = viewModel.insertPatient(patient)
                         preference.setId(id)

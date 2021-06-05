@@ -23,5 +23,5 @@ data class NoteEntity(
     var from: String,
 
     @ColumnInfo(name = "idPatient")
-    var idPatient: String
+    var idPatient: String,
 ) : Parcelable

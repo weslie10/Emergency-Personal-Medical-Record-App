@@ -28,7 +28,7 @@ class AddOrUpdateNotesFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentAddOrUpdateNotesBinding.inflate(layoutInflater)
         return binding.root
@@ -50,12 +50,14 @@ class AddOrUpdateNotesFragment : Fragment() {
                     viewModel.getNote(id).observe(viewLifecycleOwner, { note ->
                         if (note != null) {
                             when (note) {
-                                is Resource.Loading -> {}
+                                is Resource.Loading -> {
+                                }
                                 is Resource.Success -> {
                                     binding.inputNote.setText(note.data?.description)
                                     from = note.data?.from.toString()
                                 }
-                                is Resource.Error -> {}
+                                is Resource.Error -> {
+                                }
                             }
                         }
                     })

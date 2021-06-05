@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.databinding.FragmentStaffProfileBinding
@@ -15,7 +14,6 @@ import com.capstone.personalmedicalrecord.utils.Utility.convertEmpty
 import com.capstone.personalmedicalrecord.utils.Utility.navigateTo
 import com.capstone.personalmedicalrecord.utils.Utility.setImage
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.io.File
 
 class ProfileFragment : Fragment() {
     private lateinit var preference: MyPreference
@@ -26,7 +24,7 @@ class ProfileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentStaffProfileBinding.inflate(inflater, container, false)
         return binding.root

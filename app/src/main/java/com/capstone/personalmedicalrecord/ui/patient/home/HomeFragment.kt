@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.bumptech.glide.Glide
 import com.capstone.personalmedicalrecord.MyPreference
 import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.data.Resource
@@ -15,7 +14,6 @@ import com.capstone.personalmedicalrecord.utils.Utility.dateNow
 import com.capstone.personalmedicalrecord.utils.Utility.setImage
 import com.capstone.personalmedicalrecord.utils.Utility.simpleText
 import org.koin.android.viewmodel.ext.android.viewModel
-import java.io.File
 
 class HomeFragment : Fragment() {
     private lateinit var preference: MyPreference

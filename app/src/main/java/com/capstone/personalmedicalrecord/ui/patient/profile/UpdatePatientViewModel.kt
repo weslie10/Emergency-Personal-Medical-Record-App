@@ -1,6 +1,5 @@
 package com.capstone.personalmedicalrecord.ui.patient.profile
 
-import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import com.capstone.personalmedicalrecord.core.domain.model.Patient

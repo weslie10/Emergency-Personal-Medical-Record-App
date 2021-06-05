@@ -11,7 +11,7 @@ import kotlinx.parcelize.Parcelize
 data class StaffEntity(
     @PrimaryKey
     @ColumnInfo(name = "id")
-    var id:  String,
+    var id: String,
 
     @ColumnInfo(name = "name")
     val name: String,
@@ -29,5 +29,5 @@ data class StaffEntity(
     val hospital: String,
 
     @ColumnInfo(name = "picture")
-    var picture: String
+    var picture: String,
 ) : Parcelable

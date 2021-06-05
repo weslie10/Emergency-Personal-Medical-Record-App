@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.domain.model.Record
 import com.capstone.personalmedicalrecord.databinding.ItemRecordBinding
 
@@ -22,7 +21,7 @@ class RecordsAdapter(private val callback: RecordsCallback) :
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
-        viewType: Int
+        viewType: Int,
     ): ListViewHolder {
         val binding = ItemRecordBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ListViewHolder(binding)
