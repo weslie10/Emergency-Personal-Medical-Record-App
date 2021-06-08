@@ -38,6 +38,10 @@ class NotesAdapter(private val callback: NotesCallback) :
                     itemContainer.setBackgroundColor(ContextCompat.getColor(itemContainer.context,
                         R.color.blue_dark))
                 }
+                else {
+                    itemContainer.setBackgroundColor(ContextCompat.getColor(itemContainer.context,
+                        R.color.blue))
+                }
                 itemView.setOnClickListener {
                     callback.onItemClick(note)
                 }
