@@ -16,8 +16,8 @@ Capstone for Bangkit 2021
 2. Winli (A1221572) - Politeknik Caltex Riau
 3. Hafizh Rahmatdianto Yusuf (M0020064) - Institut Teknologi Bandung
 4. Athaya Syaqra (M0020064) - Institut Teknologi Bandung
-5. Gladys Shafira Amru (C0121297) - Universitas Telkom Indonesia
-6. Alfadin Hauqala Zaelani (C0121296 ) - Universitas Telkom Indonesia
+5. Gladys Shafira Amru (C0121297) - Universitas Telkom
+6. Alfadin Hauqala Zaelani (C0121296 ) - Universitas Telkom
 
 ## Theme : Healthcare
 ### Title of Project : Emergency Personal Medical Record App
