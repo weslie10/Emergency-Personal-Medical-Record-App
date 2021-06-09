@@ -29,7 +29,7 @@ val viewModelModule = module {
 
     //records
     viewModel { RecordsViewModel(get(), get()) }
-    viewModel { RecordAddUpdateViewModel(get()) }
+    viewModel { RecordAddUpdateViewModel(get(),get()) }
 
     //patient
     viewModel { HomeViewModel(get(), get(), get()) }

@@ -2,6 +2,7 @@ package com.capstone.personalmedicalrecord.utils
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageButton
@@ -12,6 +13,7 @@ import androidx.fragment.app.FragmentActivity
 import com.bumptech.glide.Glide
 import com.capstone.personalmedicalrecord.R
 import com.google.android.material.textfield.TextInputLayout
+import java.text.DateFormatSymbols
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -100,4 +102,29 @@ object Utility {
                 .into(this)
         }
     }
+
+    fun String.calculateAges(): Int {
+        val months = DateFormatSymbols().months
+
+        val dateTime = LocalDate.now()
+        val now = DateTimeFormatter.ofPattern("d M y").format(dateTime).split(" ")
+        val arr = this.split(" ")
+        val day = arr[0].toInt()
+        val month = months.indexOf(arr[1])
+        val year = arr[2].toInt()
+
+        Log.d("now",now.joinToString(" "))
+        Log.d("birth",this)
+
+        var ages = now[2].toInt() - year
+        if (month < now[1].toInt()) {
+            ages-=1
+        } else if (month == now[1].toInt()) {
+            if (day < now[0].toInt()) {
+                ages -= 1
+            }
+        }
+        return ages
+    }
+
 }

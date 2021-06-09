@@ -12,4 +12,5 @@ data class RecordResponse(
     var mchc: Double = 0.0,
     var mcv: Double = 0.0,
     var idPatient: String = "",
+    var treatment: String = "",
 )

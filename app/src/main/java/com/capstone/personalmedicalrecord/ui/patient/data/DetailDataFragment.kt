@@ -100,6 +100,9 @@ class DetailDataFragment : Fragment() {
                                 binding.detailRecordsMch.text = record.data?.mch.toString()
                                 binding.detailRecordsMchc.text = record.data?.mchc.toString()
                                 binding.detailRecordsMcv.text = record.data?.mcv.toString()
+                                binding.detailRecordsTreatment.text =
+                                    resources.getString(R.string.treatment_string,
+                                        record.data?.treatment)
                             }
                             is Resource.Error -> {
                             }

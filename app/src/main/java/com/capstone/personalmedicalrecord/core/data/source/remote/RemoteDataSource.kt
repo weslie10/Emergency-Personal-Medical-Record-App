@@ -90,15 +90,6 @@ class RemoteDataSource {
         }
     }
 
-    fun getPatientDetail(id: String): Flow<ApiResponse<PatientResponse>> {
-        return flow {
-            val data = patientDb.document(id).get().await()
-            val patient = data.toObject(PatientResponse::class.java) as PatientResponse
-            Log.d("getPatientDetail", patient.toString())
-            emit(ApiResponse.Success(patient))
-        }.flowOn(Dispatchers.IO)
-    }
-
     fun getPatient(email: String): Flow<ApiResponse<PatientResponse>> {
         return flow {
             val data = patientDb.get().await()
@@ -108,7 +99,6 @@ class RemoteDataSource {
                 for (patient in patients) {
                     if (patient.email == email) {
                         isAvailable = false
-                        Log.d("getPatient", patient.toString())
                         emit(ApiResponse.Success(patient))
                         break
                     }
@@ -119,6 +109,14 @@ class RemoteDataSource {
             } else {
                 emit(ApiResponse.Success(PatientResponse()))
             }
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun getPatientDetail(id: String): Flow<ApiResponse<PatientResponse>> {
+        return flow {
+            val data = patientDb.document(id).get().await()
+            val patient = data.toObject(PatientResponse::class.java) as PatientResponse
+            emit(ApiResponse.Success(patient))
         }.flowOn(Dispatchers.IO)
     }
 

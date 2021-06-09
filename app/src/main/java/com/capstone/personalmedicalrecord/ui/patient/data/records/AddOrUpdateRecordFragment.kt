@@ -1,6 +1,8 @@
 package com.capstone.personalmedicalrecord.ui.patient.data.records
 
+import android.content.res.AssetFileDescriptor
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +13,22 @@ import com.capstone.personalmedicalrecord.R
 import com.capstone.personalmedicalrecord.core.data.Resource
 import com.capstone.personalmedicalrecord.core.domain.model.Record
 import com.capstone.personalmedicalrecord.databinding.FragmentAddOrUpdateRecordBinding
+import com.capstone.personalmedicalrecord.ml.Model
+import com.capstone.personalmedicalrecord.utils.Utility.calculateAges
 import com.capstone.personalmedicalrecord.utils.Utility.clickBack
 import com.capstone.personalmedicalrecord.utils.Utility.getDate
 import com.capstone.personalmedicalrecord.utils.Utility.hideKeyboard
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
+import org.tensorflow.lite.DataType
+import org.tensorflow.lite.Interpreter
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
+import java.io.FileInputStream
+import java.io.IOException
+import java.nio.ByteBuffer
+import java.nio.MappedByteBuffer
+import java.nio.channels.FileChannel
 
 class AddOrUpdateRecordFragment : Fragment() {
 
@@ -25,6 +37,9 @@ class AddOrUpdateRecordFragment : Fragment() {
 
     private val viewModel: RecordAddUpdateViewModel by viewModel()
     private lateinit var preference: MyPreference
+    private lateinit var birth: String
+    private var sex = -1
+    var tflite: Interpreter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +55,12 @@ class AddOrUpdateRecordFragment : Fragment() {
 
         val arg = this.arguments
         if (arg != null) {
+            viewModel.getPatient(preference.getId()).observe(viewLifecycleOwner, {
+                if (it.data != null) {
+                    birth = it.data.dateBirth
+                    sex = if (it.data.gender == "Male") 1 else 2
+                }
+            })
             when (arg.getString("state")) {
                 "Add" -> {
                     addRecord()
@@ -77,6 +98,19 @@ class AddOrUpdateRecordFragment : Fragment() {
         binding.recordBtn.apply {
             text = resources.getString(R.string.add_record)
             setOnClickListener {
+                val result = connectML(
+                    arrayListOf(
+                        binding.inputHaematocrit.text.toString().toDouble(),
+                        binding.inputHaemoglobin.text.toString().toDouble(),
+                        binding.inputErythrocyte.text.toString().toDouble(),
+                        binding.inputLeucocyte.text.toString().toDouble(),
+                        binding.inputThrombocyte.text.toString().toDouble(),
+                        binding.inputMch.text.toString().toDouble(),
+                        binding.inputMchc.text.toString().toDouble(),
+                        binding.inputMcv.text.toString().toDouble(),
+                        birth.calculateAges().toDouble(),
+                        sex.toDouble()
+                    ))
                 lifecycleScope.launch(Dispatchers.IO) {
                     viewModel.insert(
                         Record(
@@ -89,7 +123,8 @@ class AddOrUpdateRecordFragment : Fragment() {
                             mch = binding.inputMch.text.toString().toDouble(),
                             mchc = binding.inputMchc.text.toString().toDouble(),
                             mcv = binding.inputMcv.text.toString().toDouble(),
-                            idPatient = preference.getId()
+                            idPatient = preference.getId(),
+                            treatment = result
                         )
                     )
                 }
@@ -103,6 +138,19 @@ class AddOrUpdateRecordFragment : Fragment() {
         binding.recordBtn.apply {
             text = resources.getString(R.string.update_record)
             setOnClickListener {
+                val result = connectML(
+                    arrayListOf(
+                        binding.inputHaematocrit.text.toString().toDouble(),
+                        binding.inputHaemoglobin.text.toString().toDouble(),
+                        binding.inputErythrocyte.text.toString().toDouble(),
+                        binding.inputLeucocyte.text.toString().toDouble(),
+                        binding.inputThrombocyte.text.toString().toDouble(),
+                        binding.inputMch.text.toString().toDouble(),
+                        binding.inputMchc.text.toString().toDouble(),
+                        binding.inputMcv.text.toString().toDouble(),
+                        birth.calculateAges().toDouble(),
+                        sex.toDouble()
+                    ))
                 viewModel.update(
                     Record(
                         id = id,
@@ -115,12 +163,35 @@ class AddOrUpdateRecordFragment : Fragment() {
                         mch = binding.inputMch.text.toString().toDouble(),
                         mchc = binding.inputMchc.text.toString().toDouble(),
                         mcv = binding.inputMcv.text.toString().toDouble(),
-                        idPatient = preference.getId()
+                        idPatient = preference.getId(),
+                        treatment = result
                     )
                 )
                 it.hideKeyboard()
                 activity?.supportFragmentManager?.popBackStack()
             }
+        }
+    }
+
+    private fun connectML(list: ArrayList<Double>): String {
+        val byteBuffer: ByteBuffer = ByteBuffer.allocateDirect(40)
+        for (num in list) {
+            byteBuffer.putFloat(num.toFloat())
+        }
+        val model = Model.newInstance(requireContext())
+
+        val inputFeature0 = TensorBuffer.createFixedSize(intArrayOf(1, 10), DataType.FLOAT32)
+        inputFeature0.loadBuffer(byteBuffer)
+
+        val outputs = model.process(inputFeature0)
+        val outputFeature0 = outputs.outputFeature0AsTensorBuffer.intArray[0]
+
+        model.close()
+
+        return if (outputFeature0 < 1) {
+            "Rawat Inap"
+        } else {
+            "Rawat Jalan"
         }
     }
 }

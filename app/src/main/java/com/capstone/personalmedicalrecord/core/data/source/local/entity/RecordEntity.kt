@@ -1,12 +1,9 @@
 package com.capstone.personalmedicalrecord.core.data.source.local.entity
 
-import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
 @Entity(tableName = "record")
 data class RecordEntity(
     @PrimaryKey
@@ -42,5 +39,7 @@ data class RecordEntity(
 
     @ColumnInfo(name = "idPatient")
     var idPatient: String,
-) : Parcelable
 
+    @ColumnInfo(name = "treatment")
+    var treatment: String,
+)

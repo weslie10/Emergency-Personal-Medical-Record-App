@@ -5,7 +5,9 @@ import androidx.lifecycle.asLiveData
 import com.capstone.personalmedicalrecord.core.domain.model.Note
 import com.capstone.personalmedicalrecord.core.domain.usecase.NoteUseCase
 
-class NoteAddUpdateViewModel(private val noteUseCase: NoteUseCase) : ViewModel() {
+class NoteAddUpdateViewModel(
+    private val noteUseCase: NoteUseCase,
+) : ViewModel() {
 
     fun insert(note: Note) = noteUseCase.insertNote(note)
 

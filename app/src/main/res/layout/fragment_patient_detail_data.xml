@@ -103,6 +103,7 @@
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/records"
+        android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -592,6 +593,18 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </HorizontalScrollView>
 
+            <TextView
+                android:id="@+id/detail_records_treatment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                tools:text="Treatment: Out care"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/table" />
+
             <ImageButton
                 android:id="@+id/edit_records_btn"
                 android:layout_width="wrap_content"
@@ -601,7 +614,7 @@
                 android:contentDescription="@string/edit"
                 android:src="@drawable/ic__edit_white_24dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/table" />
+                app:layout_constraintTop_toBottomOf="@id/detail_records_treatment" />
 
             <ImageButton
                 android:id="@+id/delete_records_btn"

@@ -124,7 +124,8 @@ object DataMapper {
         mch = input.mch,
         mchc = input.mchc,
         mcv = input.mcv,
-        idPatient = input.idPatient
+        idPatient = input.idPatient,
+        treatment = input.treatment,
     )
 
     fun mapRecordToResponse(input: Record) = RecordResponse(
@@ -138,7 +139,8 @@ object DataMapper {
         mch = input.mch,
         mchc = input.mchc,
         mcv = input.mcv,
-        idPatient = input.idPatient
+        idPatient = input.idPatient,
+        treatment = input.treatment,
     )
 
     fun mapRecordEntitiesToDomain(input: List<RecordEntity>): List<Record> =
@@ -157,7 +159,8 @@ object DataMapper {
         mch = input.mch,
         mchc = input.mchc,
         mcv = input.mcv,
-        idPatient = input.idPatient
+        idPatient = input.idPatient,
+        treatment = input.treatment,
     )
 
     fun mapRecordResponseToEntity(input: RecordResponse) = RecordEntity(
@@ -171,7 +174,8 @@ object DataMapper {
         mch = input.mch,
         mchc = input.mchc,
         mcv = input.mcv,
-        idPatient = input.idPatient
+        idPatient = input.idPatient,
+        treatment = input.treatment,
     )
 
     fun mapStaffToEntity(input: Staff) = StaffEntity(

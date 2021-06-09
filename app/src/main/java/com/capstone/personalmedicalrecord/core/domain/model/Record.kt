@@ -1,9 +1,5 @@
 package com.capstone.personalmedicalrecord.core.domain.model
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
-
-@Parcelize
 data class Record(
     var id: String = "",
     var date: String,
@@ -16,4 +12,5 @@ data class Record(
     var mchc: Double,
     var mcv: Double,
     var idPatient: String,
-) : Parcelable
+    var treatment: String,
+)
