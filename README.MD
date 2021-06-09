@@ -5,10 +5,10 @@ Bangkit Team B21-CAP0279
 Capstone for Bangkit 2021
 </p>
 <p align="center">
-https://img.shields.io/badge/Kotlin-4.3.1-green?logo=kotlin&style=plastic
-https://img.shields.io/badge/Android%20Studio-4.1.2-green
-https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white
-https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=TensorFlow&logoColor=white
+<img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-4.3.1-green?logo=kotlin&style=plastic">
+<img alt="Android Studio" src="https://img.shields.io/badge/Android%20Studio-4.1.2-green">
+<img alt="Android" src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white">
+<img alt="TensorFlow" src="https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=TensorFlow&logoColor=white">
 </p>
 
 # Member
