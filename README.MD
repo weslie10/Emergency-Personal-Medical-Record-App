@@ -5,10 +5,10 @@ Bangkit Team B21-CAP0279
 Capstone for Bangkit 2021
 </p>
 <p align="center">
-<img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-4.3.1-green?logo=kotlin&style=plastic">
-<img alt="Android Studio" src="https://img.shields.io/badge/Android%20Studio-4.1.2-green">
-<img alt="Android" src="https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white">
-<img alt="TensorFlow" src="https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=TensorFlow&logoColor=white">
+<img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-4.3.1-blue?logo=kotlin">
+<img alt="Android Studio" src="https://img.shields.io/badge/Android%20Studio-4.1.2-green?logo=android-studio">
+<img alt="Android" src="https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=white">
+<img alt="TensorFlow" src="https://badges.aleen42.com/src/tensorflow.svg">
 </p>
 
 # Member
@@ -20,7 +20,7 @@ Capstone for Bangkit 2021
 6. Alfadin Hauqala Zaelani (C0121296 ) - Universitas Telkom Indonesia
 
 ## Theme : Healthcare
-## Title of Project : Emergency Personal Medical Record App
+### Title of Project : Emergency Personal Medical Record App
 
 ### Summary of Project
 Based on Rencana Strategis (Renstra) Kementerian Kesehatan 2020-2024, one of the priority steps needed to improve the health information system is to integrate health data using digital innovation and the internet. With that in mind, we tried to solve this issue by integrating health data between healthcare stakeholders. We believe integration of health data will lead to better healthcare services for patients and better organization for healthcare providers. In order to do so, our team needs to define health data that needs to be integrated, which stakeholders need to be involved in, find the best way to integrate health data, define the scope of the integration, and determine the use of machine learning, cloud computing, and android development into the solution. 
@@ -40,7 +40,7 @@ Based on Rencana Strategis (Renstra) Kementerian Kesehatan 2020-2024, one of the
 
 ## Project Resources
 ### Budget
-- Google Cloud Platform Subscription : **$200**
+Google Cloud Platform Subscription : **$200**
 
 ### Dataset:
 - Fill These
