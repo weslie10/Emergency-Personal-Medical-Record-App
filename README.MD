@@ -9,6 +9,7 @@ Capstone for Bangkit 2021
 <img alt="Android Studio" src="https://img.shields.io/badge/Android%20Studio-4.1.2-green?logo=android-studio">
 <img alt="Android" src="https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=white">
 <img alt="TensorFlow" src="https://badges.aleen42.com/src/tensorflow.svg">
+<img alt="Firebase" src="https://img.shields.io/badge/firebase-%23039BE5.svg?logo=firebase"/>
 </p>
 
 # Member
@@ -26,12 +27,40 @@ Capstone for Bangkit 2021
 Based on Rencana Strategis (Renstra) Kementerian Kesehatan 2020-2024, one of the priority steps needed to improve the health information system is to integrate health data using digital innovation and the internet. With that in mind, we tried to solve this issue by integrating health data between healthcare stakeholders. We believe integration of health data will lead to better healthcare services for patients and better organization for healthcare providers. In order to do so, our team needs to define health data that needs to be integrated, which stakeholders need to be involved in, find the best way to integrate health data, define the scope of the integration, and determine the use of machine learning, cloud computing, and android development into the solution.
 
 ## Steps to replicate this project
-Clone or Download the project or you can use Command Prompt or Terminal Bash (Linux) and open it in Android Studio
-```
-    git clone https://github.com/weslie10/Emergency-Personal-Medical-Record-App
-```
+### Machine Learning
+1. Dataset ingestion (from Kaggle)
+2. Feature exploration
+3. Preprocessing (binary encoding, dividing data, check numbers of data, and scaling the data to prepare for the ML training)
+4. Define deep learning model using TensorFlow (use 2 dense layers)
+5. Hyperparameter tuning with the help of GridSearchCV from scikit-learn library and train the model
+6. Save and load model to evaluate model performance
 
-## Technology that we used
+### Mobile Development
+1. Design UI layout (optional: Figma)
+2. Dependencies (see Technology used part)
+3. Navigation
+4. Connecting local database to UI (using ViewModel, Room, optional: Flow, Koin, Clean Architecture)
+5. Implement external feature (accessing camera and gallery, using QR code and scanner)
+6. Connecting to remote (using Firestore for database and Firebase storage for file)
+7. Implement machine learning using TFLite
+
+### Cloud Computing
+1. Create a project on Google Cloud Platform
+2. Set default region as asia-southeast2(Jakarta)
+    > go to gcp console and write this command : $gcloud config set compute/region asia-southeast2
+3. Create a project on Firebase
+4. Create storage with records and profile folders
+    - Cloud Storage Browser page
+    - Create bucket
+    - Name your bucket : "-----"
+    - Location type : region
+    - Choose where to store your data = asia-southeast2
+    - Leave the default setting
+    - Create
+5. Create a firestore for the database with collection note, patient, record, staff
+6. Input machine learning model in Firebase
+
+## Technology used
 
 - [Koin](https://github.com/InsertKoinIO/koin)
 - [Coroutine Flow](https://developer.android.com/kotlin/flow)
