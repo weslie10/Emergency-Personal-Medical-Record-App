@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:translationZ="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="36dp"
+            android:paddingVertical="24dp"
+            tools:context=".ui.patient.profile.ProfileFragment">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv_avatar"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                app:cardCornerRadius="100dp"
+                app:cardElevation="3dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/avatar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/avatar"
+                    tools:src="@drawable/logo" />
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/check_id_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/check_id"
+                app:layout_constraintEnd_toStartOf="@id/logout_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cv_avatar" />
+
+            <Button
+                android:id="@+id/logout_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/holo_red_light"
+                android:text="@string/logout"
+                app:layout_constraintBottom_toBottomOf="@id/check_id_btn"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/check_id_btn"
+                app:layout_constraintTop_toTopOf="@id/check_id_btn" />
+
+            <TextView
+                android:id="@+id/full_name_txt"
+                style="@style/profile_label"
+                android:layout_marginTop="32dp"
+                android:text="@string/full_name"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/check_id_btn" />
+
+            <TextView
+                android:id="@+id/full_name"
+                style="@style/profile_txt"
+                tools:text="Heheheh"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/full_name_txt" />
+
+            <TextView
+                android:id="@+id/email_txt"
+                style="@style/profile_label"
+                android:text="@string/email"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/full_name" />
+
+            <TextView
+                android:id="@+id/email"
+                style="@style/profile_txt"
+                tools:text="lorem@gmail.com"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/email_txt" />
+
+            <TextView
+                android:id="@+id/phone_number_txt"
+                style="@style/profile_label"
+                android:text="@string/phone_number"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/email" />
+
+            <TextView
+                android:id="@+id/phone_number"
+                style="@style/profile_txt"
+                tools:text="08123456789"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/phone_number_txt" />
+
+            <TextView
+                android:id="@+id/date_birth_txt"
+                style="@style/profile_label"
+                android:text="@string/date_birth"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/phone_number" />
+
+            <TextView
+                android:id="@+id/date_birth"
+                style="@style/profile_txt"
+                tools:text="September 10, 2000"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date_birth_txt" />
+
+            <TextView
+                android:id="@+id/address_txt"
+                style="@style/profile_label"
+                android:text="@string/address"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date_birth" />
+
+            <TextView
+                android:id="@+id/address"
+                style="@style/profile_txt"
+                tools:text="Jalan jalan"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address_txt" />
+
+            <TextView
+                android:id="@+id/gender_txt"
+                style="@style/profile_label"
+                android:text="@string/gender"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/address" />
+
+            <TextView
+                android:id="@+id/gender"
+                style="@style/profile_txt"
+                tools:text="Male"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/gender_txt" />
+
+            <TextView
+                android:id="@+id/blood_type_text"
+                style="@style/profile_label"
+                android:text="@string/blood_type"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/gender" />
+
+            <TextView
+                android:id="@+id/blood_type"
+                style="@style/profile_txt"
+                tools:text="A"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/blood_type_text" />
+
+            <Button
+                android:id="@+id/edit_profile_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/edit_profile"
+                android:text="@string/edit_profile"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/blood_type" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

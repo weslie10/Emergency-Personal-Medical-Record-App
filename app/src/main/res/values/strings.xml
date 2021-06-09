@@ -1,3 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Emergency Personal Medical Record App</string>
+    <string name="app_name">Emergency Personal Medical Record</string>
+    <string name="login">Log In</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="signup_text">Don’t have account?</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="login_txt">Already have account?</string>
+    <string name="phone_number">Phone Number</string>
+
+    <string name="title_home">Home</string>
+    <string name="title_data">Data</string>
+    <string name="title_records">Records</string>
+    <string name="title_notes">Notes</string>
+    <string name="title_profile">Profile</string>
+
+    <string name="item_date">Saturday, 15 May 2021</string>
+    <string name="item_place">Rumah Sakit Santa Maria Pekanbaru</string>
+
+    <string name="avatar">Avatar</string>
+    <string name="camera">Camera</string>
+    <string name="check_id">Check ID</string>
+    <string name="logout">Log Out</string>
+    <string name="full_name">Full Name</string>
+    <string name="date_birth">Date Birth</string>
+    <string name="address">Address</string>
+    <string name="gender">Gender</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="blood_type">Blood Type</string>
+    <string name="hospital">Hospital</string>
+
+    <string name="back">Back</string>
+    <string name="edit">Edit</string>
+
+    <string name="note">Note</string>
+    <string name="add_note">Add Note</string>
+    <string name="update_note">Update Note</string>
+
+    <string name="exit_text">Do you want to exit right now?</string>
+    <string name="no">NO</string>
+    <string name="yes">YES</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
+    <string name="add_record_text">Select an Action</string>
+
+    <string name="save_changes">Save Changes</string>
+
+    <string name="qr_code">QR Code</string>
+    <string name="title_scanner">Scanner</string>
+    <string name="scan">Scan&#8230;</string>
+
+    <string name="greeting">Hello, %s</string>
+    <string name="email_used">Email Already Used</string>
+    <string name="email_not_found">Email not Found</string>
+    <string name="repeat">Confirm Password</string>
+
+    <string name="add_record">Add Record</string>
+    <string name="update_record">Update Record</string>
+    <string name="record">Record</string>
+    <string name="haematocrit">Haematocrit</string>
+    <string name="haemoglobin">Haemoglobin</string>
+    <string name="erythrocyte">Erythrocyte</string>
+    <string name="haematocrit_enter">Haematocrit\n</string>
+    <string name="haemoglobin_enter">Haemoglobin\n</string>
+    <string name="erythrocyte_enter">Erythrocyte\n</string>
+    <string name="leucocyte">Leucocyte</string>
+    <string name="thrombocyte">Thrombocyte</string>
+    <string name="mch">MCH</string>
+    <string name="mchc">MCHC</string>
+    <string name="mcv">MCV</string>
+    <string name="empty_data">There is nothing here.</string>
+    <string name="item_from">From Weslie Leonardo</string>
+    <string name="haematocrit_unit">%\n</string>
+    <string name="haemoglobin_unit">g/dL\n</string>
+    <string name="erythrocyte_unit">10^6/uL\n</string>
+    <string name="leucocyte_unit">10^3/µL</string>
+    <string name="thrombocyte_unit">10^3/µL</string>
+    <string name="mch_unit">pg</string>
+    <string name="mchc_unit">g/dL</string>
+    <string name="mcv_unit">fL</string>
+    <string name="examination">Examination</string>
+    <string name="result">Result</string>
+    <string name="unit">Unit</string>
+    <string name="reference">Reference Value</string>
+    <string name="haematocrit_reference">40 – 50 (F)\n45 – 55 (M)</string>
+    <string name="haemoglobin_reference">12 – 14 (F)\n13 – 16 (M)</string>
+    <string name="erythrocyte_reference">4 – 5 (F)\n4.5 – 5.5 (M)</string>
+    <string name="leucocyte_reference">5.0 – 10.0</string>
+    <string name="thrombocyte_reference">150 – 400</string>
+    <string name="mch_reference">27 – 31</string>
+    <string name="mchc_reference">32 – 36</string>
+    <string name="mcv_reference">80 – 96</string>
+
+    <string name="treatment_string">Treatment Suggestion: %s</string>
+
+    <string name="haematocrit_helper">Reference value : 40 – 50 (F) | 45 – 55 (M)</string>
+    <string name="haemoglobin_helper">Reference value : 12 – 14 (F) | 13 – 16 (M)</string>
+    <string name="erythrocyte_helper">Reference value : 4 – 5 (F) | 4.5 – 5.5 (M)</string>
+    <string name="leucocyte_helper">Reference value : 5.0 – 10.0</string>
+    <string name="thrombocyte_helper">Reference value : 150 – 400</string>
+    <string name="mch_helper">Reference value : 27 – 31</string>
+    <string name="mchc_helper">Reference value : 32 – 36</string>
+    <string name="mcv_helper">Reference value : 80 – 96</string>
 </resources>
