@@ -1,8 +1,6 @@
 package com.capstone.personalmedicalrecord.ui.patient.data.records
 
-import android.content.res.AssetFileDescriptor
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,13 +20,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.tensorflow.lite.DataType
-import org.tensorflow.lite.Interpreter
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer
-import java.io.FileInputStream
-import java.io.IOException
 import java.nio.ByteBuffer
-import java.nio.MappedByteBuffer
-import java.nio.channels.FileChannel
 
 class AddOrUpdateRecordFragment : Fragment() {
 
@@ -39,7 +32,6 @@ class AddOrUpdateRecordFragment : Fragment() {
     private lateinit var preference: MyPreference
     private lateinit var birth: String
     private var sex = -1
-    var tflite: Interpreter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

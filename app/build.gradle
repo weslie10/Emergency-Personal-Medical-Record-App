@@ -64,8 +64,8 @@ dependencies {
 
     implementation "com.google.firebase:firebase-firestore:23.0.1"
     implementation "com.google.firebase:firebase-storage:20.0.0"
-    implementation "org.tensorflow:tensorflow-lite-support:$tensorflow_version"
-    implementation "org.tensorflow:tensorflow-lite-metadata:$tensorflow_version"
+    implementation "org.tensorflow:tensorflow-lite-support:0.1.0-rc1"
+    implementation "org.tensorflow:tensorflow-lite-metadata:0.1.0-rc1"
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:1.1.5"
 
     implementation "androidx.room:room-runtime:$room_version"
