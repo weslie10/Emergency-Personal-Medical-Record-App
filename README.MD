@@ -43,6 +43,7 @@ Clone or Download the project or you can use Command Prompt or Terminal Bash (Li
 - [QrGenerator](https://github.com/androidmads/QRGenerator)
 - [Code Scanner](https://github.com/yuriy-budiyev/code-scanner)
 - [Data2viz](https://github.com/data2viz/data2viz)
+- [Google Cloud Platform](https://cloud.google.com/gcp)
 
 ## Project Resources
 ### Budget
